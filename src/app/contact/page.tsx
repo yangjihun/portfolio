@@ -7,8 +7,8 @@ export default function ContactPage() {
   const contacts = [
     {
       label: 'Email',
-      value: 'yangjihun@example.com',
-      href: 'mailto:yangjihun@example.com',
+      value: 'yjhn0410@gmail.com',
+      href: 'mailto:yjhn0410@gmail.com',
       description: '이메일로 연락주세요',
       icon: '📧',
     },
@@ -28,8 +28,8 @@ export default function ContactPage() {
     },
     {
       label: 'Blog',
-      value: 'blog.yangjihun.com',
-      href: 'https://blog.yangjihun.com',
+      value: 'velog.io/@yangjihun',
+      href: 'https://velog.io/@yangjihun',
       description: '기술 블로그',
       icon: '✍️',
     },
