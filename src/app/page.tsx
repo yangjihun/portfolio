@@ -41,13 +41,14 @@ export default function HomePage() {
             입니다
           </h1>
           <p className="mb-8 text-xl text-gray-300 md:text-2xl">
-            Frontend / Fullstack Developer
+            Fullstack Developer
           </p>
           <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-gray-400">
-            웹 프론트엔드를 중심으로 풀스택 개발까지 경험하고 있으며,
+            프론트엔드 개발을 기반으로,
             <br />
-            AI, 블록체인, 인프라 등 다양한 기술에 관심을 가지고 있습니다.
+            현재 백엔드까지 영역을 확장하며 풀스택 역량을 쌓아가고 있습니다.
           </p>
+
 
           <div className="mb-12 flex flex-wrap justify-center gap-3">
             {techStack.map((tech, index) => (
