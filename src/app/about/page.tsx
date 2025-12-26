@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 import SectionTitle from '@/components/SectionTitle';
+import { projects } from '@/data/projects';
+import { activities } from '@/data/activities';
 
 export default function AboutPage() {
   const techStacks = {
@@ -10,15 +12,15 @@ export default function AboutPage() {
       'TypeScript',
       'Tailwind CSS',
       'Zustand / Redux Toolkit',
-      'TanStack Query',
-      'Framer Motion',
-      'React Router',
+      'TanStack Query'
     ],
     backend: [
+      'PHP / Laravel',
+      'Python',
+      'Java',
       'Node.js / Express',
       'MongoDB',
-      'JWT Authentication',
-      'RESTful API',
+      'MySQL'
     ],
     tools: [
       'Git / GitHub',
@@ -29,44 +31,28 @@ export default function AboutPage() {
     ],
     interests: [
       'AI / LLM 통합',
-      '블록체인 / Web3',
-      '클라우드 인프라',
       'UX/UI 디자인',
     ],
   };
 
-  const timeline = [
-    {
-      period: '2025.09 ~ 2025.10',
-      title: 'Loventure',
-      description: 'AI 기반 데이트 코스 추천 서비스 프론트엔드 개발',
-      tech: 'React 19, TypeScript, Zustand, TanStack Query',
-    },
-    {
-      period: '2025.09 ~ 진행중',
-      title: 'COMMIT 동아리 공식 홈페이지',
-      description: 'IT 동아리 홈페이지 풀스택 개발 및 동아리장 역할',
-      tech: 'React, Node.js, TypeScript',
-    },
-    {
-      period: '2025.07 ~ 2025.08',
-      title: 'DreamMap',
-      description: 'AI 이력서 분석 및 로드맵 제안 서비스 풀스택 개발',
-      tech: 'React, Express, MongoDB, Gemini API',
-    },
-    {
-      period: '2025.06 ~ 2025.07',
-      title: 'xrpl-eyes',
-      description: 'XRPL 기반 UAW 대시보드 프론트엔드 개발',
-      tech: 'React, TypeScript, Recharts, Framer Motion',
-    },
-    {
-      period: '2025.01 ~ 2025.02',
-      title: 'SuME (Summary Meeting)',
-      description: '회의 음성 요약 및 캘린더 연동 서비스 프론트엔드 개발',
-      tech: 'React, Tailwind CSS, FullCalendar',
-    },
-  ];
+  const parseStartMonth = (period: string) => {
+    const match = period.match(/(\d{4})\.(\d{2})/);
+    if (!match) return 0;
+    const year = Number(match[1]);
+    const month = Number(match[2]);
+    return year * 12 + month;
+  };
+
+  const timeline = [...projects]
+    .sort((a, b) => parseStartMonth(b.period) - parseStartMonth(a.period))
+    .map((project) => ({
+      id: project.id,
+      period: project.period,
+      name: project.name,
+      title: project.title,
+      description: project.summary,
+      tech: project.techTags.join(', '),
+    }));
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-16">
@@ -91,12 +77,11 @@ export default function AboutPage() {
               Next.js, Tailwind CSS 등 모던 웹 기술 스택에 능숙합니다.
             </p>
             <p>
-              프론트엔드뿐만 아니라 Node.js를 활용한 백엔드 개발과 AI, 블록체인,
-              클라우드 인프라 등 다양한 기술 영역에 관심을 가지고 있으며, 꾸준히
+              프론트엔드뿐만 아니라 백엔드 개발과 AI 등 다양한 기술 영역에 관심을 가지고 있으며, 꾸준히
               학습하고 있습니다.
             </p>
             <p>
-              IT 동아리 COMMIT의 동아리장으로 활동하며 팀 프로젝트를 주도하고,
+              IT 동아리 COMMIT의 동아리장으로 활동했으며, 팀 프로젝트를 주도하고,
               다양한 협업 경험을 쌓아가고 있습니다.
             </p>
           </div>
@@ -177,7 +162,7 @@ export default function AboutPage() {
         <div className="space-y-6">
           {timeline.map((item, index) => (
             <motion.div
-              key={item.title}
+              key={item.id}
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -186,8 +171,8 @@ export default function AboutPage() {
             >
               <div className="absolute -left-[9px] top-0 h-4 w-4 rounded-full border-2 border-gray-700 bg-background" />
               <div className="mb-1 text-sm text-gray-400">{item.period}</div>
-              <h4 className="mb-2 text-xl font-semibold">{item.title}</h4>
-              <p className="mb-2 text-gray-300">{item.description}</p>
+              <h4 className="mb-2 text-xl font-semibold">{item.name}</h4>
+              <p className="mb-2 text-gray-300">{item.title}</p>
               <p className="text-sm text-gray-500">{item.tech}</p>
             </motion.div>
           ))}

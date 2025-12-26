@@ -40,9 +40,14 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
         className="group block h-full rounded-lg border border-gray-800 bg-gray-900/50 p-6 transition-all hover:border-gray-700 hover:bg-gray-900/80"
       >
         <div className="mb-3 flex items-start justify-between gap-2">
-          <h3 className="text-xl font-bold group-hover:text-white">
-            {project.name}
-          </h3>
+          <div className="min-w-0">
+            <h3 className="text-xl font-bold group-hover:text-white">
+              {project.name}
+            </h3>
+            <p className="mt-1 line-clamp-1 text-sm text-gray-400">
+              {project.title}
+            </p>
+          </div>
           <span
             className={`shrink-0 rounded border px-2 py-1 text-xs font-medium ${
               categoryColors[project.category]
@@ -57,10 +62,6 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           <span>•</span>
           <span>{project.role}</span>
         </div>
-
-        <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-gray-300">
-          {project.summary}
-        </p>
 
         <div className="flex flex-wrap gap-2">
           {project.techTags.slice(0, 5).map((tag) => (

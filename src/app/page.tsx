@@ -5,26 +5,28 @@ import { motion } from 'framer-motion';
 import ProjectCard from '@/components/ProjectCard';
 import SectionTitle from '@/components/SectionTitle';
 import { projects } from '@/data/projects';
+import { activities } from '@/data/activities';
 
 export default function HomePage() {
   // 최신 3개 프로젝트 (featured)
   const featuredProjects = projects.slice(0, 3);
 
   const techStack = [
+    'Node.js',
+    'Python',
+    'Java',
     'React',
     'Next.js',
     'TypeScript',
     'Tailwind CSS',
-    'Node.js',
-    'Express',
-    'MongoDB',
-    'AI/LLM',
+    'Git',
+    'GitHub'
   ];
 
   return (
     <div className="container mx-auto max-w-6xl px-4 py-16">
       {/* Hero Section */}
-      <section className="mb-32 flex min-h-[70vh] flex-col items-center justify-center text-center">
+      <section className="mb-0 flex min-h-[70vh] flex-col items-center justify-center text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -87,6 +89,31 @@ export default function HomePage() {
             </Link>
           </motion.div>
         </motion.div>
+      </section>
+
+      {/* Activities Section */}
+      <section className="mb-20">
+        <SectionTitle>활동 내역</SectionTitle>
+
+        <div className="relative mx-auto max-w-3xl">
+          <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gray-800" />
+          <div className="space-y-0">
+            {activities.map((activity, index) => (
+              <motion.div
+                key={activity.id}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+                className="relative py-4 text-center"
+              >
+                <div className="mx-auto mb-2 h-3.5 w-3.5 rounded-full border-2 border-gray-700 bg-background" />
+                <div className="mb-0.5 text-sm text-gray-400">{activity.period}</div>
+                <h3 className="text-base font-semibold md:text-lg">{activity.title}</h3>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Featured Projects Section */}
