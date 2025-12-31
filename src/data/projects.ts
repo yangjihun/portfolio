@@ -207,6 +207,7 @@ export const projects: Project[] = [
     id: 'xrpl-eyes',
     name: 'XRPL EYES',
     title: 'XRPL 기반 서비스들의 UAW 대시보드',
+    image: '/asset/xrpl.png',
     period: '2025.06 ~ 2025.07',
     role: 'Frontend Developer',
     category: 'frontend',
