@@ -76,26 +76,6 @@ export default function ContactPage() {
           </motion.a>
         ))}
       </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="mt-16 rounded-lg border border-gray-800 bg-gray-900/50 p-8 text-center"
-      >
-        <h3 className="mb-4 text-2xl font-bold">함께 일하고 싶으신가요?</h3>
-        <p className="mb-6 text-gray-300">
-          새로운 기회와 도전을 항상 환영합니다.
-          <br />
-          이메일로 연락주시면 빠르게 회신드리겠습니다.
-        </p>
-        <a
-          href="mailto:yangjihun@example.com"
-          className="inline-block rounded-lg bg-white px-8 py-3 font-semibold text-black transition-all hover:bg-gray-200"
-        >
-          이메일 보내기
-        </a>
-      </motion.div>
     </div>
   );
 }

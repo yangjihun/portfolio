@@ -3,6 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { projects } from '@/data/projects';
 
 const categoryColors = {
@@ -58,7 +59,7 @@ export default function ProjectDetailPage() {
       >
         <span className="text-xl">←</span>
         뒤로 가기
-      </motion.button>
+      </motion.button> 
 
       {/* Header */}
       <motion.div
@@ -111,6 +112,26 @@ export default function ProjectDetailPage() {
               {link.label}
             </a>
           ))}
+        </motion.div>
+      )}
+
+      {/* Cover Image */}
+      {project.image && (
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-10"
+        >
+          <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-gray-800 bg-gray-900/30">
+            <Image
+              src={project.image}
+              alt={`${project.name} 이미지`}
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 768px"
+              priority
+            />
+          </div>
         </motion.div>
       )}
 

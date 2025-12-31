@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import type { Project } from '@/data/projects';
 
@@ -39,6 +40,18 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
         href={`/projects/${project.id}`}
         className="group block h-full rounded-lg border border-gray-800 bg-gray-900/50 p-6 transition-all hover:border-gray-700 hover:bg-gray-900/80"
       >
+        {project.image && (
+          <div className="relative mb-4 aspect-[16/9] overflow-hidden rounded-lg border border-gray-800 bg-gray-900/30">
+            <Image
+              src={project.image}
+              alt={`${project.name} 썸네일`}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          </div>
+        )}
+
         <div className="mb-3 flex items-start justify-between gap-2">
           <div className="min-w-0">
             <h3 className="text-xl font-bold group-hover:text-white">

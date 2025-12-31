@@ -9,6 +9,7 @@ export interface Project {
   id: string;            // slug / route key
   name: string;
   title: string;
+  image?: string;        // e.g. "/projects/my-project.png" (place under /public)
   period: string;        // e.g. "2025.07 ~ 2025.08"
   role: string;          // e.g. "Frontend Developer", "Fullstack Developer"
   summary: string;       // 1~2 sentence summary in Korean
@@ -24,6 +25,7 @@ export const projects: Project[] = [
     id: 'studyroom-reservation',
     name: 'RE:MIT',
     title: '금융수학과 스터디룸 예약 시스템',
+    image: '/asset/remit.png',
     period: '2025.10 ~ 2025.12',
     role: 'Fullstack Developer (QA)',
     category: 'fullstack',
@@ -47,44 +49,14 @@ export const projects: Project[] = [
       '운영 환경을 가정한 테스트 시나리오를 기반으로 서비스 안정화 작업을 수행했습니다.'
     ],
     links: [
-      { label: 'Service', href: '#' }
-    ]
-  },
-  {
-    id: 'timetable-recommender',
-    name: 'G-Pyeong',
-    title: 'AI 기반 시간표 추천 서비스',
-    period: '2025.12 ~ 2026.01',
-    role: 'Frontend Developer',
-    category: 'frontend',
-    summary:
-      '사용자 선호 조건을 기준으로 룰 기반 추천 로직을 적용해 시간표 후보를 점수화하고 추천하는 토이 프로젝트입니다.',
-    techTags: [
-      'React',
-      'TypeScript',
-      'Vite',
-      'Tailwind CSS',
-      'React Router',
-      'Axios'
-    ],
-    highlights: [
-      '공강, 연강, 특정 요일 선호 등 사용자 조건을 입력받았습니다.',
-      '조건별 가중치를 적용해 시간표 후보를 점수화했습니다.',
-      '점수가 높은 시간표 순으로 추천 결과를 제공했습니다.'
-    ],
-    responsibilities: [
-      '프론트엔드 전반을 구현했습니다.',
-      '사용자 입력부터 추천 결과 출력까지의 화면 흐름을 구성했습니다.',
-      '추천 결과를 직관적으로 확인할 수 있도록 UI를 설계했습니다.'
-    ],
-    links: [
-      { label: 'Demo', href: '#' }
+      { label: 'GitHub', href: 'https://github.com/Re-mit/Remit' }
     ]
   },
   {
     id: 'vitamin-7-admin',
     name: 'Vitamin-7',
     title: 'AI Chatbot 운영 관리자 페이지',
+    image: '/asset/vitamin7.png',
     period: '2025.10 ~ 2025.12',
     role: 'Frontend Developer',
     category: 'frontend',
@@ -117,13 +89,14 @@ export const projects: Project[] = [
       'Sentry를 도입해 운영 환경에서의 런타임 에러 추적 기반을 마련했습니다.'
     ],
     links: [
-      { label: 'Service', href: '#' }
+      { label: 'GitHub', href: 'https://github.com/dktechin-pbl/VITAMIN-7-FE' }
     ]
   },
   {
     id: 'loventure',
     name: 'Loventure',
     title: 'AI 기반 데이트 코스 추천 서비스',
+    image: '/asset/loventure.png',
     period: '2025.09 ~ 2025.10',
     role: 'Frontend Developer',
     category: 'frontend',
@@ -153,14 +126,15 @@ export const projects: Project[] = [
       'Mapbox 연동, 코스 추천·저장·다이어리 작성/댓글/마이페이지 등 주요 화면과 UX를 모두 프론트엔드에서 구현했습니다.'
     ],
     links: [
-      { label: 'GitHub (FE)', href: '#' },
-      { label: 'Demo', href: '#' }
+      { label: 'GitHub', href: 'https://github.com/PitterPetter/PitterPetter_FE' },
+      { label: 'Demo', href: 'https://loventure.us' }
     ]
   },
   {
     id: 'commit-club',
     name: 'COMMIT',
     title: '금융수학과 IT 동아리 COMMIT 공식 홈페이지',
+    image: '/asset/fm-commit.png',
     period: '2025.08 ~ 진행중',
     role: 'Fullstack Developer',
     category: 'fullstack',
@@ -186,14 +160,15 @@ export const projects: Project[] = [
       'ESLint 및 npm 스크립트(dev/build/preview/lint) 구성을 통해 개발 및 코드 품질 관리 플로우를 정리했습니다.'
     ],
     links: [
-      { label: 'GitHub', href: '#' },
-      { label: 'Demo', href: '#' }
+      { label: 'GitHub', href: 'https://github.com/yangjihun/FM-COMMIT' },
+      { label: 'Demo', href: 'https://fm-commit.com/' }
     ]
   },
   {
     id: 'dreammap',
     name: 'DreamMap',
     title: '이력서 분석 및 로드맵 제안 서비스',
+    image: '/asset/dreammap.png',
     period: '2025.07 ~ 2025.08',
     role: 'Fullstack Developer',
     category: 'fullstack',
@@ -224,9 +199,8 @@ export const projects: Project[] = [
       'Backend에서 Express + MongoDB 기반 API를 설계하고, Azure Document Intelligence · Gemini 2.5 Flash 연동 및 JWT 인증/인가 로직을 구현했습니다.'
     ],
     links: [
-      { label: 'GitHub (FE)', href: '#' },
-      { label: 'GitHub (BE)', href: '#' },
-      { label: 'Demo', href: '#' }
+      { label: 'GitHub (FE)', href: 'https://github.com/yangjihun/DreamMap-fe' },
+      { label: 'GitHub (BE)', href: 'https://github.com/yangjihun/DreamMap-be' }
     ]
   },
   {
@@ -261,14 +235,14 @@ export const projects: Project[] = [
       'MSW 기반 목 API 환경을 활용해 백엔드 준비 전에도 mock.html로 대시보드를 개발·테스트할 수 있도록 프론트엔드를 설계했습니다.'
     ],
     links: [
-      { label: 'GitHub (FE)', href: '#' },
-      { label: 'Demo', href: '#' }
+      { label: 'GitHub', href: 'https://github.com/yangjihun/xrpl-eyes' }
     ]
   },
   {
     id: 'sume',
     name: 'SuME',
     title: '회의 음성 요약 및 캘린더 연동 서비스',
+    image: '/asset/sume.png',
     period: '2025.01 ~ 2025.02',
     role: 'Frontend Developer',
     category: 'frontend',
@@ -292,9 +266,38 @@ export const projects: Project[] = [
       'API.js로 백엔드와의 통신 로직을 분리하고, Fetch 기반으로 STT·요약·일정 API를 연동했습니다.'
     ],
     links: [
-      { label: 'Demo', href: 'https://www.sume-ai.kro.kr' },
-      { label: 'GitHub', href: '#' }
+      { label: 'GitHub', href: 'https://github.com/yangjihun/SuME' }
     ]
-  }
+  },
+  {
+    id: 'jobpt',
+    name: 'JOB.PT',
+    title: '논문·뉴스 트렌드 기반 직업/역량 추천 Streamlit 앱',
+    image: '/asset/jobpt.png',
+    period: '2024.11 ~ 2024.12',
+    role: 'LLM Engineer & Team Leader',
+    category: 'ai',
+    summary:
+      '입력한 관심 분야를 기반으로 RISS 논문·KBS/MBC/SBS 뉴스 트렌드를 수집/요약하고, LLM(Self-Consistency 3회 실행)으로 관련 직업 3개와 필요 역량을 추천하며 잡코리아 채용 링크까지 제공하는 진로 탐색 Streamlit 앱입니다.',
+    techTags: [
+      'Python',
+      'Streamlit',
+      'OpenAI API (gpt-4o-mini)'
+    ],
+    highlights: [
+      'RISS 논문 크롤링 + 방송사 뉴스 크롤링을 결합해 “최신 트렌드/사회 이슈”를 동시에 반영합니다.',
+      'LLM을 3회 독립 실행(Self-Consistency)한 뒤 결과를 투표/빈도 기반으로 집계해 상위 직업 3개를 선정합니다.',
+      '직업별 필요 역량을 함께 제시하고, 잡코리아 공고 링크로 바로 이어지는 리서치 플로우를 제공합니다.'
+    ],
+    responsibilities: [
+      'Self-Consistency 기반 추천 파이프라인을 설계/구현했습니다: 동일 입력에 대해 3회 생성 → 직업 후보 정규화(동의어/표기 통일) → 빈도/가중치 집계로 Top-3를 안정적으로 산출했습니다.',
+      'LLM 프롬프트를 구조화(필드 고정, 출력 포맷 강제)하여 “직업명/필요역량/근거 키워드”가 일관된 형태로 나오도록 만들고, 파싱 실패/누락을 줄이는 가드레일을 추가했습니다.',
+      '팀 리더로서 기능 분담(논문/뉴스/잡코리아 크롤러·UI·LLM 모듈), 일정 관리, 코드 리뷰 기준(모듈화/예외처리/상대경로 규칙) 정리 등 개발 프로세스를 주도했습니다.',
+      '크롤링 결과(txt)와 LLM 입력/출력 흐름을 연결해, 수집 데이터가 추천 결과에 자연스럽게 반영되도록 데이터 전처리(중복 제거, 핵심 키워드 요약)를 정리했습니다.'
+    ],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/yangjihun/JOB.PT' }
+    ]
+  }  
 ];
 
