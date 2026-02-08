@@ -9,6 +9,7 @@ export default function AboutPage() {
   const techStacks = {
     frontend: [
       'React / Next.js',
+      'JavaScript',
       'TypeScript',
       'Tailwind CSS',
       'Zustand / Redux Toolkit',
@@ -24,14 +25,18 @@ export default function AboutPage() {
     ],
     tools: [
       'Git / GitHub',
+      'Jira',
+      'Notion',
       'Vite',
       'MSW (Mock Service Worker)',
       'ESLint / Prettier',
       'Figma',
     ],
-    interests: [
-      'AI / LLM 통합',
-      'UX/UI 디자인',
+    other: [
+      'ChatGPT',
+      'Cursor',
+      'Gemini',
+      'Claude',
     ],
   };
 
@@ -64,25 +69,20 @@ export default function AboutPage() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-20"
       >
-        <div className="rounded-lg border border-gray-800 bg-gray-900/50 p-8">
+        <div className="rounded-lg border border-border bg-muted/40 p-8">
           <h3 className="mb-4 text-2xl font-bold">양지훈 (Yang Jihun)</h3>
-          <div className="space-y-4 leading-relaxed text-gray-300">
+          <div className="space-y-4 leading-relaxed text-foreground">
             <p>
-              안녕하세요! 웹 프론트엔드 개발을 중심으로 풀스택 개발까지 경험하고 있는
-              개발자 양지훈입니다.
+              안녕하세요! 추진력과 커뮤니케이션으로 서비스를 안정적으로 완성하는 풀스택 개발자 양지훈입니다.
             </p>
             <p>
-              사용자 경험을 최우선으로 생각하며, 깔끔하고 직관적인 UI/UX를
-              구현하는 것을 좋아합니다. React와 TypeScript를 주력으로 사용하며,
-              Next.js, Tailwind CSS 등 모던 웹 기술 스택에 능숙합니다.
+              프론트엔드부터 백엔드까지 흐름을 연결해 사용자에게 전달되는 가치를 끝까지 만들어내는 것을 좋아합니다.
             </p>
             <p>
-              프론트엔드뿐만 아니라 백엔드 개발과 AI 등 다양한 기술 영역에 관심을 가지고 있으며, 꾸준히
-              학습하고 있습니다.
+              제품 관점에서 문제를 정의하고, 구현·개선까지 이어지도록 구조를 잡는 데 관심이 많으며 백엔드와 AI 활용까지 꾸준히 확장하고 있습니다.
             </p>
             <p>
-              IT 동아리 COMMIT의 동아리장으로 활동했으며, 팀 프로젝트를 주도하고,
-              다양한 협업 경험을 쌓아가고 있습니다.
+              IT 동아리 COMMIT 동아리장 경험을 바탕으로, 팀의 목표를 정리하고 일정과 품질을 맞추는 협업을 리딩해왔습니다.
             </p>
           </div>
         </div>
@@ -97,52 +97,52 @@ export default function AboutPage() {
       >
         <h3 className="mb-8 text-2xl font-bold">기술 스택</h3>
         <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-lg border border-gray-800 bg-gray-900/50 p-6">
-            <h4 className="mb-4 text-lg font-semibold text-blue-400">
+          <div className="rounded-lg border border-border bg-muted/40 p-6">
+            <h4 className="mb-4 text-lg font-semibold text-primary">
               Frontend
             </h4>
             <ul className="space-y-2">
               {techStacks.frontend.map((tech) => (
-                <li key={tech} className="text-gray-300">
+                <li key={tech} className="text-foreground">
                   • {tech}
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="rounded-lg border border-gray-800 bg-gray-900/50 p-6">
-            <h4 className="mb-4 text-lg font-semibold text-green-400">
+          <div className="rounded-lg border border-border bg-muted/40 p-6">
+            <h4 className="mb-4 text-lg font-semibold text-primary">
               Backend
             </h4>
             <ul className="space-y-2">
               {techStacks.backend.map((tech) => (
-                <li key={tech} className="text-gray-300">
+                <li key={tech} className="text-foreground">
                   • {tech}
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="rounded-lg border border-gray-800 bg-gray-900/50 p-6">
-            <h4 className="mb-4 text-lg font-semibold text-purple-400">
-              Tools & Others
+          <div className="rounded-lg border border-border bg-muted/40 p-6">
+            <h4 className="mb-4 text-lg font-semibold text-primary">
+              Tools
             </h4>
             <ul className="space-y-2">
               {techStacks.tools.map((tech) => (
-                <li key={tech} className="text-gray-300">
+                <li key={tech} className="text-foreground">
                   • {tech}
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="rounded-lg border border-gray-800 bg-gray-900/50 p-6">
-            <h4 className="mb-4 text-lg font-semibold text-pink-400">
-              관심 분야
+          <div className="rounded-lg border border-border bg-muted/40 p-6">
+            <h4 className="mb-4 text-lg font-semibold text-primary">
+              AI 에이전트
             </h4>
             <ul className="space-y-2">
-              {techStacks.interests.map((tech) => (
-                <li key={tech} className="text-gray-300">
+              {techStacks.other.map((tech) => (
+                <li key={tech} className="text-foreground">
                   • {tech}
                 </li>
               ))}
@@ -167,13 +167,13 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="relative border-l-2 border-gray-700 pl-6"
+              className="relative border-l-2 border-primary/30 pl-6"
             >
-              <div className="absolute -left-[9px] top-0 h-4 w-4 rounded-full border-2 border-gray-700 bg-background" />
-              <div className="mb-1 text-sm text-gray-400">{item.period}</div>
+              <div className="absolute -left-[9px] top-0 h-4 w-4 rounded-full border-2 border-primary/40 bg-background" />
+              <div className="mb-1 text-sm text-muted-foreground">{item.period}</div>
               <h4 className="mb-2 text-xl font-semibold">{item.name}</h4>
-              <p className="mb-2 text-gray-300">{item.title}</p>
-              <p className="text-sm text-gray-500">{item.tech}</p>
+              <p className="mb-2 text-foreground">{item.title}</p>
+              <p className="text-sm text-muted-foreground">{item.tech}</p>
             </motion.div>
           ))}
         </div>

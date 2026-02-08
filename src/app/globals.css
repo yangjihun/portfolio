@@ -3,20 +3,46 @@
 @tailwind utilities;
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  /* Light, Hana Bank-inspired theme (RGB for Tailwind opacity support) */
+  --background: 255 255 255;
+  --foreground: 5 32 26;
+
+  --card: 255 255 255;
+  --card-foreground: 5 32 26;
+
+  /* Slight green-tinted neutrals (avoid "gray" feel) */
+  --muted: 242 252 249;
+  --muted-foreground: 39 83 74;
+
+  --border: 208 239 230;
+
+  /* Primary (Hana Bank main color #008D70) */
+  --primary: 0 141 112;
+  --primary-foreground: 255 255 255;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Keep consistent (always light) */
+    --background: 255 255 255;
+    --foreground: 5 32 26;
+
+    --card: 255 255 255;
+    --card-foreground: 5 32 26;
+
+    --muted: 242 252 249;
+    --muted-foreground: 39 83 74;
+
+    --border: 208 239 230;
+
+    --primary: 0 141 112;
+    --primary-foreground: 255 255 255;
   }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: rgb(var(--foreground));
+  background: rgb(var(--background));
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 

@@ -16,7 +16,7 @@ export default function SectionTitle({ children, subtitle }: SectionTitleProps) 
       className="mb-12 text-center"
     >
       <h2 className="mb-3 text-3xl font-bold md:text-4xl">{children}</h2>
-      {subtitle && <p className="text-gray-400">{subtitle}</p>}
+      {subtitle && <p className="text-muted-foreground">{subtitle}</p>}
     </motion.div>
   );
 }

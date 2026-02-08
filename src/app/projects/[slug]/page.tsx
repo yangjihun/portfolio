@@ -7,12 +7,12 @@ import Image from 'next/image';
 import { projects } from '@/data/projects';
 
 const categoryColors = {
-  frontend: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-  backend: 'bg-green-500/10 text-green-400 border-green-500/20',
-  fullstack: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
-  infra: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
-  ai: 'bg-pink-500/10 text-pink-400 border-pink-500/20',
-  other: 'bg-gray-500/10 text-gray-400 border-gray-500/20',
+  frontend: 'bg-primary/10 text-primary border-primary/20',
+  backend: 'bg-primary/10 text-primary border-primary/20',
+  fullstack: 'bg-primary/10 text-primary border-primary/20',
+  infra: 'bg-primary/10 text-primary border-primary/20',
+  ai: 'bg-primary/10 text-primary border-primary/20',
+  other: 'bg-primary/5 text-primary/80 border-primary/15',
 };
 
 const categoryLabels = {
@@ -35,12 +35,12 @@ export default function ProjectDetailPage() {
     return (
       <div className="container mx-auto max-w-4xl px-4 py-16 text-center">
         <h1 className="mb-4 text-3xl font-bold">프로젝트를 찾을 수 없습니다</h1>
-        <p className="mb-8 text-gray-400">
+        <p className="mb-8 text-muted-foreground">
           요청하신 프로젝트가 존재하지 않습니다.
         </p>
         <Link
           href="/projects"
-          className="inline-block rounded-lg bg-white px-6 py-3 font-semibold text-black transition-all hover:bg-gray-200"
+          className="inline-block rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground transition-all hover:bg-primary/90"
         >
           프로젝트 목록으로
         </Link>
@@ -55,7 +55,7 @@ export default function ProjectDetailPage() {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         onClick={() => router.back()}
-        className="mb-8 flex items-center gap-2 text-gray-400 transition-colors hover:text-white"
+        className="mb-8 flex items-center gap-2 text-muted-foreground transition-colors hover:text-primary"
       >
         <span className="text-xl">←</span>
         뒤로 가기
@@ -78,13 +78,13 @@ export default function ProjectDetailPage() {
           </span>
         </div>
 
-        <div className="mb-6 flex flex-wrap gap-4 text-gray-400">
+        <div className="mb-6 flex flex-wrap gap-4 text-muted-foreground">
           <span>{project.period}</span>
           <span>•</span>
           <span>{project.role}</span>
         </div>
 
-        <p className="text-xl leading-relaxed text-gray-300">
+        <p className="text-xl leading-relaxed text-foreground">
           {project.summary}
         </p>
       </motion.div>
@@ -105,8 +105,8 @@ export default function ProjectDetailPage() {
               rel={link.href !== '#' ? 'noopener noreferrer' : undefined}
               className={`rounded-lg border px-6 py-3 font-medium transition-all ${
                 link.href === '#'
-                  ? 'cursor-not-allowed border-gray-800 text-gray-600'
-                  : 'border-gray-700 hover:border-gray-600 hover:bg-gray-900'
+                  ? 'cursor-not-allowed border-border text-muted-foreground'
+                  : 'border-border bg-background hover:border-primary/40 hover:bg-primary/5'
               }`}
             >
               {link.label}
@@ -122,7 +122,7 @@ export default function ProjectDetailPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-10"
         >
-          <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-gray-800 bg-gray-900/30">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-border bg-muted/30">
             <Image
               src={project.image}
               alt={`${project.name} 이미지`}
@@ -147,7 +147,7 @@ export default function ProjectDetailPage() {
           {project.techTags.map((tech) => (
             <span
               key={tech}
-              className="rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-2 text-sm font-medium text-gray-300"
+              className="rounded-lg border border-primary/15 bg-primary/8 px-4 py-2 text-sm font-medium text-primary"
             >
               {tech}
             </span>
@@ -172,8 +172,8 @@ export default function ProjectDetailPage() {
               transition={{ delay: 0.3 + index * 0.1 }}
               className="flex gap-3"
             >
-              <span className="mt-1 text-blue-400">▸</span>
-              <span className="flex-1 leading-relaxed text-gray-300">
+              <span className="mt-1 text-primary">▸</span>
+              <span className="flex-1 leading-relaxed text-foreground">
                 {highlight}
               </span>
             </motion.li>
@@ -198,8 +198,8 @@ export default function ProjectDetailPage() {
               transition={{ delay: 0.4 + index * 0.1 }}
               className="flex gap-3"
             >
-              <span className="mt-1 text-purple-400">•</span>
-              <span className="flex-1 leading-relaxed text-gray-300">
+              <span className="mt-1 text-primary">•</span>
+              <span className="flex-1 leading-relaxed text-foreground">
                 {responsibility}
               </span>
             </motion.li>
@@ -212,11 +212,11 @@ export default function ProjectDetailPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="flex justify-center border-t border-gray-800 pt-12"
+        className="flex justify-center border-t border-border pt-12"
       >
         <Link
           href="/projects"
-          className="inline-flex items-center gap-2 rounded-lg bg-white px-8 py-3 font-semibold text-black transition-all hover:bg-gray-200"
+          className="inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-3 font-semibold text-primary-foreground transition-all hover:bg-primary/90"
         >
           모든 프로젝트 보기
         </Link>

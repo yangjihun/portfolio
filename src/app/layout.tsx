@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>
+      <body className="bg-background text-foreground">
         <Navigation />
         <main className="min-h-screen">{children}</main>
         <Footer />

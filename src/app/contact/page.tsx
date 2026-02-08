@@ -46,7 +46,7 @@ export default function ContactPage() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-12 text-center"
       >
-        <p className="mx-auto max-w-2xl text-lg leading-relaxed text-gray-300">
+        <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground">
           프로젝트 협업, 채용 제안, 기술 문의 등 어떤 내용이든 환영합니다.
           <br />
           아래 연락처를 통해 언제든지 연락주시면 빠르게 답변드리겠습니다.
@@ -63,14 +63,14 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="group rounded-lg border border-gray-800 bg-gray-900/50 p-6 transition-all hover:border-gray-700 hover:bg-gray-900/80"
+            className="group rounded-lg border border-border bg-muted/40 p-6 transition-all hover:border-primary/35 hover:bg-muted/70"
           >
             <div className="mb-3 text-4xl">{contact.icon}</div>
-            <h3 className="mb-2 text-xl font-bold group-hover:text-white">
+            <h3 className="mb-2 text-xl font-bold group-hover:text-primary transition-colors">
               {contact.label}
             </h3>
-            <p className="mb-2 text-sm text-gray-400">{contact.description}</p>
-            <p className="break-all text-gray-300 group-hover:text-white">
+            <p className="mb-2 text-sm text-muted-foreground">{contact.description}</p>
+            <p className="break-all text-foreground group-hover:text-primary transition-colors">
               {contact.value}
             </p>
           </motion.a>

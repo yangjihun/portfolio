@@ -12,15 +12,22 @@ export default function HomePage() {
   const featuredProjects = projects.slice(0, 3);
 
   const techStack = [
-    'Node.js',
+    // Languages
+    'JavaScript',
+    'TypeScript',
     'Python',
     'Java',
+    // Frontend
     'React',
     'Next.js',
-    'TypeScript',
+    // Backend
+    'Node.js',
+    // Styling
     'Tailwind CSS',
+    // Tools / Collaboration
     'Git',
-    'GitHub'
+    'GitHub',
+    'Jira'
   ];
 
   return (
@@ -35,18 +42,16 @@ export default function HomePage() {
           <h1 className="mb-6 text-5xl font-bold leading-tight md:text-7xl">
             안녕하세요,
             <br />
-            <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary to-[#006B55] bg-clip-text text-transparent">
               양지훈
             </span>
             입니다
           </h1>
-          <p className="mb-8 text-xl text-gray-300 md:text-2xl">
+          <p className="mb-8 text-xl text-muted-foreground md:text-2xl">
             Fullstack Developer
           </p>
-          <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-gray-400">
-            프론트엔드 개발을 기반으로,
-            <br />
-            현재 백엔드까지 영역을 확장하며 풀스택 역량을 쌓아가고 있습니다.
+          <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+            추진력과 커뮤니케이션으로 서비스를 안정적으로 완성하는 풀스택 개발자입니다.
           </p>
 
 
@@ -57,7 +62,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.5 + index * 0.05 }}
-                className="rounded-full bg-gray-800 px-4 py-2 text-sm font-medium text-gray-200"
+                className="rounded-full border border-border bg-muted/60 px-4 py-2 text-sm font-medium text-foreground"
               >
                 {tech}
               </motion.span>
@@ -72,19 +77,19 @@ export default function HomePage() {
           >
             <Link
               href="/projects"
-              className="rounded-lg bg-white px-8 py-3 font-semibold text-black transition-all hover:bg-gray-200"
+              className="rounded-lg bg-primary px-8 py-3 font-semibold text-primary-foreground transition-all hover:bg-primary/90"
             >
               프로젝트 보기
             </Link>
             <Link
               href="/about"
-              className="rounded-lg border border-gray-700 px-8 py-3 font-semibold transition-all hover:border-gray-600 hover:bg-gray-900"
+              className="rounded-lg border border-border bg-background px-8 py-3 font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-primary/5"
             >
               소개 보기
             </Link>
             <Link
               href="/contact"
-              className="rounded-lg border border-gray-700 px-8 py-3 font-semibold transition-all hover:border-gray-600 hover:bg-gray-900"
+              className="rounded-lg border border-border bg-background px-8 py-3 font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-primary/5"
             >
               연락하기
             </Link>
@@ -97,7 +102,7 @@ export default function HomePage() {
         <SectionTitle>활동 내역</SectionTitle>
 
         <div className="relative mx-auto max-w-3xl">
-          <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gray-800" />
+          <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-border" />
           <div className="space-y-0">
             {activities.map((activity, index) => (
               <motion.div
@@ -108,8 +113,8 @@ export default function HomePage() {
                 transition={{ delay: index * 0.05 }}
                 className="relative py-4 text-center"
               >
-                <div className="mx-auto mb-2 h-3.5 w-3.5 rounded-full border-2 border-gray-700 bg-background" />
-                <div className="mb-0.5 text-sm text-gray-400">{activity.period}</div>
+                <div className="mx-auto mb-2 h-3.5 w-3.5 rounded-full border-2 border-primary/40 bg-background" />
+                <div className="mb-0.5 text-sm text-muted-foreground">{activity.period}</div>
                 <h3 className="text-base font-semibold md:text-lg">{activity.title}</h3>
               </motion.div>
             ))}
@@ -135,7 +140,7 @@ export default function HomePage() {
         >
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 text-gray-300 transition-colors hover:text-white"
+            className="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-primary"
           >
             모든 프로젝트 보기
             <span className="text-xl">→</span>

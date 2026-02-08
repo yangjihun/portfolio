@@ -11,12 +11,12 @@ interface ProjectCardProps {
 }
 
 const categoryColors = {
-  frontend: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-  backend: 'bg-green-500/10 text-green-400 border-green-500/20',
-  fullstack: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
-  infra: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
-  ai: 'bg-pink-500/10 text-pink-400 border-pink-500/20',
-  other: 'bg-gray-500/10 text-gray-400 border-gray-500/20',
+  frontend: 'bg-primary/10 text-primary border-primary/20',
+  backend: 'bg-primary/10 text-primary border-primary/20',
+  fullstack: 'bg-primary/10 text-primary border-primary/20',
+  infra: 'bg-primary/10 text-primary border-primary/20',
+  ai: 'bg-primary/10 text-primary border-primary/20',
+  other: 'bg-primary/5 text-primary/80 border-primary/15',
 };
 
 const categoryLabels = {
@@ -38,10 +38,10 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
     >
       <Link
         href={`/projects/${project.id}`}
-        className="group block h-full rounded-lg border border-gray-800 bg-gray-900/50 p-6 transition-all hover:border-gray-700 hover:bg-gray-900/80"
+        className="group block h-full rounded-lg border border-border bg-muted/40 p-6 transition-all hover:border-primary/35 hover:bg-muted/70"
       >
         {project.image && (
-          <div className="relative mb-4 aspect-[16/9] overflow-hidden rounded-lg border border-gray-800 bg-gray-900/30">
+          <div className="relative mb-4 aspect-[16/9] overflow-hidden rounded-lg border border-border bg-muted/30">
             <Image
               src={project.image}
               alt={`${project.name} 썸네일`}
@@ -54,10 +54,10 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
 
         <div className="mb-3 flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <h3 className="text-xl font-bold group-hover:text-white">
+            <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
               {project.name}
             </h3>
-            <p className="mt-1 line-clamp-1 text-sm text-gray-400">
+            <p className="mt-1 line-clamp-1 text-sm text-muted-foreground">
               {project.title}
             </p>
           </div>
@@ -70,7 +70,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           </span>
         </div>
         
-        <div className="mb-3 flex flex-wrap gap-2 text-sm text-gray-400">
+        <div className="mb-3 flex flex-wrap gap-2 text-sm text-muted-foreground">
           <span>{project.period}</span>
           <span>•</span>
           <span>{project.role}</span>
@@ -80,13 +80,13 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           {project.techTags.slice(0, 5).map((tag) => (
             <span
               key={tag}
-              className="rounded-full bg-gray-800 px-3 py-1 text-xs text-gray-300"
+              className="rounded-full border border-primary/15 bg-primary/8 px-3 py-1 text-xs text-primary"
             >
               {tag}
             </span>
           ))}
           {project.techTags.length > 5 && (
-            <span className="rounded-full bg-gray-800 px-3 py-1 text-xs text-gray-400">
+            <span className="rounded-full border border-primary/15 bg-primary/8 px-3 py-1 text-xs text-primary/80">
               +{project.techTags.length - 5}
             </span>
           )}

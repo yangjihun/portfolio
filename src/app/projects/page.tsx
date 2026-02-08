@@ -16,6 +16,17 @@ const categoryLabels: Record<TechCategory | 'all', string> = {
   other: 'Other',
 };
 
+const CATEGORY_ORDER: TechCategory[] = [
+  'frontend',
+  'fullstack',
+  'backend',
+  'infra',
+  'ai',
+  'other',
+];
+
+const AVAILABLE_CATEGORIES = new Set<TechCategory>(projects.map((p) => p.category));
+
 export default function ProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState<TechCategory | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -34,15 +45,10 @@ export default function ProjectsPage() {
     });
   }, [selectedCategory, searchQuery]);
 
-  const categories: (TechCategory | 'all')[] = [
-    'all',
-    'frontend',
-    'backend',
-    'fullstack',
-    'infra',
-    'ai',
-    'other',
-  ];
+  const categories: (TechCategory | 'all')[] = useMemo(() => {
+    const existing = CATEGORY_ORDER.filter((c) => AVAILABLE_CATEGORIES.has(c));
+    return ['all', ...existing];
+  }, []);
 
   return (
     <div className="container mx-auto max-w-6xl px-4 py-16">
@@ -63,7 +69,7 @@ export default function ProjectsPage() {
             placeholder="프로젝트 이름, 기술 스택으로 검색..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-3 text-white placeholder-gray-500 focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700"
+            className="w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground placeholder-muted-foreground focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
         </div>
 
@@ -75,8 +81,8 @@ export default function ProjectsPage() {
               onClick={() => setSelectedCategory(category)}
               className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
                 selectedCategory === category
-                  ? 'bg-white text-black'
-                  : 'border border-gray-700 text-gray-300 hover:border-gray-600 hover:bg-gray-900'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'border border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-primary/5 hover:text-foreground'
               }`}
             >
               {categoryLabels[category]}
@@ -89,7 +95,7 @@ export default function ProjectsPage() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="mb-6 text-gray-400"
+        className="mb-6 text-muted-foreground"
       >
         {filteredProjects.length}개의 프로젝트
       </motion.div>
@@ -105,7 +111,7 @@ export default function ProjectsPage() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="py-20 text-center text-gray-400"
+          className="py-20 text-center text-muted-foreground"
         >
           <p className="text-xl">검색 결과가 없습니다</p>
           <p className="mt-2">다른 키워드로 다시 검색해보세요</p>
