@@ -195,8 +195,8 @@ export const projects: Project[] = [
     ],
     responsibilities: [
       'Frontend에서 Vite + React + TypeScript 기반 대시보드 UI, 이력서 업로드/분석/로드맵 페이지와 Redux Toolkit 상태(auth, resume, roadmap)를 설계하고 구현했습니다.',
-      'Axios 인터셉터로 JWT를 자동 주입하고 401 응답 시 세션 초기화 및 로그인 페이지 리다이렉트를 처리하는 인증 플로우를 구축했습니다.',
-      'Backend에서 Express + MongoDB 기반 API를 설계하고, Azure Document Intelligence · Gemini 2.5 Flash 연동 및 JWT 인증/인가 로직을 구현했습니다.'
+      'Axios 인터셉터를 구성해 인증 토큰 자동 첨부 및 401 응답 공통 처리(세션 초기화/리다이렉트)로 인증 흐름을 정리했습니다.',
+      'Backend에서는 기존 Express + MongoDB 코드베이스에서 이력서(Resume) CRUD API 일부를 구현/수정하고, 입력 검증 및 예외 처리 보완에 기여했습니다.'
     ],
     links: [
       { label: 'GitHub (FE)', href: 'https://github.com/yangjihun/DreamMap-fe' },
