@@ -1,4 +1,4 @@
-export type TechCategory = 'frontend' | 'backend' | 'fullstack' | 'infra' | 'ai' | 'other';
+﻿export type TechCategory = 'frontend' | 'backend' | 'fullstack' | 'infra' | 'ai' | 'other';
 
 export interface ProjectLink {
   label: string;
@@ -21,6 +21,49 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    id: 'netplus',
+    name: 'NetPlus',
+    title: '타임라인 기반 OTT 시청 보조 RAG 챗봇 서비스',
+    image: '/asset/netplus.png',
+    period: '2026.02',
+    role: 'Backend Developer',
+    category: 'backend',
+    summary:
+      '영상 시청 중 놓친 맥락을 현재 시점까지의 자막을 근거로 복원하고, 요약과 Q&A를 제공하는 타임라인 기반 시청 보조 챗봇입니다.',
+    techTags: [
+      'Python',
+      'FastAPI',
+      'SQLAlchemy',
+      'PostgreSQL',
+      'Redis',
+      'Docker Compose',
+      'Render',
+      'RAG'
+    ],
+    highlights: [
+      '시청 시간(current_time_ms) 기준으로 현재 시점까지만 근거를 검색해 스포일러를 구조적으로 차단했습니다.',
+      '질문 응답과 요약(20초, 1분, 3분)을 타임라인과 함께 제공해 근거 중심의 UX를 구성했습니다.',
+      '일상 질문과 작품 질문을 의도 분류해 RAG 응답과 일반 대화를 분리했습니다.',
+      '에피소드 선택 시 Redis 캐시 warmup을 수행하고, 채팅 히스토리 저장과 복원을 지원했습니다.',
+      '관리자 인제스트로 작품, 에피소드, 자막, 영상 URL, 썸네일을 등록할 수 있는 관리 API를 구성했습니다.'
+    ],
+    responsibilities: [
+      'FastAPI 기반으로 인증, 카탈로그, 인제스트, QA, 요약 API를 설계하고 프론트와 연동했습니다.',
+      '일상 질문과 작품 질문을 구분하는 의도 분류 로직을 서버에서 구성해 RAG 호출 여부를 분기했습니다.',
+      'Redis 캐시 키를 에피소드, 시점, 질문 해시 기준으로 설계하고 TTL 전략을 적용해 캐시 재사용률을 높였습니다.',
+      '스트리밍 QA 엔드포인트를 구성해 응답 대기 시간을 줄이고 사용자 체감 지연을 개선했습니다.',
+      'LangSmith로 retrieval 결과와 생성 응답을 추적해 품질 저하 케이스를 재현 가능하게 만들었습니다.',
+      '자막과 메타데이터 인제스트 API를 통해 RAG 대상 데이터를 표준 포맷으로 적재하고 관리할 수 있게 했습니다.',
+      '[S] RAG 응답이 평균 약 4초로 측정되어 성능 요구사항(3초대)을 만족하지 못했고, 답변 대기 시간이 길어 대화 흐름이 끊길 수 있었습니다.',
+      '[T] 스포일러 차단과 답변 품질을 유지하면서 응답 시간을 3초대 이하로 낮추고, 체감 대기 시간을 줄이는 것이 목표였습니다.',
+      '[A] 초기 MVP에서는 복잡도를 줄이기 위해 벡터DB를 제외했지만, PostgreSQL(pgvector) 기반 유사도 검색으로 retrieval 속도를 개선했고, Redis 캐시와 에피소드 warmup으로 반복 질의와 에피소드 단위 데이터를 재사용하도록 구성했습니다. 또한 스트리밍 QA 응답을 제공해 생성 과정의 대기 체감을 완화했습니다.',
+      '[R] 평균 응답 시간을 2~3초대로 개선해 요구사항을 충족했고, 스트리밍으로 첫 토큰 응답이 빨라져 사용자가 느끼는 지연과 이탈 가능성을 줄였습니다.'
+    ],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/yangjihun/PrimerAI-Hackathon' }
+    ]
+  },
   {
     id: 'studyroom-reservation',
     name: 'RE:MIT',
@@ -299,6 +342,6 @@ export const projects: Project[] = [
     links: [
       { label: 'GitHub', href: 'https://github.com/yangjihun/JOB.PT' }
     ]
-  }  
+  }
 ];
 
