@@ -13,13 +13,15 @@ export default function AboutPage() {
       'TypeScript',
       'Tailwind CSS',
       'Zustand / Redux Toolkit',
-      'TanStack Query'
+      'TanStack Query',
+      'Vite'
     ],
     backend: [
+      'Node.js / Express',
+      'FastAPI',
       'PHP / Laravel',
       'Python',
       'Java',
-      'Node.js / Express',
       'MongoDB',
       'MySQL'
     ],
@@ -27,17 +29,22 @@ export default function AboutPage() {
       'Git / GitHub',
       'Jira',
       'Notion',
-      'Vite',
-      'MSW (Mock Service Worker)',
-      'ESLint / Prettier',
       'Figma',
+      'ESLint / Prettier',
+      'MSW'
+    ],
+    deploy: [
+      'Docker / Docker Compose',
+      'Render',
+      'Netlify',
+      'Vercel'
     ],
     other: [
       'ChatGPT',
       'Cursor',
       'Gemini',
-      'Claude',
-    ],
+      'Claude'
+    ]
   };
 
   const parseStartMonth = (period: string) => {
@@ -135,7 +142,14 @@ export default function AboutPage() {
               ))}
             </ul>
           </div>
-
+          <div className="rounded-lg border border-border bg-muted/40 p-6">
+            <h4 className="mb-4 text-lg font-semibold text-primary">Deploy</h4>
+            <ul className="space-y-2">
+              {techStacks.deploy.map((tech) => (
+                <li key={tech} className="text-foreground">• {tech}</li>
+              ))}
+            </ul>
+          </div>
           <div className="rounded-lg border border-border bg-muted/40 p-6">
             <h4 className="mb-4 text-lg font-semibold text-primary">
               AI 에이전트
