@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Mail, Code2, Globe, BookOpen } from 'lucide-react';
 import SectionTitle from '@/components/SectionTitle';
 
 export default function ContactPage() {
@@ -10,28 +11,28 @@ export default function ContactPage() {
       value: 'yjhn0410@gmail.com',
       href: 'mailto:yjhn0410@gmail.com',
       description: '이메일로 연락주세요',
-      icon: '📧',
+      icon: Mail,
     },
     {
       label: 'GitHub',
       value: 'github.com/yangjihun',
       href: 'https://github.com/yangjihun',
       description: '코드와 프로젝트를 확인하세요',
-      icon: '💻',
+      icon: Code2,
     },
     {
       label: 'LinkedIn',
       value: 'linkedin.com/in/yangjihun',
       href: 'https://linkedin.com/in/yangjihun',
       description: '프로페셔널 네트워크',
-      icon: '🔗',
+      icon: Globe,
     },
     {
       label: 'Blog',
       value: 'velog.io/@yangjihun',
       href: 'https://velog.io/@yangjihun',
       description: '기술 블로그',
-      icon: '✍️',
+      icon: BookOpen,
     },
   ];
 
@@ -53,26 +54,30 @@ export default function ContactPage() {
         </p>
       </motion.div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="divide-y divide-border rounded-lg border border-border">
         {contacts.map((contact, index) => (
           <motion.a
             key={contact.label}
             href={contact.href}
             target={contact.href.startsWith('http') ? '_blank' : undefined}
             rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="group rounded-lg border border-border bg-muted/40 p-6 transition-all hover:border-primary/35 hover:bg-muted/70"
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.08 }}
+            className="group flex items-center justify-between px-8 py-6 transition-colors hover:bg-muted/60"
           >
-            <div className="mb-3 text-4xl">{contact.icon}</div>
-            <h3 className="mb-2 text-xl font-bold group-hover:text-primary transition-colors">
-              {contact.label}
-            </h3>
-            <p className="mb-2 text-sm text-muted-foreground">{contact.description}</p>
-            <p className="break-all text-foreground group-hover:text-primary transition-colors">
+            <div className="flex items-center gap-4">
+              <contact.icon className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
+              <div>
+                <span className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+                  {contact.label}
+                </span>
+                <p className="mt-1 text-sm text-muted-foreground">{contact.description}</p>
+              </div>
+            </div>
+            <span className="text-base font-medium text-foreground transition-colors group-hover:text-primary">
               {contact.value}
-            </p>
+            </span>
           </motion.a>
         ))}
       </div>
