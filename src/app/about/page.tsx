@@ -47,6 +47,13 @@ export default function AboutPage() {
     ]
   };
 
+  const certificates = [
+    { name: 'SQLD', date: '2026.06.19', note: '시나공 SQLD 우수 베타테스터 선정' },
+    { name: 'Samsung SW 역량 테스트 A형', date: '2026.02.19' },
+    { name: 'TOEIC Speaking IM3', date: '2025.12.14' },
+    { name: '정보처리기사 필기', date: '2025.08.13' },
+  ];
+
   const parseStartMonth = (period: string) => {
     const match = period.match(/(\d{4})\.(\d{2})/);
     if (!match) return 0;
@@ -165,6 +172,32 @@ export default function AboutPage() {
         </div>
       </motion.section>
 
+      {/* Certificate Section */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mb-20"
+      >
+        <h3 className="mb-8 text-2xl font-bold">자격증</h3>
+        <div className="space-y-3">
+          {certificates.map((cert) => (
+            <div
+              key={cert.name}
+              className="flex items-start justify-between rounded-lg border border-border bg-muted/40 px-6 py-4"
+            >
+              <div>
+                <span className="font-semibold text-foreground">{cert.name}</span>
+                {cert.note && (
+                  <span className="ml-3 text-sm text-muted-foreground">{cert.note}</span>
+                )}
+              </div>
+              <span className="shrink-0 text-sm text-muted-foreground">{cert.date}</span>
+            </div>
+          ))}
+        </div>
+      </motion.section>
+
       {/* Timeline Section */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -173,7 +206,7 @@ export default function AboutPage() {
         className="mb-20"
       >
         <h3 className="mb-8 text-2xl font-bold">프로젝트 타임라인</h3>
-        <div className="space-y-6">
+        <div className="relative border-l-2 border-primary/30 pl-6 space-y-6">
           {timeline.map((item, index) => (
             <motion.div
               key={item.id}
@@ -181,9 +214,9 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="relative border-l-2 border-primary/30 pl-6"
+              className="relative"
             >
-              <div className="absolute -left-[9px] top-0 h-4 w-4 rounded-full border-2 border-primary/40 bg-background" />
+              <div className="absolute -left-[33px] top-0 h-4 w-4 rounded-full border-2 border-primary/40 bg-background" />
               <div className="mb-1 text-sm text-muted-foreground">{item.period}</div>
               <h4 className="mb-2 text-xl font-semibold">{item.name}</h4>
               <p className="mb-2 text-foreground">{item.title}</p>

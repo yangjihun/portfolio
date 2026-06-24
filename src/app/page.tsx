@@ -42,7 +42,7 @@ export default function HomePage() {
           <h1 className="mb-6 text-5xl font-bold leading-tight md:text-7xl">
             안녕하세요,
             <br />
-            <span className="bg-gradient-to-r from-primary to-[#006B55] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary to-[#1E6FC8] bg-clip-text text-transparent">
               양지훈
             </span>
             입니다

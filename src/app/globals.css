@@ -3,39 +3,37 @@
 @tailwind utilities;
 
 :root {
-  /* Light, Hana Bank-inspired theme (RGB for Tailwind opacity support) */
+  /* Hyundai AutoEver brand theme (primary: #002C5F navy blue) */
   --background: 255 255 255;
-  --foreground: 5 32 26;
+  --foreground: 0 20 55;
 
   --card: 255 255 255;
-  --card-foreground: 5 32 26;
+  --card-foreground: 0 20 55;
 
-  /* Slight green-tinted neutrals (avoid "gray" feel) */
-  --muted: 242 252 249;
-  --muted-foreground: 39 83 74;
+  --muted: 238 244 255;
+  --muted-foreground: 50 80 140;
 
-  --border: 208 239 230;
+  --border: 196 214 240;
 
-  /* Primary (Hana Bank main color #008D70) */
-  --primary: 0 141 112;
+  /* Primary: Hyundai AutoEver navy #002C5F */
+  --primary: 0 44 95;
   --primary-foreground: 255 255 255;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Keep consistent (always light) */
     --background: 255 255 255;
-    --foreground: 5 32 26;
+    --foreground: 0 20 55;
 
     --card: 255 255 255;
-    --card-foreground: 5 32 26;
+    --card-foreground: 0 20 55;
 
-    --muted: 242 252 249;
-    --muted-foreground: 39 83 74;
+    --muted: 238 244 255;
+    --muted-foreground: 50 80 140;
 
-    --border: 208 239 230;
+    --border: 196 214 240;
 
-    --primary: 0 141 112;
+    --primary: 0 44 95;
     --primary-foreground: 255 255 255;
   }
 }

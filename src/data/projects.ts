@@ -69,7 +69,7 @@ export const projects: Project[] = [
     name: 'RE:MIT',
     title: '금융수학과 스터디룸 예약 시스템',
     image: '/asset/remit.png',
-    period: '2025.10 ~ 2025.12',
+    period: '2025.10 ~ 운영중',
     role: 'Fullstack Developer (QA)',
     category: 'fullstack',
     summary:
