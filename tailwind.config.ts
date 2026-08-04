@@ -5,6 +5,8 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    // 카테고리 배지/바 클래스 문자열이 데이터 파일에 있어 스캔 대상에 포함해야 한다
+    "./src/data/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -24,6 +26,7 @@ const config: Config = {
           DEFAULT: "rgb(var(--primary) / <alpha-value>)",
           foreground: "rgb(var(--primary-foreground) / <alpha-value>)",
         },
+        accent: "rgb(var(--accent) / <alpha-value>)",
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-in-out',
