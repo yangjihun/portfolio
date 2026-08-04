@@ -2,8 +2,7 @@
 
 import { motion } from 'framer-motion';
 import SectionTitle from '@/components/SectionTitle';
-import { projects } from '@/data/projects';
-import { activities } from '@/data/activities';
+import { projectsByRecency } from '@/data/projects';
 
 export default function AboutPage() {
   const techStacks = {
@@ -54,24 +53,13 @@ export default function AboutPage() {
     { name: '정보처리기사 필기', date: '2025.08.13' },
   ];
 
-  const parseStartMonth = (period: string) => {
-    const match = period.match(/(\d{4})\.(\d{2})/);
-    if (!match) return 0;
-    const year = Number(match[1]);
-    const month = Number(match[2]);
-    return year * 12 + month;
-  };
-
-  const timeline = [...projects]
-    .sort((a, b) => parseStartMonth(b.period) - parseStartMonth(a.period))
-    .map((project) => ({
-      id: project.id,
-      period: project.period,
-      name: project.name,
-      title: project.title,
-      description: project.summary,
-      tech: project.techTags.join(', '),
-    }));
+  const timeline = projectsByRecency.map((project) => ({
+    id: project.id,
+    period: project.period,
+    name: project.name,
+    title: project.title,
+    tech: project.techTags.join(', '),
+  }));
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-16">

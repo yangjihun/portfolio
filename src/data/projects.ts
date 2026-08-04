@@ -5,6 +5,11 @@ export interface ProjectLink {
   href: string;
 }
 
+export interface TroubleshootingItem {
+  title: string;
+  body: string;
+}
+
 export interface Project {
   id: string;            // slug / route key
   name: string;
@@ -18,9 +23,68 @@ export interface Project {
   highlights: string[];  // what this project does / 특징
   responsibilities: string[]; // what I specifically did
   links: ProjectLink[];  // GitHub, Demo, etc. can be "#" placeholder if unknown
+  award?: string;         // 수상 내역
+  notice?: string;        // 저장소 비공개 사유 등 안내 문구
+  troubleshooting?: TroubleshootingItem[]; // 문제 상황과 해결 과정
 }
 
+/** "2025.10 ~ 운영중" 같은 period 문자열에서 시작 연월을 정렬용 숫자로 변환 */
+const parseStartMonth = (period: string) => {
+  const match = period.match(/(\d{4})\.(\d{2})/);
+  if (!match) return 0;
+  return Number(match[1]) * 12 + Number(match[2]);
+};
+
+/** 카드·목록·상세에서 공통으로 쓰는 카테고리 표기 */
+export const categoryStyle: Record<TechCategory, { label: string; badge: string }> = {
+  frontend:  { label: 'Frontend',  badge: 'bg-primary/10 text-primary border-primary/20' },
+  backend:   { label: 'Backend',   badge: 'bg-primary/10 text-primary border-primary/20' },
+  fullstack: { label: 'Fullstack', badge: 'bg-primary/10 text-primary border-primary/20' },
+  infra:     { label: 'Infra',     badge: 'bg-primary/10 text-primary border-primary/20' },
+  ai:        { label: 'AI',        badge: 'bg-primary/10 text-primary border-primary/20' },
+  other:     { label: 'Other',     badge: 'bg-primary/5 text-primary/80 border-primary/15' },
+};
+
 export const projects: Project[] = [
+  {
+    id: 'studypot',
+    name: 'StudyPot',
+    title: 'AI 팀장이 운영을 보조하는 스터디 그룹 관리 플랫폼',
+    image: '/asset/studypot.png',
+    period: '2026.05 ~ 2026.06',
+    role: 'Frontend Lead (기획 · FE 설계)',
+    category: 'frontend',
+    award: '삼성 청년 SW·AI 아카데미 1학기 관통 프로젝트 최우수상',
+    summary:
+      '스터디장에게 몰리는 운영 부담과 팀원 간 의사결정·합의 병목을 줄이기 위해, AI 팀장이 커리큘럼·회고·규칙 운영을 대신 챙겨주는 스터디 관리 플랫폼입니다.',
+    techTags: [
+      'Vue 3',
+      'TypeScript',
+      'Vite',
+      'Tailwind CSS',
+      'FSD',
+      'MSW',
+      'Netlify'
+    ],
+    highlights: [
+      '그룹 생성과 초대 코드 참여부터 온보딩(스터디 목표·세부 키워드 설정)까지 스터디 개설 흐름을 하나로 연결했습니다.',
+      '커리큘럼 Todo, 회고, AI 팀장 답변(마크다운 렌더링) 등 스터디 운영을 AI가 관리하도록 구성했습니다.',
+      '그룹 규칙과 위반 관리, 알림·운영 로그, 그룹 스페이스(게시판·마이페이지)까지 운영에 필요한 기능을 갖췄습니다.',
+      'FSD(pages/entities/features/shared/widgets) 레이어로 도메인 경계를 설계해 팀원 간 작업 충돌을 줄였습니다.',
+    ],
+    responsibilities: [
+      '프론트엔드 리드로 FE 구조 설계와 구현을 담당했습니다.',
+      '미구현 도메인의 API 타입·함수·MSW 핸들러를 먼저 정리해 BE 연동 전에 UI와 로직 개발을 완주했고, 전체 개발 기간을 약 30% 단축했습니다.',
+      'FSD 아키텍처의 레이어 구조를 설계하고 팀 전체 컨벤션으로 적용했습니다.',
+      'ESLint/Prettier, PR·이슈 템플릿, 코드·커밋 컨벤션을 문서화하여 협업 방식을 표준화했습니다.',
+      '쿠키 세션 인증, 그룹 생성·초대 코드 참여, 온보딩, 커리큘럼 투두, 회고·AI 팀장, 알림·운영 로그, 그룹 스페이스 등 핵심 화면을 구현했습니다.',
+    ],
+    troubleshooting: [],
+    links: [
+      { label: 'GitHub (FE)', href: 'https://github.com/StudyPot/StudyPot_FE' },
+      { label: 'GitHub (BE)', href: 'https://github.com/StudyPot/StudyPot_BE' }
+    ]
+  },
   {
     id: 'netplus',
     name: 'NetPlus',
@@ -67,44 +131,61 @@ export const projects: Project[] = [
   {
     id: 'studyroom-reservation',
     name: 'RE:MIT',
-    title: '금융수학과 스터디룸 예약 시스템',
+    title: '학과 스터디룸 예약·물품 관리 시스템',
     image: '/asset/remit.png',
-    period: '2025.10 ~ 운영중',
-    role: 'Fullstack Developer (QA)',
+    period: '2025.10 ~ 운영 중',
+    role: 'PM · Fullstack Developer',
     category: 'fullstack',
     summary:
-      '내부망 환경에서 학과생 전용 스터디룸 예약과 열쇠함 접근을 관리하기 위해 구현한 웹 기반 예약 시스템입니다.',
+      '학과 사무실에서 수동으로 관리하던 스터디룸 예약과 물품 관리를 웹 서비스로 전환한 예약 시스템입니다. 배포 이후 사용자 문의와 개선 요청을 반영하며 실제 학과에서 운영 중입니다.',
     techTags: [
       'PHP',
       'Laravel',
+      'Blade',
       'MySQL',
-      'Google SMTP'
+      'Google SMTP',
+      'Gabia',
     ],
     highlights: [
-      '학과생 이메일 기반 회원가입 및 로그인 기능을 제공했습니다.',
-      '스터디룸 예약 생성 및 조회 기능을 구현했습니다.',
-      '예약자에게 열쇠함 접근 정보를 제공하는 흐름을 구성했습니다.',
-      'GC Free WiFi 내부망 환경에서만 접속 가능하도록 접근을 제한했습니다.'
+      '학과생 이메일 기반 회원가입·로그인과 비밀번호 찾기를 Google SMTP 메일 인증으로 구현했습니다.',
+      '스터디룸 예약 생성·조회, 그룹 예약, 최대 4시간 예약 제한, 진행 중 예약 표시를 제공합니다.',
+      '예약자에게만 열쇠함 접근 정보를 제공하고, 노출 시간을 10분으로 제한했습니다.',
+      '유저·예약·알림·페널티를 관리하는 관리자 페이지와 페널티 가이드라인·알림을 운영합니다.',
+      '기능 개선하기 버튼을 통해 사용자 피드백을 반영하고 기능을 지속적으로 개선하고 있습니다.'
     ],
     responsibilities: [
-      '팀 프로젝트에서 QA 및 예외 처리 전반을 담당했습니다.',
-      '예약 중복, 인증되지 않은 접근, 비정상 요청에 대한 처리 로직을 점검하고 보완했습니다.',
-      '운영 환경을 가정한 테스트 시나리오를 기반으로 서비스 안정화 작업을 수행했습니다.'
+      'PM 겸 풀스택 개발자로 교수님과 이용 기준·물품 관리 수칙을 협의해 정의하고, 학과생 전용 인증 절차를 구현했습니다.',
+      '예약·관리자·알림 기능을 구현했습니다.',
+      '대면과 상주 인력에 의존하던 운영 방식을 디지털로 전환해 학과의 관리 자원 부담을 줄였습니다.',
+      '비대해진 뷰의 유지보수성을 높이기 위해 리팩토링 범위를 정하고, base64 이미지와 인라인 SVG를 분리해 핵심 파일 크기를 82.7KB에서 8.3KB로 약 90% 줄였습니다.',
+      '예약 중복, 인증되지 않은 접근, 비정상 요청에 대한 처리 로직을 QA 관점에서 점검·보완하고 운영 시나리오 기반으로 안정화했습니다.',
+      '배포 이후 접수된 사용자 문의와 개선 요청을 수집·분석해 실제 이용 환경에 맞게 기능을 개선하고 있습니다.'
+    ],
+    troubleshooting: [
+      {
+        title: '학과생 인증에 필요한 개인정보 확보',
+        body: '"학과생만 이용 가능해야 한다"는 핵심 요구사항을 구현하려면 학생 이메일 정보가 필요했지만, 교수님께서 개인정보 제공을 우려하셔서 요구사항 충족이 막혀 있었습니다. 회원가입부터 로그인 인증, 서비스 접근 권한 확인까지 이메일이 쓰이는 흐름을 단계별로 정리하고, 말 대신 실제 화면을 볼 수 있는 프로토타입을 만들어 시연했습니다. 개인정보를 무분별하게 쓰는 것이 아니라 학과생 전용 서비스라는 요구사항을 위한 최소한의 정보임을 납득시켜 이메일 정보를 확보했고, 핵심 요구사항을 구현할 수 있었습니다.'
+      },
+      {
+        title: 'Blade 뷰 비대화 — 정량 기준 수립 후 에셋 분리',
+        body: '이미지가 base64로, 아이콘이 인라인 SVG로 뷰에 박혀 있어 파일이 비대하고 재사용이 불가능했습니다. 뷰 전체에 base64 5개와 인라인 SVG 54개가 흩어져 있었고 가장 큰 파일은 82.7KB였습니다. "Blade 150줄 이하, base64 인라인 금지, 반복 SVG는 컴포넌트화" 같은 정량 기준을 먼저 문서화한 뒤, 그 기준에 따라 에셋을 정적 파일로 추출하고 반복 아이콘을 컴포넌트로 치환했습니다. 정규식 치환에 교체 개수 검증을 붙여 동작 변경 없이 처리했고, 최대 파일 82.7KB → 8.3KB(-90%), 뷰 전체 base64 5개 → 0개, 인라인 SVG 54개 → 30개가 되었습니다.'
+      }
     ],
     links: [
       { label: 'GitHub', href: 'https://github.com/Re-mit/Remit' }
     ]
   },
   {
-    id: 'vitamin-7-admin',
-    name: 'Vitamin-7',
-    title: 'AI Chatbot 운영 관리자 페이지',
-    image: '/asset/vitamin7.png',
+    id: 'kakao-enterprise-pbl',
+    name: '카카오엔터프라이즈 기업실무 프로젝트',
+    title: '사내 문서 기반 AI 챗봇 운영 관리자 페이지',
+    image: '/asset/vibot.png',
     period: '2025.10 ~ 2025.12',
-    role: 'Frontend Developer',
+    role: 'Frontend Lead',
     category: 'frontend',
+    notice: '기업 연계 프로젝트로 진행되어, 대외비 정책에 따라 저장소와 상세 코드는 공개하지 않습니다.',
     summary:
-      '관리자가 문서 및 URL 데이터를 업로드·분류하고, 수집·학습 상태를 모니터링하며 챗봇 응답을 검증할 수 있도록 구현한 B2B 챗봇 운영 관리자 페이지입니다.',
+      '관리자가 문서·URL 데이터를 업로드·분류하고, 수집·학습 상태를 모니터링하며 챗봇 응답을 검증하는 B2B 챗봇 운영 관리자 페이지입니다. 카카오엔터프라이즈 SW 아카데미의 기업실무형 프로젝트로 진행했습니다.',
     techTags: [
       'Next.js',
       'React',
@@ -118,22 +199,25 @@ export const projects: Project[] = [
       'Vercel'
     ],
     highlights: [
-      '문서 파일 업로드 및 URL 등록 기능을 제공했습니다.',
-      '카테고리 기반 데이터 분류와 데이터 목록/상세 조회 기능을 구현했습니다.',
-      '데이터 수집·처리 상태를 확인할 수 있는 관리자 UI를 구성했습니다.',
-      '쿠키 기반 인증 환경에서 CSRF 대응과 에러 모니터링을 적용했습니다.'
+      '문서 파일 업로드와 URL 등록으로 챗봇이 학습할 데이터를 관리자가 직접 적재할 수 있습니다.',
+      '카테고리 기반 데이터 분류와 DataTable 목록·상세 조회로 적재된 문서를 관리합니다.',
+      '데이터 수집·처리 상태를 확인해 학습이 어디까지 진행됐는지 추적할 수 있는 모니터링 UI를 구성했습니다.',
+      '쿠키 기반 인증 환경에서 CSRF에 대응하고, Sentry로 운영 중 발생하는 런타임 에러를 추적합니다.'
     ],
     responsibilities: [
-      '관리자 페이지 화면 설계와 데이터 관리 핵심 기능을 구현했습니다.',
-      'DataTable 기반 목록, 상세 모달, 업로드/등록 플로우 UI를 구현했습니다.',
-      '서버 상태는 TanStack Query, UI 및 권한 상태는 Zustand로 분리해 상태를 관리했습니다.',
+      '프론트엔드 개발 팀장으로 관리자 페이지 화면 설계와 데이터 관리 핵심 기능 구현을 담당했습니다.',
+      'DataTable 기반 목록, 상세 모달, 파일 업로드·URL 등록 플로우 UI를 구현했습니다.',
+      '서버 상태는 TanStack Query, UI·권한 상태는 Zustand로 분리해 상태 관리 책임을 나눴습니다.',
       'Axios 인스턴스를 구성하고 인증 쿠키 전송을 전제로 한 API 통신 레이어를 정리했습니다.',
-      'CSRF 토큰 전달 방식 불일치로 발생한 403 이슈를 원인 단위로 분리하고 해결 방향을 조율했습니다.',
-      'Sentry를 도입해 운영 환경에서의 런타임 에러 추적 기반을 마련했습니다.'
+      'Sentry를 도입해 운영 환경의 런타임 에러를 추적할 수 있는 기반을 마련했습니다.'
     ],
-    links: [
-      { label: 'GitHub', href: 'https://github.com/dktechin-pbl/VITAMIN-7-FE' }
-    ]
+    troubleshooting: [
+      {
+        title: 'CSRF 403 Forbidden — RAW 토큰과 XOR 마스킹 토큰의 혼용',
+        body: '로그인 후 /csrf로 토큰을 받아 쿠키의 XSRF-TOKEN을 헤더에 실어 보내는 구조였는데, 일부 POST·PUT·DELETE 요청에서 403 Forbidden이 계속 발생했습니다. 요청 흐름을 추적해 먼저 보호된 요청에 CSRF 헤더가 누락되고 있음을 찾아 Axios 인터셉터에서 매 요청마다 쿠키 값을 헤더에 담도록 수정했습니다. 그래도 남는 403은 백엔드의 Spring Security 설정까지 분석해 원인을 규명했습니다. XorCsrfTokenRequestAttributeHandler를 쓰면 서버에는 RAW 토큰이 저장되고 클라이언트에는 XOR 마스킹된 토큰이 전달돼야 하는데, 실제로는 쿠키에 RAW 토큰이 그대로 담겨 서버가 이를 마스킹된 값으로 보고 디마스킹하면서 검증에 실패하고 있었습니다. XOR 설정을 끄면 프론트 요청은 통과했지만 Swagger UI의 CSRF 동작이 깨져, 우회 대신 책임을 분리하는 방향으로 해결했습니다. 프론트엔드는 쿠키 값을 헤더로 복사하는 역할만 맡고 토큰 생성·마스킹·검증은 Spring Security 기본 흐름에 맡기도록 정리해, 프론트엔드·백엔드·Swagger UI가 동일한 CSRF 규칙을 따르게 만들고 403을 해소했습니다.'
+      }
+    ],
+    links: []
   },
   {
     id: 'loventure',
@@ -344,4 +428,27 @@ export const projects: Project[] = [
     ]
   }
 ];
+
+/** 시작일 기준 최신순. 배열 순서를 직접 관리하지 않아도 되도록 파생시킨다 */
+export const projectsByRecency: Project[] = [...projects].sort(
+  (a, b) => parseStartMonth(b.period) - parseStartMonth(a.period)
+);
+
+/** 대표 프로젝트. 여기 적힌 순서대로 홈·프로젝트 페이지 상단에 노출된다 */
+const FEATURED_PROJECT_IDS = ['studypot', 'studyroom-reservation', 'kakao-enterprise-pbl'];
+
+export const isFeaturedProject = (id: string) => FEATURED_PROJECT_IDS.includes(id);
+
+export const featuredProjects: Project[] = FEATURED_PROJECT_IDS.map((id) => {
+  const project = projects.find((entry) => entry.id === id);
+  if (!project) {
+    throw new Error(`featuredProjects: '${id}' 프로젝트를 찾을 수 없습니다.`);
+  }
+  return project;
+});
+
+/** 대표 프로젝트를 제외한 나머지 (최신순) */
+export const otherProjects: Project[] = projectsByRecency.filter(
+  (project) => !isFeaturedProject(project.id)
+);
 

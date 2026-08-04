@@ -2,15 +2,12 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import ProjectCard from '@/components/ProjectCard';
+import FeaturedProjectCard from '@/components/FeaturedProjectCard';
 import SectionTitle from '@/components/SectionTitle';
-import { projects } from '@/data/projects';
+import { featuredProjects } from '@/data/projects';
 import { activities } from '@/data/activities';
 
 export default function HomePage() {
-  // 최신 3개 프로젝트 (featured)
-  const featuredProjects = projects.slice(0, 3);
-
   const techStack = [
     // Languages
     'JavaScript',
@@ -42,7 +39,7 @@ export default function HomePage() {
           <h1 className="mb-6 text-5xl font-bold leading-tight md:text-7xl">
             안녕하세요,
             <br />
-            <span className="bg-gradient-to-r from-primary to-[#1E6FC8] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               양지훈
             </span>
             입니다
@@ -120,16 +117,31 @@ export default function HomePage() {
             ))}
           </div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-10 text-center"
+        >
+          <Link
+            href="/timeline"
+            className="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-primary"
+          >
+            전체 활동 보기
+            <span className="text-xl">→</span>
+          </Link>
+        </motion.div>
       </section>
 
       {/* Featured Projects Section */}
       <section className="mb-32">
-        <SectionTitle subtitle="최근 진행한 주요 프로젝트입니다">
+        <SectionTitle subtitle="가장 깊게 파고든 대표 프로젝트 3개입니다">
           주요 프로젝트
         </SectionTitle>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
           {featuredProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+            <FeaturedProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
         <motion.div
