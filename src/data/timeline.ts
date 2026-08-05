@@ -52,7 +52,7 @@ export const timelineItems: TimelineItem[] = [
     id: 'ai-ssafy-15',
     period: '2026.01 ~ 진행 중',
     year: 2026,
-    title: '삼성 청년 SW AI 아카데미 15기',
+    title: '삼성 청년 SW·AI 아카데미 15기',
     description:
       'Java와 Vue.js, AI 기반 문제 해결 역량을 강화하며 학습을 진행하고 있습니다.',
     category: 'program',
