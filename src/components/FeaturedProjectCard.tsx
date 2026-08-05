@@ -30,7 +30,7 @@ export default function FeaturedProjectCard({
         className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-primary/25 bg-background shadow-sm transition-all hover:-translate-y-1 hover:border-primary/45 hover:shadow-lg"
       >
         {/* MAIN 배지 */}
-        <span className="absolute left-4 top-5 z-10 inline-flex items-center gap-1 rounded-full bg-primary px-2.5 py-1 text-[11px] font-semibold tracking-wider text-primary-foreground shadow-sm">
+        <span className="absolute right-4 top-5 z-10 inline-flex items-center gap-1 rounded-full bg-primary px-2.5 py-1 text-[11px] font-semibold tracking-wider text-primary-foreground shadow-sm">
           <Star className="h-3 w-3 fill-current" aria-hidden />
           MAIN
         </span>
