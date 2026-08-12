@@ -3,23 +3,23 @@
 @tailwind utilities;
 
 :root {
-  /* Navy 기반 라이트 테마 (색상 값은 rgb 채널로 두어 Tailwind alpha 표기와 함께 사용) */
+  /* 딥 틸 기반 라이트 테마 (색상 값은 rgb 채널로 두어 Tailwind alpha 표기와 함께 사용) */
   --background: 255 255 255;
-  --foreground: 0 20 55;
+  --foreground: 4 42 40;
 
   --card: 255 255 255;
-  --card-foreground: 0 20 55;
+  --card-foreground: 4 42 40;
 
-  --muted: 238 244 255;
-  --muted-foreground: 50 80 140;
+  --muted: 236 250 248;
+  --muted-foreground: 30 105 99;
 
-  --border: 196 214 240;
+  --border: 183 226 221;
 
-  --primary: 0 44 95;
+  --primary: 13 94 88;
   --primary-foreground: 255 255 255;
 
-  /* 그라데이션 등 강조 표현에 쓰는 밝은 계열 네이비 */
-  --accent: 30 111 200;
+  /* 그라데이션 등 강조 표현에 쓰는 밝은 계열 틸 (대형 텍스트 대비 3:1 이상 유지) */
+  --accent: 13 148 136;
 }
 
 body {
