@@ -22,7 +22,7 @@ export default function Navigation() {
         <Link href="/" className="text-xl font-bold text-foreground hover:text-primary transition-colors">
           양지훈
         </Link>
-        <ul className="flex gap-1 md:gap-2">
+        <ul className="flex gap-0 sm:gap-1 md:gap-2">
           {navItems.map((item) => {
             const isActive = pathname === item.href || 
               (item.href === '/projects' && pathname.startsWith('/projects'));
@@ -32,7 +32,7 @@ export default function Navigation() {
                 <Link
                   href={item.href}
                   className={cn(
-                    'relative px-3 py-2 text-sm font-medium transition-colors hover:text-primary md:px-4 md:text-base',
+                    'relative px-2 py-2 text-sm font-medium transition-colors hover:text-primary sm:px-3 md:px-4 md:text-base',
                     isActive ? 'text-foreground' : 'text-muted-foreground'
                   )}
                 >
