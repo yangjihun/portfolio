@@ -150,9 +150,10 @@ export const timelineItems: TimelineItem[] = [
   },
 ];
 
+/** 딥 틸 테마 기준: 프로그램은 테마색(teal), 공모전은 보색 포인트(amber), 리더십은 인접색(sky) */
 export const categoryStyle: Record<TimelineCategory, { label: string; badge: string; bar: string }> = {
-  contest: { label: '공모전', badge: 'bg-violet-100 text-violet-700', bar: 'bg-violet-400' },
-  program:   { label: '프로그램', badge: 'bg-blue-100 text-blue-700',   bar: 'bg-blue-400'   },
-  leadership:{ label: '리더십',  badge: 'bg-amber-100 text-amber-700', bar: 'bg-amber-400'  },
+  contest: { label: '공모전', badge: 'bg-amber-100 text-amber-800', bar: 'bg-amber-400' },
+  program:   { label: '프로그램', badge: 'bg-teal-100 text-teal-800',   bar: 'bg-teal-400'   },
+  leadership:{ label: '리더십',  badge: 'bg-sky-100 text-sky-800', bar: 'bg-sky-400'  },
   education: { label: '학력',    badge: 'bg-slate-100 text-slate-600', bar: 'bg-slate-400'  },
 };

@@ -64,7 +64,6 @@ export default function TimelinePage() {
                 key={item.id}
                 className="flex flex-col rounded-lg border border-border bg-muted/40 overflow-hidden transition-colors hover:border-primary/30 hover:bg-muted/70"
               >
-                <div className={`h-1 w-full ${style.bar}`} />
                 <div className="flex flex-1 flex-col p-5">
                   <div className="mb-3 flex flex-wrap items-center gap-2">
                     <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${style.badge}`}>
