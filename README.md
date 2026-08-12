@@ -45,6 +45,7 @@ src/
 콘텐츠는 모두 `src/data`의 정적 배열이 원본입니다.
 
 - `projects.ts` — 프로젝트. 목록·상세 페이지가 자동 생성되고, 카테고리 배지 스타일(`categoryStyle`)과 최신순 정렬(`projectsByRecency`)도 이 파일에서 파생됩니다.
+- `skills.ts` — 소개 페이지 기술 스택 원본. 스킬별 숙련도(1~5)와 활용 수준 설명을 관리합니다.
 - `timeline.ts` — 프로그램/해커톤/동아리 등 활동 원본.
 - `activities.ts` — 홈에 노출할 활동을 `timeline.ts`에서 id로 골라옵니다. 활동 내용 자체는 `timeline.ts`만 수정하면 됩니다.
 
@@ -60,6 +61,7 @@ src/
   name: '프로젝트 이름',
   title: '한 줄 설명',
   image: '/asset/project-slug.png',   // public/asset 아래에 파일 배치
+  images: ['/asset/project-slug-1.png'], // (선택) 상세 페이지 스크린샷 갤러리
   period: '2025.01 ~ 2025.02',
   role: 'Frontend Developer',
   category: 'frontend',
@@ -67,6 +69,12 @@ src/
   techTags: ['React', 'TypeScript'],
   highlights: ['특징 1', '특징 2'],
   responsibilities: ['역할 1', '역할 2'],
+  techReasons: [                       // (선택) 어떤 기술을 왜 사용했는지
+    { tech: 'React', reason: '선택 이유' }
+  ],
+  troubleshooting: [                   // (선택) 문제 인식 → 해결 방안 → 개선 성과
+    { title: '제목', problem: '문제 인식', solution: '해결 방안', result: '개선 성과' }
+  ],
   links: [
     { label: 'GitHub', href: 'https://github.com/...' }
   ]

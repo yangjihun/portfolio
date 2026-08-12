@@ -136,7 +136,7 @@ export default function HomePage() {
 
       {/* Featured Projects Section */}
       <section className="mb-32">
-        <SectionTitle subtitle="가장 깊게 파고든 대표 프로젝트 3개입니다">
+        <SectionTitle>
           주요 프로젝트
         </SectionTitle>
         <div className="grid items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">

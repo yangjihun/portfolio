@@ -16,13 +16,24 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   const category = categoryStyle[project.category];
   const activeLinks = project.links.filter((link) => link.href !== '#');
 
+  // 외부에서 상세 페이지로 바로 진입한 경우 back()이 사이트 밖으로 나가므로 목록으로 보낸다
+  const handleBack = () => {
+    const cameFromSite =
+      document.referrer.startsWith(window.location.origin) && window.history.length > 1;
+    if (cameFromSite) {
+      router.back();
+    } else {
+      router.push('/projects');
+    }
+  };
+
   return (
     <div className="container mx-auto max-w-4xl px-4 py-16">
       {/* Back Button */}
       <motion.button
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        onClick={() => router.back()}
+        onClick={handleBack}
         className="mb-8 flex items-center gap-2 text-muted-foreground transition-colors hover:text-primary"
       >
         <span className="text-xl">←</span>
@@ -117,6 +128,31 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         </motion.div>
       )}
 
+      {/* Screenshots */}
+      {project.images && project.images.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="mb-10 grid gap-4 sm:grid-cols-2"
+        >
+          {project.images.map((src, index) => (
+            <div
+              key={src}
+              className="relative aspect-[16/9] overflow-hidden rounded-xl border border-border bg-muted/30"
+            >
+              <Image
+                src={src}
+                alt={`${project.name} 스크린샷 ${index + 1}`}
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 384px"
+              />
+            </div>
+          ))}
+        </motion.div>
+      )}
+
       {/* Tech Stack */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -135,6 +171,23 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             </span>
           ))}
         </div>
+
+        {/* 기술 선택 이유 */}
+        {project.techReasons && project.techReasons.length > 0 && (
+          <div className="mt-6 space-y-3">
+            {project.techReasons.map((item) => (
+              <div
+                key={item.tech}
+                className="rounded-lg border border-border bg-muted/40 px-5 py-4"
+              >
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  <span className="mr-2 font-semibold text-foreground">{item.tech}</span>
+                  {item.reason}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
       </motion.section>
 
       {/* Highlights */}
@@ -207,13 +260,28 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 transition={{ delay: 0.5 + index * 0.08 }}
                 className="rounded-lg border border-border bg-muted/40 p-5"
               >
-                <h3 className="mb-2 flex items-start gap-2 font-semibold text-foreground">
+                <h3 className="mb-4 flex items-start gap-2 font-semibold text-foreground">
                   <Wrench className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
                   {item.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {item.body}
-                </p>
+                <dl className="space-y-3">
+                  {[
+                    { label: '문제 인식', text: item.problem },
+                    { label: '해결 방안', text: item.solution },
+                    { label: '개선 성과', text: item.result },
+                  ].map(({ label, text }) => (
+                    <div key={label} className="flex flex-col gap-1 sm:flex-row sm:gap-3">
+                      <dt className="shrink-0 sm:w-20">
+                        <span className="inline-block rounded bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+                          {label}
+                        </span>
+                      </dt>
+                      <dd className="flex-1 text-sm leading-relaxed text-muted-foreground">
+                        {text}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
               </motion.div>
             ))}
           </div>
