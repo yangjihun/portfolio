@@ -108,6 +108,15 @@ export const projects: Project[] = [
     ],
     troubleshooting: [
       {
+        title: '강의 썸네일 용량을 줄여 목록 페이지 로딩 속도 개선',
+        problem:
+          '내 강의실 페이지를 Lighthouse로 측정했을 때 LCP가 3.5초로 나타났고, Performance 점수도 81점에 머물렀습니다. 원인을 확인해 보니 녹화 영상에서 추출한 1280×720 PNG 이미지를 555×312 크기의 강의 카드에 그대로 사용하고 있었습니다. 썸네일 한 장의 크기가 0.5~1MB 정도였고, 강의가 많아질수록 내려받아야 하는 이미지도 함께 늘어나 페이지가 점점 느려졌습니다.',
+        solution:
+          '썸네일 URL이 요청마다 달라 Next.js 이미지 캐시를 활용하기 어려워 서버에서 이미지 자체를 줄이는 방식으로 변경했습니다. 원본 이미지를 화면 크기에 맞게 리사이즈하고 JPEG로 변환했으며, 변환한 이미지는 캐시해 이후 요청에서 다시 사용하도록 했습니다. 원본이 새로 생성되면 캐시도 함께 갱신되도록 처리하고, 첫 화면에 보이지 않는 썸네일은 지연 로딩하도록 변경했습니다.',
+        result:
+          'LCP를 3.5초에서 1.4초로 약 60% 줄여 권장 기준인 2.5초 이내로 개선했고, Lighthouse Performance 점수도 81점에서 96점으로 높였습니다. 썸네일 한 장의 용량은 0.5~1MB에서 수십 KB 수준으로 줄어 약 94%의 전송량을 줄였습니다. 기존 HMAC 서명 방식과 세션 구조는 그대로 유지했으며, 이미 생성된 강의도 별도의 변환 작업 없이 처음 조회될 때 자동으로 최적화되도록 구현했습니다.'
+      },
+      {
         title: '음소거 중에도 최근 5분의 음성 구간을 정확하게 유지하도록 개선',
         problem:
         '실시간 코칭에 활용하기 위해 강사의 최근 5분 음성을 서버 메모리에 링버퍼 형태로 저장했습니다. 처음에는 버퍼에 쌓인 오디오 데이터의 크기를 기준으로 최근 5분을 관리했지만, LiveKit에서는 음소거 상태일 때 오디오 프레임 자체가 전달되지 않았습니다. 이 때문에 음소거한 시간만큼 버퍼의 시간도 함께 멈추는 문제가 발생했습니다. 예를 들어 2분 동안 음소거하면 최근 5분을 조회했을 때 실제로는 최대 7분 전의 음성까지 포함될 수 있었습니다.',
@@ -177,49 +186,6 @@ export const projects: Project[] = [
       { label: 'GitHub (BE)', href: 'https://github.com/StudyPot/StudyPot_BE' }
     ]
   },
-  // {
-  //   id: 'netplus',
-  //   name: 'NetPlus',
-  //   title: '타임라인 기반 OTT 시청 보조 RAG 챗봇 서비스',
-  //   image: '/asset/netplus.png',
-  //   period: '2026.02',
-  //   role: 'Backend Developer',
-  //   category: 'backend',
-  //   summary:
-  //     '영상 시청 중 놓친 맥락을 현재 시점까지의 자막을 근거로 복원하고, 요약과 Q&A를 제공하는 타임라인 기반 시청 보조 챗봇입니다.',
-  //   techTags: [
-  //     'Python',
-  //     'FastAPI',
-  //     'SQLAlchemy',
-  //     'PostgreSQL',
-  //     'Redis',
-  //     'Docker Compose',
-  //     'Render',
-  //     'RAG'
-  //   ],
-  //   highlights: [
-  //     '시청 시간(current_time_ms) 기준으로 현재 시점까지만 근거를 검색해 스포일러를 구조적으로 차단했습니다.',
-  //     '질문 응답과 요약(20초, 1분, 3분)을 타임라인과 함께 제공해 근거 중심의 UX를 구성했습니다.',
-  //     '일상 질문과 작품 질문을 의도 분류해 RAG 응답과 일반 대화를 분리했습니다.',
-  //     '에피소드 선택 시 Redis 캐시 warmup을 수행하고, 채팅 히스토리 저장과 복원을 지원했습니다.',
-  //     '관리자 인제스트로 작품, 에피소드, 자막, 영상 URL, 썸네일을 등록할 수 있는 관리 API를 구성했습니다.'
-  //   ],
-  //   responsibilities: [
-  //     'FastAPI 기반으로 인증, 카탈로그, 인제스트, QA, 요약 API를 설계하고 프론트와 연동했습니다.',
-  //     '일상 질문과 작품 질문을 구분하는 의도 분류 로직을 서버에서 구성해 RAG 호출 여부를 분기했습니다.',
-  //     'Redis 캐시 키를 에피소드, 시점, 질문 해시 기준으로 설계하고 TTL 전략을 적용해 캐시 재사용률을 높였습니다.',
-  //     '스트리밍 QA 엔드포인트를 구성해 응답 대기 시간을 줄이고 사용자 체감 지연을 개선했습니다.',
-  //     'LangSmith로 retrieval 결과와 생성 응답을 추적해 품질 저하 케이스를 재현 가능하게 만들었습니다.',
-  //     '자막과 메타데이터 인제스트 API를 통해 RAG 대상 데이터를 표준 포맷으로 적재하고 관리할 수 있게 했습니다.',
-  //     '[S] RAG 응답이 평균 약 4초로 측정되어 성능 요구사항(3초대)을 만족하지 못했고, 답변 대기 시간이 길어 대화 흐름이 끊길 수 있었습니다.',
-  //     '[T] 스포일러 차단과 답변 품질을 유지하면서 응답 시간을 3초대 이하로 낮추고, 체감 대기 시간을 줄이는 것이 목표였습니다.',
-  //     '[A] 초기 MVP에서는 복잡도를 줄이기 위해 벡터DB를 제외했지만, PostgreSQL(pgvector) 기반 유사도 검색으로 retrieval 속도를 개선했고, Redis 캐시와 에피소드 warmup으로 반복 질의와 에피소드 단위 데이터를 재사용하도록 구성했습니다. 또한 스트리밍 QA 응답을 제공해 생성 과정의 대기 체감을 완화했습니다.',
-  //     '[R] 평균 응답 시간을 2~3초대로 개선해 요구사항을 충족했고, 스트리밍으로 첫 토큰 응답이 빨라져 사용자가 느끼는 지연과 이탈 가능성을 줄였습니다.'
-  //   ],
-  //   links: [
-  //     { label: 'GitHub', href: 'https://github.com/yangjihun/PrimerAI-Hackathon' }
-  //   ]
-  // },
   {
     id: 'studyroom-reservation',
     name: 'RE:MIT',
@@ -463,103 +429,6 @@ export const projects: Project[] = [
       { label: 'GitHub (BE)', href: 'https://github.com/yangjihun/DreamMap-be' }
     ]
   },
-  // {
-  //   id: 'xrpl-eyes',
-  //   name: 'XRPL EYES',
-  //   title: 'XRPL 기반 서비스들의 UAW 대시보드',
-  //   image: '/asset/xrpl.png',
-  //   period: '2025.06 ~ 2025.07',
-  //   role: 'Frontend Developer',
-  //   category: 'frontend',
-  //   summary:
-  //     'XRPL 기반 서비스들의 실시간 UAW(Unique Active Wallet) 지표와 공지·요약 정보를 한눈에 볼 수 있는 대시보드 웹앱입니다.',
-  //   techTags: [
-  //     'React 18',
-  //     'TypeScript',
-  //     'Vite',
-  //     'Tailwind CSS',
-  //     'Framer Motion',
-  //     'Recharts',
-  //     'Radix UI',
-  //     'React Router',
-  //     'Axios',
-  //     'MSW'
-  //   ],
-  //   highlights: [
-  //     'XRPL 프로젝트별 실시간/1h/1d/7d UAW 추이와 전체 합산 UAW를 차트로 시각화합니다.',
-  //     '프로젝트 리스트 테이블에서 증감률, 미니 스파크라인, 리뷰 레이블을 한 번에 확인할 수 있습니다.',
-  //     '프로젝트 상세 모달에서 UAW 추이 차트와 최신 공지/뉴스 요약을 함께 보여줍니다.'
-  //   ],
-  //   responsibilities: [
-  //     'UAW 차트, 프로젝트 리스트, 상세 모달/공지 카드를 포함한 대시보드 레이아웃을 설계하고 구현했습니다.',
-  //     'Recharts와 Tailwind를 이용해 다양한 기간별 UAW 데이터를 차트·스파크라인·테이블로 일관되게 보여주도록 구성했습니다.',
-  //     'MSW 기반 목 API 환경을 활용해 백엔드 준비 전에도 mock.html로 대시보드를 개발·테스트할 수 있도록 프론트엔드를 설계했습니다.'
-  //   ],
-  //   links: [
-  //     { label: 'GitHub', href: 'https://github.com/yangjihun/xrpl-eyes' }
-  //   ]
-  // },
-  // {
-  //   id: 'sume',
-  //   name: 'SuME',
-  //   title: '회의 음성 요약 및 캘린더 연동 서비스',
-  //   image: '/asset/sume.png',
-  //   period: '2025.01 ~ 2025.02',
-  //   role: 'Frontend Developer',
-  //   category: 'frontend',
-  //   summary:
-  //     '회의 음성을 STT로 텍스트화하고 LLM으로 요약해서 회의록을 만들고, 요약된 내용을 기반으로 캘린더 일정까지 자동 등록하는 회의 생산성 웹앱입니다.',
-  //   techTags: [
-  //     'React',
-  //     'Tailwind CSS',
-  //     'React Router',
-  //     'FullCalendar',
-  //     'Fetch API'
-  //   ],
-  //   highlights: [
-  //     '회의 음성을 업로드하면 STT 결과 텍스트와 LLM 요약 내용을 한 화면에서 확인할 수 있습니다.',
-  //     '요약된 내용에서 회의 제목·설명·시작/종료 시간을 추출해 캘린더 일정으로 자동 반영합니다.',
-  //     '로그인/회원가입을 통해 사용자별 회의와 일정을 분리 관리합니다.'
-  //   ],
-  //   responsibilities: [
-  //     '메인 페이지에서 녹음/업로드 영역, 요약 결과 영역, 타이머, 녹음 리스트 등을 포함한 전체 레이아웃을 설계하고 구현했습니다.',
-  //     'FullCalendar 기반 캘린더 및 일정 요약 화면, 로그인/회원가입 페이지, 인증이 필요한 라우트를 보호하는 ProtectedRoute를 구현했습니다.',
-  //     'API.js로 백엔드와의 통신 로직을 분리하고, Fetch 기반으로 STT·요약·일정 API를 연동했습니다.'
-  //   ],
-  //   links: [
-  //     { label: 'GitHub', href: 'https://github.com/yangjihun/SuME' }
-  //   ]
-  // },
-  // {
-  //   id: 'jobpt',
-  //   name: 'JOB.PT',
-  //   title: '논문·뉴스 트렌드 기반 직업/역량 추천 Streamlit 앱',
-  //   image: '/asset/jobpt.png',
-  //   period: '2024.11 ~ 2024.12',
-  //   role: 'LLM Engineer & Team Leader',
-  //   category: 'ai',
-  //   summary:
-  //     '입력한 관심 분야를 기반으로 RISS 논문·KBS/MBC/SBS 뉴스 트렌드를 수집/요약하고, LLM(Self-Consistency 3회 실행)으로 관련 직업 3개와 필요 역량을 추천하며 잡코리아 채용 링크까지 제공하는 진로 탐색 Streamlit 앱입니다.',
-  //   techTags: [
-  //     'Python',
-  //     'Streamlit',
-  //     'OpenAI API (gpt-4o-mini)'
-  //   ],
-  //   highlights: [
-  //     'RISS 논문 크롤링 + 방송사 뉴스 크롤링을 결합해 “최신 트렌드/사회 이슈”를 동시에 반영합니다.',
-  //     'LLM을 3회 독립 실행(Self-Consistency)한 뒤 결과를 투표/빈도 기반으로 집계해 상위 직업 3개를 선정합니다.',
-  //     '직업별 필요 역량을 함께 제시하고, 잡코리아 공고 링크로 바로 이어지는 리서치 플로우를 제공합니다.'
-  //   ],
-  //   responsibilities: [
-  //     'Self-Consistency 기반 추천 파이프라인을 설계/구현했습니다: 동일 입력에 대해 3회 생성 → 직업 후보 정규화(동의어/표기 통일) → 빈도/가중치 집계로 Top-3를 안정적으로 산출했습니다.',
-  //     'LLM 프롬프트를 구조화(필드 고정, 출력 포맷 강제)하여 “직업명/필요역량/근거 키워드”가 일관된 형태로 나오도록 만들고, 파싱 실패/누락을 줄이는 가드레일을 추가했습니다.',
-  //     '팀 리더로서 기능 분담(논문/뉴스/잡코리아 크롤러·UI·LLM 모듈), 일정 관리, 코드 리뷰 기준(모듈화/예외처리/상대경로 규칙) 정리 등 개발 프로세스를 주도했습니다.',
-  //     '크롤링 결과(txt)와 LLM 입력/출력 흐름을 연결해, 수집 데이터가 추천 결과에 자연스럽게 반영되도록 데이터 전처리(중복 제거, 핵심 키워드 요약)를 정리했습니다.'
-  //   ],
-  //   links: [
-  //     { label: 'GitHub', href: 'https://github.com/yangjihun/JOB.PT' }
-  //   ]
-  // }
 ];
 
 /** 시작일 기준 최신순. 배열 순서를 직접 관리하지 않아도 되도록 파생시킨다 */

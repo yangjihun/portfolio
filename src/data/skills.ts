@@ -33,30 +33,30 @@ export const skillGroups: SkillGroup[] = [
         name: 'React / Next.js',
         level: 4,
         usage:
-          'Next.js App Router 기반 서비스 2개(ZANI·Vibot)와 React SPA 3개에서 화면 설계, 공통 UI 컴포넌트, 퍼블리싱까지 프론트 전반을 구현',
+          'Next.js App Router 기반 서비스 2개와 React SPA 3개에서 주요 화면, 공통 UI 컴포넌트, 반응형 레이아웃 개발',
       },
       {
         name: 'TypeScript',
         level: 4,
         usage:
-          '전 프로젝트에 적용. OpenAPI 스키마 기반 타입 자동 생성으로 백엔드와의 API 계약을 코드로 관리',
+          '대부분의 프로젝트에 적용. OpenAPI 스키마 기반 API 타입 자동 생성으로 요청 및 응답 타입 관리',
       },
       {
         name: 'TanStack Query · Zustand',
         level: 4,
         usage:
-          '서버 상태와 UI·권한 상태의 관리 책임을 분리하는 구조를 3개 프로젝트(ZANI·Vibot·Loventure)에서 설계',
+          'TanStack Query를 활용한 API 데이터 및 캐시 관리, Zustand를 활용한 로그인, 권한, UI 상태 관리',
       },
       {
         name: 'Vue 3',
         level: 3,
         usage:
-          'FSD 아키텍처 기반 스터디 관리 플랫폼(StudyPot)의 FE 리드로 레이어 구조 설계와 핵심 화면 구현',
+          'FSD 구조를 적용한 스터디 관리 플랫폼의 프론트엔드 개발을 맡아 레이어 구조 구성 및 주요 화면 개발',
       },
       {
         name: 'Tailwind CSS',
         level: 4,
-        usage: '대부분의 프로젝트에서 반응형 레이아웃과 공통 컴포넌트 스타일 시스템을 구축',
+        usage: '다수 프로젝트에서 반응형 레이아웃 구현 및 반복 UI의 공통 스타일 구성',
       },
     ],
   },
@@ -67,27 +67,27 @@ export const skillGroups: SkillGroup[] = [
         name: 'Java / Spring Boot',
         level: 3,
         usage:
-          '실시간 오디오 파이프라인(링버퍼·인코딩·Whisper 전사 연동)과 리포트·챗봇 API를 구현(ZANI)',
+          '실시간 강의 서비스의 최근 5분 음성 링버퍼, MP3 변환, Whisper 전사 연동 및 리포트, 챗봇 API 개발',
       },
       {
         name: 'PHP / Laravel',
         level: 3,
-        usage: '학과 스터디룸 예약 시스템(RE:MIT)을 단독 구축해 실제 학과에서 운영·개선 중',
+        usage: '학과 스터디룸 예약 서비스의 회원가입, 인증, 예약, 관리자 기능 개발 및 실제 학과 서비스 운영',
       },
       {
         name: 'Node.js / Express',
         level: 3,
-        usage: '이력서 분석 서비스(DreamMap)의 CRUD API와 입력 검증·예외 처리 구현',
+        usage: '이력서 분석 서비스의 CRUD API, 입력값 검증 및 예외 처리 개발과 동아리 홈페이지의 회원 인증, 사용자 및 관리자 기능 개발',
       },
       {
         name: 'MySQL',
         level: 3,
-        usage: '예약 시스템(RE:MIT)과 강의 플랫폼(ZANI)의 스키마 설계와 운영',
+        usage: '스터디룸 예약 서비스와 실시간 강의 서비스의 DB 테이블 설계, 조회 및 데이터 저장 로직 구현',
       },
       {
         name: 'Python / FastAPI',
         level: 2,
-        usage: '해커톤에서 타임라인 기반 RAG 시청 보조 챗봇 API를 구현',
+        usage: '해커톤에서 영상의 특정 시점과 관련된 내용을 찾아 답변하는 타임라인 기반 RAG 챗봇 API 개발',
       },
       { name: 'Redis', level: 2 },
       { name: 'MongoDB', level: 2 },
