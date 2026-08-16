@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -11,10 +12,100 @@ interface ProjectDetailProps {
   project: Project;
 }
 
+const EMPHASIS_KEYWORDS = [
+  'Git 컨벤션',
+  'DDD 경계',
+  'MediaPipe',
+  'ONNX',
+  '참여도',
+  '익명 집계',
+  '실시간 팁',
+  'LiveKit Egress WebSocket',
+  '링버퍼',
+  '16kHz',
+  'Whisper 전사',
+  '무음 패딩',
+  '락 점유 시간',
+  '토큰 효율',
+  '리포트 질의응답 챗봇',
+  '전사 시간창',
+  '짧게 유효한 URL',
+  'OpenAPI 타입 자동 생성',
+  'FSD',
+  'Feature-Sliced Design',
+  'MSW',
+  'API 타입',
+  '목 핸들러',
+  'ESLint/Prettier',
+  '쿠키 세션 인증',
+  '온보딩',
+  'AI 팀장',
+  '그룹 생성',
+  '초대 코드',
+  '운영 로그',
+  '학과생 이메일',
+  'Google SMTP',
+  '스터디룸 예약',
+  '열쇠함 접근 정보',
+  '관리자 페이지',
+  'base64 이미지',
+  '인라인 SVG',
+  'CSRF',
+  'Axios 인터셉터',
+  'Spring Security',
+  'Swagger UI',
+  'DataTable',
+  '파일 업로드',
+  'URL 등록',
+  'TanStack Query',
+  'Zustand',
+  'Sentry',
+  'AI 기반 데이트 코스',
+  'Mapbox',
+  '지역락',
+  '다이어리',
+  '라우팅 가드',
+  'React + Vite + TypeScript + Tailwind',
+  'Node.js',
+  'Azure Document Intelligence',
+  'Gemini',
+  'Redux Toolkit',
+  'Axios 인터셉터',
+  '401 응답 공통 처리',
+  'Resume CRUD API',
+];
+
+const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const renderHighlightedText = (text: string, keywords: string[]): ReactNode[] => {
+  const uniqueKeywords = [...new Set(keywords.filter(Boolean))].sort(
+    (a, b) => b.length - a.length
+  );
+  const keywordPattern = uniqueKeywords.map(escapeRegExp).join('|');
+  const metricPattern = String.raw`\d+(?:\.\d+)?(?:초|ms|KB|MB|%|개|시간|분)|\d{2,4}×\d{2,4}`;
+  const pattern = keywordPattern
+    ? new RegExp(`(${keywordPattern}|${metricPattern})`, 'g')
+    : new RegExp(`(${metricPattern})`, 'g');
+  const testPattern = keywordPattern
+    ? new RegExp(`^(${keywordPattern}|${metricPattern})$`)
+    : new RegExp(`^(${metricPattern})$`);
+
+  return text.split(pattern).map((part, index) =>
+    part && testPattern.test(part) ? (
+      <strong key={`${part}-${index}`} className="font-semibold text-foreground">
+        {part}
+      </strong>
+    ) : (
+      part
+    )
+  );
+};
+
 export default function ProjectDetail({ project }: ProjectDetailProps) {
   const router = useRouter();
   const category = categoryStyle[project.category];
   const activeLinks = project.links.filter((link) => link.href !== '#');
+  const emphasisKeywords = [...project.techTags, project.name, ...EMPHASIS_KEYWORDS];
 
   // 외부에서 상세 페이지로 바로 진입한 경우 back()이 사이트 밖으로 나가므로 목록으로 보낸다
   const handleBack = () => {
@@ -209,7 +300,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             >
               <span className="mt-1 text-primary">▸</span>
               <span className="flex-1 leading-relaxed text-foreground">
-                {highlight}
+                {renderHighlightedText(highlight, emphasisKeywords)}
               </span>
             </motion.li>
           ))}
@@ -235,7 +326,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             >
               <span className="mt-1 text-primary">•</span>
               <span className="flex-1 leading-relaxed text-foreground">
-                {responsibility}
+                {renderHighlightedText(responsibility, emphasisKeywords)}
               </span>
             </motion.li>
           ))}
@@ -277,7 +368,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                         </span>
                       </dt>
                       <dd className="flex-1 text-sm leading-relaxed text-muted-foreground">
-                        {text}
+                        {renderHighlightedText(text, emphasisKeywords)}
                       </dd>
                     </div>
                   ))}
