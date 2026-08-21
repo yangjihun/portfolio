@@ -75,7 +75,7 @@ export default function FeaturedProjectCard({
               <span>{project.role}</span>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex min-h-[3.75rem] flex-wrap content-start gap-2">
               {project.techTags.slice(0, 4).map((tag) => (
                 <span
                   key={tag}

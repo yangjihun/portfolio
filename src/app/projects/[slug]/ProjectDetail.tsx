@@ -1,12 +1,13 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Lock, Trophy, Wrench } from 'lucide-react';
+import { ChevronDown, Lock, Trophy, Wrench } from 'lucide-react';
 import { categoryStyle, type Project } from '@/data/projects';
+import type { ResponsibilityToggle } from '@/data/projects';
 
 interface ProjectDetailProps {
   project: Project;
@@ -77,7 +78,11 @@ const EMPHASIS_KEYWORDS = [
 
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-const renderHighlightedText = (text: string, keywords: string[]): ReactNode[] => {
+const renderHighlightedText = (
+  text: string,
+  keywords: string[],
+  highlightClassName = 'font-semibold text-foreground'
+): ReactNode[] => {
   const uniqueKeywords = [...new Set(keywords.filter(Boolean))].sort(
     (a, b) => b.length - a.length
   );
@@ -92,7 +97,7 @@ const renderHighlightedText = (text: string, keywords: string[]): ReactNode[] =>
 
   return text.split(pattern).map((part, index) =>
     part && testPattern.test(part) ? (
-      <strong key={`${part}-${index}`} className="font-semibold text-foreground">
+      <strong key={`${part}-${index}`} className={highlightClassName}>
         {part}
       </strong>
     ) : (
@@ -101,11 +106,70 @@ const renderHighlightedText = (text: string, keywords: string[]): ReactNode[] =>
   );
 };
 
+/** 담당 역할 그룹 토글. 제목만 보이다가 클릭하면 하위 항목이 펼쳐진다 */
+function ResponsibilityGroupToggle({
+  group,
+  keywords,
+}: {
+  group: ResponsibilityToggle;
+  keywords: string[];
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-expanded={open}
+        className="flex w-full items-center justify-between gap-2 text-left"
+      >
+        <h3 className="font-semibold text-lg">{group.title}</h3>
+        <ChevronDown
+          className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform ${
+            open ? 'rotate-180' : ''
+          }`}
+          aria-hidden
+        />
+      </button>
+      {open && (
+        <ul className="mt-2 space-y-1.5">
+          {group.items.map((item) => (
+            <li key={item.title} className="flex gap-3 text-sm leading-relaxed text-muted-foreground">
+              <span className="mt-1 text-primary">▸</span>
+              <span className="flex-1">
+                <span className="font-semibold text-foreground">{item.title}</span>
+                {' — '}
+                {renderHighlightedText(item.detail, keywords)}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 export default function ProjectDetail({ project }: ProjectDetailProps) {
   const router = useRouter();
   const category = categoryStyle[project.category];
   const activeLinks = project.links.filter((link) => link.href !== '#');
   const emphasisKeywords = [...project.techTags, project.name, ...EMPHASIS_KEYWORDS];
+
+  // 퀵 네비가 상단 nav(64px) 아래에 sticky로 붙는 순간을 감지해 상단 rounded를 없앤다
+  const [navStuck, setNavStuck] = useState(false);
+  const navSentinelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const sentinel = navSentinelRef.current;
+    if (!sentinel) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setNavStuck(!entry.isIntersecting),
+      { rootMargin: '-65px 0px 0px 0px', threshold: 0 }
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, []);
 
   // 외부에서 상세 페이지로 바로 진입한 경우 back()이 사이트 밖으로 나가므로 목록으로 보낸다
   const handleBack = () => {
@@ -162,6 +226,34 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         <p className="text-xl leading-relaxed text-foreground">
           {project.summary}
         </p>
+      </motion.div>
+
+      {/* Quick nav: 채용 담당자가 원하는 섹션으로 바로 이동할 수 있게. 스크롤해도 계속 보이도록 sticky */}
+      <div ref={navSentinelRef} />
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05 }}
+        className={`sticky top-16 z-40 mb-12 flex flex-wrap gap-2 rounded-b-lg border border-border bg-background/90 px-4 py-3 backdrop-blur-sm transition-[border-radius] duration-200 ${
+          navStuck ? '' : 'rounded-t-lg'
+        }`}
+      >
+        {[
+          { id: 'tech-stack', label: '사용 기술' },
+          { id: 'highlights', label: '주요 기능' },
+          { id: 'responsibilities', label: '담당 역할' },
+          ...(project.troubleshooting && project.troubleshooting.length > 0
+            ? [{ id: 'troubleshooting', label: '트러블슈팅' }]
+            : []),
+        ].map((section) => (
+          <a
+            key={section.id}
+            href={`#${section.id}`}
+            className="rounded-full border border-border px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
+          >
+            {section.label}
+          </a>
+        ))}
       </motion.div>
 
       {/* Links */}
@@ -246,10 +338,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
       {/* Tech Stack */}
       <motion.section
+        id="tech-stack"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="mb-12"
+        className="mb-12 scroll-mt-32"
       >
         <h2 className="mb-6 text-2xl font-bold">사용 기술</h2>
         <div className="flex flex-wrap gap-3">
@@ -283,13 +376,14 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
       {/* Highlights */}
       <motion.section
+        id="highlights"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="mb-12"
+        className="mb-12 scroll-mt-32"
       >
         <h2 className="mb-6 text-2xl font-bold">주요 기능</h2>
-        <ul className="space-y-4">
+        <ul className="space-y-4 rounded-lg border border-border bg-muted/40 p-6">
           {project.highlights.map((highlight, index) => (
             <motion.li
               key={highlight}
@@ -309,37 +403,50 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
       {/* Responsibilities */}
       <motion.section
+        id="responsibilities"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="mb-12"
+        className="mb-12 scroll-mt-32"
       >
         <h2 className="mb-6 text-2xl font-bold">담당 역할</h2>
-        <ul className="space-y-4">
-          {project.responsibilities.map((responsibility, index) => (
-            <motion.li
-              key={responsibility}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 + index * 0.1 }}
-              className="flex gap-3"
-            >
-              <span className="mt-1 text-primary">•</span>
-              <span className="flex-1 leading-relaxed text-foreground">
-                {renderHighlightedText(responsibility, emphasisKeywords)}
-              </span>
-            </motion.li>
-          ))}
+        <ul className="space-y-6 rounded-lg border border-border bg-muted/40 p-6">
+          {project.responsibilities.map((responsibility, index) =>
+            typeof responsibility === 'string' ? (
+              <motion.li
+                key={responsibility}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 + index * 0.1 }}
+                className="flex gap-3"
+              >
+                <span className="mt-1 text-primary">•</span>
+                <span className="flex-1 leading-relaxed text-foreground">
+                  {renderHighlightedText(responsibility, emphasisKeywords)}
+                </span>
+              </motion.li>
+            ) : (
+              <motion.li
+                key={responsibility.title}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 + index * 0.1 }}
+              >
+                <ResponsibilityGroupToggle group={responsibility} keywords={emphasisKeywords} />
+              </motion.li>
+            )
+          )}
         </ul>
       </motion.section>
 
       {/* Troubleshooting */}
       {project.troubleshooting && project.troubleshooting.length > 0 && (
         <motion.section
+          id="troubleshooting"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="mb-12"
+          className="mb-12 scroll-mt-32"
         >
           <h2 className="mb-6 text-2xl font-bold">트러블슈팅</h2>
           <div className="space-y-4">
@@ -351,7 +458,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 transition={{ delay: 0.5 + index * 0.08 }}
                 className="rounded-lg border border-border bg-muted/40 p-5"
               >
-                <h3 className="mb-4 flex items-start gap-2 font-semibold text-foreground">
+                <h3 className="mb-4 flex items-start gap-2 font-semibold text-lg">
                   <Wrench className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
                   {item.title}
                 </h3>

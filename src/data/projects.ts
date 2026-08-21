@@ -19,6 +19,17 @@ export interface TechReason {
   reason: string;
 }
 
+/** 담당 역할 안에 하위 항목을 토글로 묶어 보여줄 때 사용 (토글 안에 토글) */
+export interface ResponsibilityToggleItem {
+  title: string;  // 접힌 상태에서 보이는 요약 라벨
+  detail: string; // 펼쳤을 때 보이는 상세 문장
+}
+
+export interface ResponsibilityToggle {
+  title: string; // 바깥 토글의 제목
+  items: ResponsibilityToggleItem[]; // 안쪽 토글들
+}
+
 export interface Project {
   id: string;            // slug / route key
   name: string;
@@ -31,7 +42,7 @@ export interface Project {
   techTags: string[];    // short tech stack tags
   category: TechCategory; // main category
   highlights: string[];  // what this project does / 특징
-  responsibilities: string[]; // what I specifically did
+  responsibilities: (string | ResponsibilityToggle)[]; // what I specifically did
   links: ProjectLink[];  // GitHub, Demo, etc. can be "#" placeholder if unknown
   award?: string;         // 수상 내역
   notice?: string;        // 저장소 비공개 사유 등 안내 문구
@@ -61,9 +72,10 @@ export const projects: Project[] = [
   {
     id: 'zani',
     name: 'ZANI',
-    title: '학생 집중도를 실시간으로 분석하고 맞춤 리포트를 만들어 주는 AI 강의 플랫폼',
+    title: '학생 집중도를 실시간으로 분석하고 맞춤 리포트를 제공하는 AI 강의 플랫폼',
     image: '/asset/zani.png',
     period: '2026.07 ~ 2026.08',
+    award: '삼성 청년 SW·AI 아카데미 2학기 공통 프로젝트 최우수상',
     role: 'Fullstack Developer',
     category: 'fullstack',
     summary:
@@ -80,17 +92,77 @@ export const projects: Project[] = [
     ],
     notice: '대외비 정책에 따라 저장소와 상세 코드는 공개하지 않습니다.',
     highlights: [
-      'MR을 올리면 Git 컨벤션과 DDD 경계를 자동으로 검사하는, 리뷰가 자동화된 환경에서 협업했습니다.',
-      '학생 카메라 영상은 서버로 보내지 않고 브라우저에서 MediaPipe와 ONNX로 참여도를 판정합니다. 집중이 떨어진 학생 비율이 익명 집계 기준 30%를 넘으면, 그 시점 강사 발화를 전사해 어떤 내용을 다시 설명하면 좋을지 실시간 팁으로 전달합니다.',
-      '강사의 카메라·마이크·화면공유와 학생 마이크를 트랙별로 나눠 녹화하고, 누가 말했는지 구분한 전사를 만듭니다. 수업이 끝나면 강사는 구간별 참여도와 개선 피드백을, 학생은 놓친 구간의 복습 클립과 이해도 퀴즈를 받아볼 수 있습니다.',
-      '리포트를 읽다가 궁금한 문장을 드래그하면, 그 시간대 수업 내용을 근거로 답해 주는 챗봇에 바로 질문할 수 있습니다.',
+      '학생 카메라 영상을 기반으로 수업 참여도를 판정',
+      '집중이 떨어진 학생 비율이 집계 기준을 넘으면, 그 시점 강사 발화를 전사해 어떤 내용을 다시 설명하면 좋을지 실시간 팁 제공.',
+      '수업이 끝나면 강사는 구간별 참여도와 개선 피드백을, 학생은 놓친 구간의 복습 클립과 이해도 퀴즈를 제공',
+      '요약 리포트에서 궁금한 문장을 드래그하면 챗봇이 그 시간대 수업 내용을 근거로 답변을 제공',
     ],
     responsibilities: [
-      '팀 협업 자동화를 직접 만들었습니다. 브랜치명을 읽어 커밋에 티켓 번호를 자동으로 넣고 컨벤션을 검사하는 훅을 구축했고, 지라 이슈 상태 자동화와 JQL로 매일 아침 작업자별 할 일을 공지하는 봇도 만들었습니다.',
-      '강사 음성을 LiveKit Egress WebSocket으로 받아 세션마다 최근 300초를 링버퍼에 쌓아 두고, 코칭이 트리거되면 그 구간만 16kHz로 다운샘플해 MP3로 인코딩한 뒤 Whisper 전사로 넘기는 실시간 오디오 파이프라인을 구현했습니다.',
-      '리포트 질의응답 챗봇을 만들었습니다. 드래그 위치를 전사 시간창으로 바꿔 답변 근거를 주입하는 API에 익명화와 빈도 제한, 토큰 사용량 로깅을 더했고, 드래그 후 질문할 수 있는 채팅 드로어와 인용 구간으로 바로 이동하는 UI까지 구현했습니다.',
-      '학생·강사 리포트 API와 리포트 플레이어(화자별 전사 타임라인, 복습 클립, 구간 이동)를 만들었습니다. 녹화 영상은 권한을 확인한 뒤 짧게 유효한 URL로 서빙해 무단 접근을 막았습니다.',
-      '프론트엔드 초기 세팅을 맡아 Next.js에 DDD 4계층 구조를 잡고 Vitest, TanStack Query·Zustand, OpenAPI 타입 자동 생성을 구성했습니다. 12개 전체 화면 퍼블리싱과 공통 UI 컴포넌트도 담당했습니다.',
+      {
+        title: '팀 협업 자동화 구축',
+        items: [
+          {
+            title: '브랜치명 기반 커밋 자동화 훅',
+            detail: '브랜치명을 읽어 커밋에 티켓 번호를 자동으로 넣고 컨벤션을 검사하는 훅 구축',
+          },
+          {
+            title: '지라 자동화 봇',
+            detail: '지라 이슈 상태 자동화와 JQL로 매일 아침 작업자별 할 일을 공지하는 봇 구현',
+          },
+        ],
+      },
+      {
+        title: '실시간 오디오 파이프라인 구현',
+        items: [
+          {
+            title: '오디오 링버퍼 수집',
+            detail: '강사 음성을 LiveKit Egress WebSocket으로 받아 세션마다 최근 300초를 링버퍼에 저장',
+          },
+          {
+            title: '다운샘플·전사 연동',
+            detail: '코칭이 트리거되면 그 구간만 16kHz로 다운샘플해 MP3로 인코딩한 뒤 Whisper 전사로 넘기는 파이프라인 구현',
+          },
+        ],
+      },
+      {
+        title: '리포트 질의응답 챗봇 구현',
+        items: [
+          {
+            title: '답변 근거 주입 API',
+            detail: '드래그 위치를 전사 시간창으로 바꿔 답변 근거를 주입하는 API에 익명화와 빈도 제한, 토큰 사용량 로깅 추가',
+          },
+          {
+            title: '채팅 드로어 UI',
+            detail: '드래그 후 질문할 수 있는 채팅 드로어와 인용 구간으로 바로 이동하는 UI까지 구현',
+          },
+        ],
+      },
+      {
+        title: '리포트 API·플레이어 구현',
+        items: [
+          {
+            title: '리포트 API·플레이어',
+            detail: '학생·강사 리포트 API와 리포트 플레이어(화자별 전사 타임라인, 복습 클립, 구간 이동) 구현',
+          },
+          {
+            title: '영상 접근 제어',
+            detail: '녹화 영상은 권한을 확인한 뒤 짧게 유효한 URL로 서빙해 무단 접근 차단',
+          },
+        ],
+      },
+      {
+        title: '프론트엔드 초기 세팅 및 퍼블리싱',
+        items: [
+          {
+            title: '프론트엔드 아키텍처 세팅',
+            detail: 'Next.js에 DDD 4계층 구조를 잡고 Vitest, TanStack Query·Zustand, OpenAPI 타입 자동 생성 구성',
+          },
+          {
+            title: '화면 퍼블리싱',
+            detail: '12개 전체 화면 퍼블리싱과 공통 UI 컴포넌트 담당',
+          },
+        ],
+      },
     ],
     techReasons: [
       {
@@ -141,7 +213,7 @@ export const projects: Project[] = [
     period: '2026.05 ~ 2026.06',
     role: 'Frontend Lead (기획 · FE 설계)',
     category: 'frontend',
-    award: '삼성 청년 SW·AI 아카데미(SSAFY) 1학기 프로젝트 최우수상',
+    award: '삼성 청년 SW·AI 아카데미 1학기 관통 프로젝트 최우수상',
     summary:
       '스터디장에게 몰리는 운영 부담과 팀원 간 의사결정·합의 병목을 줄이기 위해, AI 팀장이 커리큘럼·회고·규칙 운영을 대신 챙겨주는 스터디 관리 플랫폼입니다.',
     techTags: [
@@ -160,11 +232,69 @@ export const projects: Project[] = [
       'FSD(pages/entities/features/shared/widgets) 레이어로 도메인 경계를 설계해 팀원 간 작업 충돌을 줄였습니다.',
     ],
     responsibilities: [
-      '프론트엔드 리드로 FE 구조 설계와 구현을 담당했습니다.',
-      '미구현 도메인의 API 타입·함수·MSW 핸들러를 먼저 정리해 BE 연동 전에 UI와 로직 개발을 완주했고, 전체 개발 기간을 약 30% 단축했습니다.',
-      'FSD 아키텍처의 레이어 구조를 설계하고 팀 전체 컨벤션으로 적용했습니다.',
-      'ESLint/Prettier, PR·이슈 템플릿, 코드·커밋 컨벤션을 문서화하여 협업 방식을 표준화했습니다.',
-      '쿠키 세션 인증, 그룹 생성·초대 코드 참여, 온보딩, 커리큘럼 투두, 회고·AI 팀장, 알림·운영 로그, 그룹 스페이스 등 핵심 화면을 구현했습니다.',
+      {
+        title: 'FE 구조·컨벤션 설계',
+        items: [
+          {
+            title: 'FE 구조 설계·구현 총괄',
+            detail: '프론트엔드 리드로 FE 구조 설계와 구현 담당',
+          },
+          {
+            title: 'FSD 레이어 구조 설계·적용',
+            detail: 'FSD 아키텍처의 레이어 구조 설계 및 팀 전체 컨벤션 적용',
+          },
+          {
+            title: '협업 컨벤션 문서화',
+            detail: 'ESLint/Prettier, PR·이슈 템플릿, 코드·커밋 컨벤션을 문서화해 협업 방식 표준화',
+          },
+        ],
+      },
+      {
+        title: 'MSW 기반 선행 개발로 일정 단축',
+        items: [
+          {
+            title: 'MSW 기반 선행 개발',
+            detail: '미구현 도메인의 API 타입·함수·MSW 핸들러를 먼저 정리해 BE 연동 전에 UI와 로직 개발 완주',
+          },
+          {
+            title: '개발 기간 단축 성과',
+            detail: '이 선행 작업으로 전체 개발 기간 약 30% 단축',
+          },
+        ],
+      },
+      {
+        title: '핵심 화면 구현',
+        items: [
+          {
+            title: '쿠키 세션 인증',
+            detail: '쿠키 세션 인증 화면 구현',
+          },
+          {
+            title: '그룹 생성·초대 코드 참여',
+            detail: '그룹 생성과 초대 코드 참여 화면 구현',
+          },
+          {
+            title: '온보딩',
+            detail: '온보딩 화면 구현',
+          },
+          {
+            title: '커리큘럼 투두',
+            detail: '커리큘럼 투두 화면 구현',
+          },
+          {
+            title: '회고·AI 팀장',
+            detail: '회고와 AI 팀장 화면 구현',
+          },
+          {
+            title: '알림·운영 로그',
+            detail: '알림과 운영 로그 화면 구현',
+          },
+          {
+            title: '그룹 스페이스',
+            detail: '그룹 스페이스 화면 구현',
+          },
+        ],
+      },
     ],
     techReasons: [
       {
@@ -195,8 +325,9 @@ export const projects: Project[] = [
     techTags: [
       'PHP',
       'Laravel',
-      'Blade',
+      'Microsoft Clarity',
       'MySQL',
+      'Blade',
       'Google SMTP',
       'Gabia',
     ],
@@ -205,20 +336,75 @@ export const projects: Project[] = [
       '스터디룸 예약 생성·조회, 그룹 예약, 최대 4시간 예약 제한, 진행 중 예약 표시를 제공합니다.',
       '예약자에게만 열쇠함 접근 정보를 제공하고, 노출 시간을 10분으로 제한했습니다.',
       '유저·예약·알림·페널티를 관리하는 관리자 페이지와 페널티 가이드라인·알림을 운영합니다.',
+      '자체 관리자 통계와 Microsoft Clarity를 결합해 실제 예약 지표와 사용자 행동을 함께 확인하는 운영 모니터링 체계를 구축했습니다.',
       '기능 개선하기 버튼을 통해 사용자 피드백을 반영하고 기능을 지속적으로 개선하고 있습니다.'
     ],
     responsibilities: [
-      'PM 겸 풀스택 개발자로 교수님과 이용 기준·물품 관리 수칙을 협의해 정의하고, 학과생 전용 인증 절차를 구현했습니다.',
-      '예약·관리자·알림 기능을 구현했습니다.',
-      '대면과 상주 인력에 의존하던 운영 방식을 디지털로 전환해 학과의 관리 자원 부담을 줄였습니다.',
-      '비대해진 뷰의 유지보수성을 높이기 위해 리팩토링 범위를 정하고, base64 이미지와 인라인 SVG를 분리해 핵심 파일 크기를 82.7KB에서 8.3KB로 약 90% 줄였습니다.',
-      '예약 중복, 인증되지 않은 접근, 비정상 요청에 대한 처리 로직을 QA 관점에서 점검·보완하고 운영 시나리오 기반으로 안정화했습니다.',
-      '배포 이후 접수된 사용자 문의와 개선 요청을 수집·분석해 실제 이용 환경에 맞게 기능을 개선하고 있습니다.'
+      {
+        title: '이용 기준 협의 및 인증 절차 구현',
+        items: [
+          {
+            title: '이용 기준·물품 관리 수칙 협의',
+            detail: 'PM 겸 풀스택 개발자로 교수님과 이용 기준·물품 관리 수칙 협의 및 정의',
+          },
+          {
+            title: '학과생 전용 인증 절차 구현',
+            detail: '학과생 전용 인증 절차 구현',
+          },
+        ],
+      },
+      {
+        title: '기능 구현 및 안정화',
+        items: [
+          {
+            title: '예약·관리자·알림 기능 구현',
+            detail: '예약·관리자·알림 기능 구현',
+          },
+          {
+            title: 'QA 기반 예외 처리 안정화',
+            detail: '예약 중복, 인증되지 않은 접근, 비정상 요청에 대한 처리 로직을 QA 관점에서 점검·보완, 운영 시나리오 기반으로 안정화',
+          },
+        ],
+      },
+      {
+        title: '뷰 리팩토링으로 파일 크기 개선',
+        items: [
+          {
+            title: '리팩토링 범위 설정',
+            detail: '비대해진 뷰의 유지보수성을 높이기 위한 리팩토링 범위 설정',
+          },
+          {
+            title: '이미지·SVG 분리 성과',
+            detail: 'base64 이미지와 인라인 SVG를 분리해 핵심 파일 크기를 82.7KB에서 8.3KB로 약 90% 감소',
+          },
+        ],
+      },
+      {
+        title: '서비스 운영·개선',
+        items: [
+          {
+            title: '운영 방식 디지털 전환',
+            detail: '대면과 상주 인력에 의존하던 운영 방식을 디지털로 전환해 학과의 관리 자원 부담 감소',
+          },
+          {
+            title: '사용자 피드백 기반 개선',
+            detail: '배포 이후 접수된 사용자 문의와 개선 요청을 수집·분석해 실제 이용 환경에 맞게 기능 개선 중',
+          },
+          {
+            title: '운영 모니터링 체계 구축',
+            detail: '회원·예약·취소·재이용 지표를 제공하는 자체 관리자 통계와 Clarity의 히트맵·세션 기록을 함께 구성하고, 운영 환경에서만 수집되도록 분리해 민감 정보 마스킹 적용',
+          },
+        ],
+      },
     ],
     techReasons: [
       {
         tech: 'Google SMTP',
         reason: '"학과생만 이용 가능해야 한다"는 요구사항을 학과생 이메일 인증(회원가입·비밀번호 찾기)으로 구현하기 위해 도입했습니다.',
+      },
+      {
+        tech: 'Microsoft Clarity',
+        reason: '자체 통계는 실제 회원·예약 KPI를, Clarity는 클릭·스크롤·이탈 흐름을 담당하도록 분석 목적을 분리했습니다. 운영 환경에서만 추적하고 민감 정보는 마스킹해 서비스 개선에 필요한 행동 데이터만 확인하도록 구성했습니다.',
       },
     ],
     troubleshooting: [
@@ -275,11 +461,36 @@ export const projects: Project[] = [
       '쿠키 기반 인증 환경에서 CSRF에 대응하고, Sentry로 운영 중 발생하는 런타임 에러를 추적합니다.'
     ],
     responsibilities: [
-      '프론트엔드 개발 팀장으로 관리자 페이지 화면 설계와 데이터 관리 핵심 기능 구현을 담당했습니다.',
-      'DataTable 기반 목록, 상세 모달, 파일 업로드·URL 등록 플로우 UI를 구현했습니다.',
-      '서버 상태는 TanStack Query, UI·권한 상태는 Zustand로 분리해 상태 관리 책임을 나눴습니다.',
-      'Axios 인스턴스를 구성하고 인증 쿠키 전송을 전제로 한 API 통신 레이어를 정리했습니다.',
-      'Sentry를 도입해 운영 환경의 런타임 에러를 추적할 수 있는 기반을 마련했습니다.'
+      {
+        title: '관리자 페이지 설계·구현',
+        items: [
+          {
+            title: '관리자 페이지 설계·구현 총괄',
+            detail: '프론트엔드 개발 팀장으로 관리자 페이지 화면 설계와 데이터 관리 핵심 기능 구현 담당',
+          },
+          {
+            title: '데이터 관리 UI 구현',
+            detail: 'DataTable 기반 목록, 상세 모달, 파일 업로드·URL 등록 플로우 UI 구현',
+          },
+        ],
+      },
+      {
+        title: '프론트엔드 인프라 구성',
+        items: [
+          {
+            title: '상태 관리 책임 분리',
+            detail: '서버 상태는 TanStack Query, UI·권한 상태는 Zustand로 나눠 상태 관리 책임 분리',
+          },
+          {
+            title: 'API 통신 레이어 정리',
+            detail: 'Axios 인스턴스 구성 및 인증 쿠키 전송을 전제로 한 API 통신 레이어 정리',
+          },
+          {
+            title: 'Sentry 기반 에러 추적 도입',
+            detail: 'Sentry를 도입해 운영 환경의 런타임 에러 추적 기반 마련',
+          },
+        ],
+      },
     ],
     techReasons: [
       {
@@ -333,9 +544,40 @@ export const projects: Project[] = [
       '커플 룸·커플 매칭, 서울 25개 구를 단계적으로 해금하는 지역락, 다녀온 코스를 기록하는 다이어리까지 하나의 플로우로 제공합니다.'
     ],
     responsibilities: [
-      'Feature-Sliced Design(FSD) 기반으로 auth, course, diary, mapbox, mypage 등 기능별 모듈 구조를 설계하고 구현했습니다.',
-      'Zustand + TanStack Query 조합으로 권한 단계(ONBOARDING_REQUIRED, COUPLE_MATCHING_REQUIRED, ROCK_REQUIRED, COMPLETED)에 따른 라우팅 가드와 상태 플로우를 구성했습니다.',
-      'Mapbox 연동, 코스 추천·저장·다이어리 작성/댓글/마이페이지 등 주요 화면과 UX를 모두 프론트엔드에서 구현했습니다.'
+      {
+        title: '프론트엔드 아키텍처 설계',
+        items: [
+          {
+            title: 'FSD 기반 모듈 구조 설계',
+            detail: 'Feature-Sliced Design(FSD) 기반으로 auth, course, diary, mapbox, mypage 등 기능별 모듈 구조 설계 및 구현',
+          },
+          {
+            title: '권한 단계별 라우팅 가드 구성',
+            detail: 'Zustand + TanStack Query 조합으로 권한 단계(ONBOARDING_REQUIRED, COUPLE_MATCHING_REQUIRED, ROCK_REQUIRED, COMPLETED)에 따른 라우팅 가드와 상태 플로우 구성',
+          },
+        ],
+      },
+      {
+        title: '주요 화면·UX 구현',
+        items: [
+          {
+            title: 'Mapbox 연동',
+            detail: 'Mapbox 연동 구현',
+          },
+          {
+            title: '코스 추천·저장',
+            detail: '코스 추천·저장 화면 구현',
+          },
+          {
+            title: '다이어리 작성·댓글',
+            detail: '다이어리 작성/댓글 화면 구현',
+          },
+          {
+            title: '마이페이지',
+            detail: '마이페이지 화면 구현',
+          },
+        ],
+      },
     ],
     techReasons: [
       {
@@ -377,9 +619,32 @@ export const projects: Project[] = [
       'Node.js 기반 API로 동아리 관련 데이터를 관리할 수 있는 풀스택 구조를 설계했습니다.'
     ],
     responsibilities: [
-      '동아리장으로서 사이트 정보 구조와 콘텐츠를 기획하고, React + Vite + TypeScript + Tailwind 기반 프론트엔드를 구축했습니다.',
-      'Node.js로 간단한 백엔드 API를 구현해 동아리 소개/스터디/프로젝트 데이터를 프론트와 연동했습니다.',
-      'ESLint 및 npm 스크립트(dev/build/preview/lint) 구성을 통해 개발 및 코드 품질 관리 플로우를 정리했습니다.'
+      {
+        title: '동아리 사이트 기획 및 프론트엔드 구축',
+        items: [
+          {
+            title: '사이트 기획',
+            detail: '동아리장으로서 사이트 정보 구조와 콘텐츠 기획',
+          },
+          {
+            title: '프론트엔드 구축',
+            detail: 'React + Vite + TypeScript + Tailwind 기반 프론트엔드 구축',
+          },
+        ],
+      },
+      {
+        title: '백엔드 구현 및 품질 관리',
+        items: [
+          {
+            title: '백엔드 API 구현·연동',
+            detail: 'Node.js로 간단한 백엔드 API를 구현해 동아리 소개/스터디/프로젝트 데이터를 프론트와 연동',
+          },
+          {
+            title: '코드 품질 관리 플로우 정리',
+            detail: 'ESLint 및 npm 스크립트(dev/build/preview/lint) 구성을 통해 개발 및 코드 품질 관리 플로우 정리',
+          },
+        ],
+      },
     ],
     links: [
       { label: 'GitHub', href: 'https://github.com/yangjihun/FM-COMMIT' },
@@ -416,9 +681,45 @@ export const projects: Project[] = [
       '사용자 프로필과 이력서를 바탕으로 학습·취업 로드맵을 생성하고, 달성 여부를 체크리스트/타임라인 형태로 시각화합니다.'
     ],
     responsibilities: [
-      'Frontend에서 Vite + React + TypeScript 기반 대시보드 UI, 이력서 업로드/분석/로드맵 페이지와 Redux Toolkit 상태(auth, resume, roadmap)를 설계하고 구현했습니다.',
-      'Axios 인터셉터를 구성해 인증 토큰 자동 첨부 및 401 응답 공통 처리(세션 초기화/리다이렉트)로 인증 흐름을 정리했습니다.',
-      'Backend에서는 기존 Express + MongoDB 코드베이스에서 이력서(Resume) CRUD API 일부를 구현/수정하고, 입력 검증 및 예외 처리 보완에 기여했습니다.'
+      {
+        title: '대시보드 UI 및 상태 관리 구현',
+        items: [
+          {
+            title: 'UI·페이지 구현',
+            detail: 'Vite + React + TypeScript 기반 대시보드 UI와 이력서 업로드/분석/로드맵 페이지 구현',
+          },
+          {
+            title: '상태 관리 설계',
+            detail: 'Redux Toolkit 상태(auth, resume, roadmap) 설계',
+          },
+        ],
+      },
+      {
+        title: 'Axios 인증 흐름 정리',
+        items: [
+          {
+            title: '인증 토큰 자동 첨부',
+            detail: 'Axios 인터셉터를 구성해 인증 토큰을 요청마다 자동으로 첨부',
+          },
+          {
+            title: '401 응답 공통 처리',
+            detail: '401 응답을 공통 처리해 세션 초기화 및 로그인 페이지로 리다이렉트',
+          },
+        ],
+      },
+      {
+        title: 'Resume CRUD API 구현 및 보완',
+        items: [
+          {
+            title: 'CRUD API 구현·수정',
+            detail: '기존 Express + MongoDB 코드베이스에서 이력서(Resume) CRUD API 일부 구현·수정',
+          },
+          {
+            title: '입력 검증·예외 처리 보완',
+            detail: '입력 검증 및 예외 처리 보완에 기여',
+          },
+        ],
+      },
     ],
     links: [
       { label: 'GitHub (FE)', href: 'https://github.com/yangjihun/DreamMap-fe' },

@@ -130,7 +130,7 @@ export const timelineItems: TimelineItem[] = [
   },
   {
     id: 'tourism-data-contest',
-    period: '2024.04 ~ 2024.08',
+    period: '2024.04 ~ 2024.11',
     year: 2024,
     title: '2024 관광데이터 활용 공모전',
     description: '관광 데이터를 활용한 공모전에 참가했습니다.',
@@ -138,7 +138,27 @@ export const timelineItems: TimelineItem[] = [
     tags: ['Frontend'],
   },
 
+  // 2023
+  {
+    id: 'military-ai-sw-js-course',
+    period: '2023.03 ~ 2023.06',
+    year: 2023,
+    title: '군장병 AI·SW 역량강화 SW개발(JS) 중급과정 수료',
+    description: '군 복무 중 AI·SW 역량강화 교육으로 SW개발(JS) 중급과정을 수료했습니다.',
+    category: 'program',
+    tags: ['JavaScript', 'Program'],
+  },
+
   // 2020
+  {
+    id: 'gachon-finmath-student-council',
+    period: '2020.03 ~ 2021.12',
+    year: 2020,
+    title: '가천대학교 금융수학과 학생회 활동',
+    description: '가천대학교 금융수학과 학생회에서 활동했습니다.',
+    category: 'leadership',
+    tags: ['Community'],
+  },
   {
     id: 'gachon-univ',
     period: '2020.03 ~ 2026.02',

@@ -39,7 +39,7 @@ export default function AboutPage() {
       period: '2026.01 ~ 진행 중',
       details: [
         'Java 알고리즘과 Vue.js 기반 웹 풀스택, AI 활용 문제 해결 학습',
-        '팀 프로젝트 수행: 스터디 관리 플랫폼 StudyPot(1학기 최우수상), AI 강의 플랫폼 ZANI',
+        '팀 프로젝트 수행: AI 강의 플랫폼 ZANI(2학기 최우수상), 스터디 관리 플랫폼 StudyPot(1학기 최우수상)',
       ],
     },
     {
@@ -59,7 +59,12 @@ export default function AboutPage() {
 
   const awards = [
     {
-      name: '삼성 청년 SW·AI 아카데미(SSAFY) 1학기 프로젝트 최우수상',
+      name: '삼성 청년 SW·AI 아카데미 2학기 공통 프로젝트 최우수상',
+      date: '2026.08',
+      note: '학생 집중도를 실시간으로 분석하고 맞춤 리포트를 제공하는 AI 강의 플랫폼 ZANI',
+    },
+    {
+      name: '삼성 청년 SW·AI 아카데미 1학기 관통 프로젝트 최우수상',
       date: '2026.06',
       note: 'AI 팀장이 운영을 보조하는 스터디 관리 플랫폼 StudyPot',
     },
