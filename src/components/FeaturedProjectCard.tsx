@@ -4,7 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Star, Trophy } from 'lucide-react';
-import { categoryStyle, formatTeamSize, type Project } from '@/data/projects';
+import { categoryStyle, type Project } from '@/data/projects';
+import { formatTeamSize } from '@/lib/utils';
 
 interface FeaturedProjectCardProps {
   project: Project;

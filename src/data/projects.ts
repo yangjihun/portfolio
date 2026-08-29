@@ -69,10 +69,6 @@ export const categoryStyle: Record<TechCategory, { label: string; badge: string 
   other:     { label: 'Other',     badge: 'bg-slate-100 text-slate-600 border-slate-300' },
 };
 
-/** 카드·상세에서 공통으로 쓰는 참여 인원 표기. 아직 확인하지 못한 프로젝트(0)는 null을 돌려 UI에서 숨긴다 */
-export const formatTeamSize = (teamSize: number) =>
-  teamSize > 0 ? `${teamSize}인 팀` : null;
-
 export const projects: Project[] = [
   {
     id: 'zani',

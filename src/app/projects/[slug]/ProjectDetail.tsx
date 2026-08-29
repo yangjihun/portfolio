@@ -6,7 +6,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronDown, Lock, Trophy, Wrench } from 'lucide-react';
-import { categoryStyle, formatTeamSize, type Project } from '@/data/projects';
+import { categoryStyle, type Project } from '@/data/projects';
+import { formatTeamSize } from '@/lib/utils';
 import type { ResponsibilityToggle } from '@/data/projects';
 
 interface ProjectDetailProps {

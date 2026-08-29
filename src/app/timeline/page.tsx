@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ExternalLink, Trophy } from 'lucide-react';
 import SectionTitle from '@/components/SectionTitle';
 import { timelineItems, categoryStyle } from '@/data/timeline';
+import { formatTeamSize } from '@/lib/utils';
 
 export default function TimelinePage() {
   const years = [...new Set(timelineItems.map((item) => item.year))].sort((a, b) => b - a);
@@ -59,6 +61,11 @@ export default function TimelinePage() {
         >
           {filtered.map((item, index) => {
             const style = categoryStyle[item.category];
+            // 주최·역할은 적어 넣은 것만 한 줄로 이어 붙인다 (인원은 기간 옆에 따로 붙는다)
+            const meta = [item.host, item.role].filter(
+              (value): value is string => Boolean(value),
+            );
+            const teamSize = formatTeamSize(item.teamSize);
             return (
               <motion.div
                 key={item.id}
@@ -83,11 +90,53 @@ export default function TimelinePage() {
                 </div>
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <h3 className="text-base font-semibold md:text-lg">{item.title}</h3>
-                  <span className="shrink-0 text-sm text-muted-foreground">{item.period}</span>
+                  <div className="flex shrink-0 items-center gap-2 text-sm text-muted-foreground">
+                    {teamSize && (
+                      <>
+                        <span>{teamSize}</span>
+                        <span aria-hidden>•</span>
+                      </>
+                    )}
+                    <span>{item.period}</span>
+                  </div>
                 </div>
+                {meta.length > 0 && (
+                  <p className="mt-1.5 text-sm text-muted-foreground">{meta.join(' • ')}</p>
+                )}
+
+                {item.award && (
+                  <p className="mt-2.5 inline-flex items-center gap-2 rounded-lg border border-primary/25 bg-primary/5 px-3 py-1.5 text-sm font-semibold text-primary">
+                    <Trophy className="h-4 w-4 shrink-0" aria-hidden />
+                    {item.award}
+                  </p>
+                )}
+
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {item.description}
                 </p>
+
+                {item.details && item.details.length > 0 && (
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {item.details.join(' ')}
+                  </p>
+                )}
+
+                {item.links && item.links.length > 0 && (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {item.links.map((link) => (
+                      <a
+                        key={link.label}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
+                      >
+                        {link.label}
+                        <ExternalLink className="h-3 w-3 shrink-0" aria-hidden />
+                      </a>
+                    ))}
+                  </div>
+                )}
               </motion.div>
             );
           })}
