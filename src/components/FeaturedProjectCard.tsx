@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Star, Trophy } from 'lucide-react';
-import { categoryStyle, type Project } from '@/data/projects';
+import { categoryStyle, formatTeamSize, type Project } from '@/data/projects';
 
 interface FeaturedProjectCardProps {
   project: Project;
@@ -16,6 +16,7 @@ export default function FeaturedProjectCard({
   index = 0,
 }: FeaturedProjectCardProps) {
   const category = categoryStyle[project.category];
+  const teamSize = formatTeamSize(project.teamSize);
 
   return (
     <motion.div
@@ -73,6 +74,12 @@ export default function FeaturedProjectCard({
               <span>{project.period}</span>
               <span>•</span>
               <span>{project.role}</span>
+              {teamSize && (
+                <>
+                  <span>•</span>
+                  <span>{teamSize}</span>
+                </>
+              )}
             </div>
 
             <div className="flex min-h-[3.75rem] flex-wrap content-start gap-2">

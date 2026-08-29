@@ -4,7 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
-import { categoryStyle, isFeaturedProject, type Project } from '@/data/projects';
+import {
+  categoryStyle,
+  formatTeamSize,
+  isFeaturedProject,
+  type Project,
+} from '@/data/projects';
 
 interface ProjectCardProps {
   project: Project;
@@ -13,6 +18,7 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   const category = categoryStyle[project.category];
+  const teamSize = formatTeamSize(project.teamSize);
   // 검색·필터 결과에서는 대표 프로젝트도 이 카드로 섞여 나오므로 표시를 남겨둔다
   const featured = isFeaturedProject(project.id);
 
@@ -65,6 +71,12 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           <span>{project.period}</span>
           <span>•</span>
           <span>{project.role}</span>
+          {teamSize && (
+            <>
+              <span>•</span>
+              <span>{teamSize}</span>
+            </>
+          )}
         </div>
 
         <div className="flex flex-wrap gap-2">

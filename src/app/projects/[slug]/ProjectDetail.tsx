@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronDown, Lock, Trophy, Wrench } from 'lucide-react';
-import { categoryStyle, type Project } from '@/data/projects';
+import { categoryStyle, formatTeamSize, type Project } from '@/data/projects';
 import type { ResponsibilityToggle } from '@/data/projects';
 
 interface ProjectDetailProps {
@@ -153,6 +153,7 @@ function ResponsibilityGroupToggle({
 export default function ProjectDetail({ project }: ProjectDetailProps) {
   const router = useRouter();
   const category = categoryStyle[project.category];
+  const teamSize = formatTeamSize(project.teamSize);
   const activeLinks = project.links.filter((link) => link.href !== '#');
   const emphasisKeywords = [...project.techTags, project.name, ...EMPHASIS_KEYWORDS];
 
@@ -214,6 +215,12 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           <span>{project.period}</span>
           <span aria-hidden>•</span>
           <span>{project.role}</span>
+          {teamSize && (
+            <>
+              <span aria-hidden>•</span>
+              <span>{teamSize}</span>
+            </>
+          )}
         </div>
 
         {project.award && (

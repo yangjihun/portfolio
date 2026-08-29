@@ -38,6 +38,7 @@ export interface Project {
   images?: string[];     // 추가 스크린샷 갤러리 (상세 페이지 커버 아래 2열 그리드로 노출)
   period: string;        // e.g. "2025.07 ~ 2025.08"
   role: string;          // e.g. "Frontend Developer", "Fullstack Developer"
+  teamSize: number;      // 참여 인원(본인 포함). 확인 전이면 0으로 두고, 0은 UI에 표시하지 않는다
   summary: string;       // 1~2 sentence summary in Korean
   techTags: string[];    // short tech stack tags
   category: TechCategory; // main category
@@ -68,6 +69,10 @@ export const categoryStyle: Record<TechCategory, { label: string; badge: string 
   other:     { label: 'Other',     badge: 'bg-slate-100 text-slate-600 border-slate-300' },
 };
 
+/** 카드·상세에서 공통으로 쓰는 참여 인원 표기. 아직 확인하지 못한 프로젝트(0)는 null을 돌려 UI에서 숨긴다 */
+export const formatTeamSize = (teamSize: number) =>
+  teamSize > 0 ? `${teamSize}인 팀` : null;
+
 export const projects: Project[] = [
   {
     id: 'zani',
@@ -77,9 +82,10 @@ export const projects: Project[] = [
     period: '2026.07 ~ 2026.08',
     award: '삼성 청년 SW·AI 아카데미 2학기 공통 프로젝트 최우수상',
     role: 'Fullstack Developer',
+    teamSize: 5,
     category: 'fullstack',
     summary:
-      '학생이 수업에 얼마나 집중하고 있는지 브라우저 안의 AI로 판정해 강사에게 실시간 코칭 팁을 주고, 수업이 끝나면 녹화·전사·참여도를 같은 시간축에 정리한 리포트와 복습 클립을 만들어 주는 강의 플랫폼입니다. 삼성 청년 SW·AI 아카데미(SSAFY)에서 5인 팀으로 개발했고 풀스택을 맡았습니다.',
+      '학생이 수업에 얼마나 집중하고 있는지 브라우저 안의 AI로 판정해 강사에게 실시간 코칭 팁을 주고, 수업이 끝나면 녹화·전사·참여도를 같은 시간축에 정리한 리포트와 복습 클립을 만들어 주는 강의 플랫폼입니다.',
     techTags: [
       'Next.js',
       'TypeScript',
@@ -212,6 +218,7 @@ export const projects: Project[] = [
     image: '/asset/studypot.png',
     period: '2026.05 ~ 2026.06',
     role: 'Frontend Lead (기획 · FE 설계)',
+    teamSize: 2,
     category: 'frontend',
     award: '삼성 청년 SW·AI 아카데미 1학기 관통 프로젝트 최우수상',
     summary:
@@ -319,6 +326,7 @@ export const projects: Project[] = [
     image: '/asset/remit.png',
     period: '2025.10 ~ 운영 중',
     role: 'PM · Fullstack Developer',
+    teamSize: 5,
     category: 'fullstack',
     summary:
       '학과 사무실에서 수동으로 관리하던 스터디룸 예약을 웹 서비스로 전환한 예약 시스템입니다. 배포 이후 사용자 문의와 개선 요청을 반영하며 실제 학과에서 운영 중입니다.',
@@ -438,6 +446,7 @@ export const projects: Project[] = [
     image: '/asset/vibot.png',
     period: '2025.10 ~ 2025.12',
     role: 'Frontend Lead',
+    teamSize: 7,
     category: 'frontend',
     notice: '기업 연계 프로젝트로 진행되어, 대외비 정책에 따라 저장소와 상세 코드는 공개하지 않습니다.',
     summary:
@@ -522,6 +531,7 @@ export const projects: Project[] = [
     image: '/asset/loventure.png',
     period: '2025.09 ~ 2025.10',
     role: 'Frontend Developer',
+    teamSize: 8,
     category: 'frontend',
     summary:
       'AI가 커플의 취향과 실시간 컨디션을 분석해서 서울 지역 맞춤형 데이트 코스를 추천해주고, 지도·다이어리·지역락 시스템으로 경험을 확장한 웹 서비스입니다. 카카오엔터프라이즈 SW 아카데미의 현장미러형 프로젝트로 진행했습니다.',
@@ -601,6 +611,7 @@ export const projects: Project[] = [
     image: '/asset/fm-commit.png',
     period: '2025.08 ~ 진행중',
     role: 'Fullstack Developer',
+    teamSize: 1,
     category: 'fullstack',
     summary:
       'IT 동아리 COMMIT의 소개, 스터디 진행 상황, 프로젝트 포트폴리오를 한 곳에서 관리하는 공식 홈페이지를 직접 기획하고 풀스택으로 구현한 프로젝트입니다.',
@@ -658,6 +669,7 @@ export const projects: Project[] = [
     image: '/asset/dreammap.png',
     period: '2025.07 ~ 2025.08',
     role: 'Fullstack Developer',
+    teamSize: 4,
     category: 'fullstack',
     summary:
       '이력서를 업로드하면 AI가 점수·리뷰·리라이팅을 제공하고, 지원자의 상황에 맞춘 커리어 로드맵까지 제안하는 이력서 분석 웹 서비스입니다.',
