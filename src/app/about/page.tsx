@@ -76,10 +76,10 @@ export default function AboutPage() {
   ];
 
   const certificates = [
+    { name: '정보처리기사', date: '2025.09.11' },
     { name: 'SQLD', date: '2026.06.19' },
     { name: 'Samsung SW 역량 테스트 A형', date: '2026.02.19' },
     { name: 'TOEIC Speaking IM3', date: '2025.12.14' },
-    { name: '정보처리기사 필기', date: '2025.08.13' },
   ];
 
   const timeline = projectsByRecency.map((project) => ({
