@@ -24,7 +24,7 @@ export default function FeaturedProjectCard({
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
+      transition={{ delay: Math.min(index, 2) * 0.1 }}
       className="h-full"
     >
       <Link
@@ -51,7 +51,7 @@ export default function FeaturedProjectCard({
 
         <div className="flex flex-1 flex-col p-6">
           <div className="mb-2 flex items-start justify-between gap-2">
-            <h3 className="text-2xl font-bold leading-tight transition-colors group-hover:text-primary">
+            <h3 className="text-xl font-bold leading-tight transition-colors group-hover:text-primary">
               {project.name}
             </h3>
             <span
@@ -61,39 +61,31 @@ export default function FeaturedProjectCard({
             </span>
           </div>
 
-          <p className="mb-3 text-sm font-medium text-foreground">{project.title}</p>
+          <p className="mb-3 text-sm leading-6 text-muted-foreground">{project.title}</p>
 
           {project.award && (
-            <p className="mb-3 flex items-start gap-1.5 text-xs font-medium leading-relaxed text-primary">
+            <p className="mb-3 flex items-start gap-1.5 text-sm font-medium leading-6 text-primary">
               <Trophy className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
               {project.award}
             </p>
           )}
 
           <div className="mt-auto">
-            <div className="mb-4 flex flex-wrap gap-2 border-t border-border pt-4 text-xs text-muted-foreground">
-              <span>{project.period}</span>
-              <span>•</span>
-              <span>{project.role}</span>
-              {teamSize && (
-                <>
-                  <span>•</span>
-                  <span>{teamSize}</span>
-                </>
-              )}
-            </div>
+            <p className="mb-3 text-xs text-muted-foreground">
+              {[project.period, project.role, teamSize].filter(Boolean).join(' • ')}
+            </p>
 
-            <div className="flex min-h-[3.75rem] flex-wrap content-start gap-2">
+            <div aria-label="사용 기술" className="flex flex-wrap gap-1.5">
               {project.techTags.slice(0, 4).map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-primary/15 bg-primary/10 px-3 py-1 text-xs text-primary"
+                  className="rounded-full border border-primary/15 bg-primary/10 px-2.5 py-0.5 text-xs text-primary"
                 >
                   {tag}
                 </span>
               ))}
               {project.techTags.length > 4 && (
-                <span className="rounded-full border border-primary/15 bg-primary/10 px-3 py-1 text-xs text-primary/80">
+                <span className="rounded-full border border-primary/15 bg-primary/10 px-2.5 py-0.5 text-xs text-primary/80">
                   +{project.techTags.length - 4}
                 </span>
               )}

@@ -1,3 +1,5 @@
+import { ssafyEducation } from './profile';
+
 export type TimelineCategory = 'education' | 'leadership' | 'program' | 'contest';
 
 export interface TimelineLink {
@@ -102,32 +104,16 @@ export const timelineItems: TimelineItem[] = [
   },
   {
     id: 'ai-ssafy-15',
-    period: '2026.01 ~ 진행 중',
+    period: ssafyEducation.period,
     year: 2026,
-    title: '삼성 청년 SW·AI 아카데미 15기',
-    description:
-      'Java와 Vue.js, AI 기반 문제 해결 역량을 강화하며 학습을 진행하고 있습니다.',
+    title: ssafyEducation.name,
+    description: ssafyEducation.summary,
     category: 'program',
-    tags: ['Program'],
-    details: [
-      'Samsung SW 역량 테스트 A형 취득하고 프로젝트 최우수상 2회 수상했습니다.',
-    ],
+    tags: ['Java', 'Spring Boot', 'Vue', 'Python', 'Agile'],
+    details: [...ssafyEducation.details, 'Samsung SW 역량 테스트 A형 취득'],
   },
 
   // 2025
-  {
-    id: 'commit-founder-lead',
-    period: '2025.09 ~ 2026.02',
-    year: 2025,
-    title: '가천대학교 금융수학과 IT 동아리 COMMIT 개설 · 동아리장',
-    description:
-      '금융수학과에 IT 동아리를 만들고 동아리장으로 운영을 맡았습니다.',
-    category: 'leadership',
-    tags: ['Leadership', 'Community'],
-    details: [
-      '동아리 운영 체계를 세우고 동아리 활동을 기획하여 한 학기 동안 동아리원을 약 2배 늘렸습니다.',
-    ],
-  },
   {
     id: 'kakao-enterprise-academy-7',
     period: '2025.09 ~ 2025.12',
@@ -139,6 +125,19 @@ export const timelineItems: TimelineItem[] = [
     tags: ['Program', 'Project'],
     details: [
       'AI 기반 커플 맞춤 데이트 코스 추천 서비스와 RAG 챗봇 운영 관리자 페이지를 개발했습니다.',
+    ],
+  },
+  {
+    id: 'commit-founder-lead',
+    period: '2025.08 ~ 2026.02',
+    year: 2025,
+    title: '가천대학교 금융수학과 IT 동아리 COMMIT 개설 · 동아리장',
+    description:
+      '금융수학과에 IT 동아리를 만들고 동아리장으로 운영을 맡았습니다.',
+    category: 'leadership',
+    tags: ['Leadership', 'Community'],
+    details: [
+      '동아리 운영 체계를 세우고 동아리 활동을 기획하여 한 학기 동안 동아리원을 약 2배 늘렸습니다.',
     ],
   },
   {

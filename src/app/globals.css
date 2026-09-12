@@ -26,6 +26,9 @@ body {
   color: rgb(var(--foreground));
   background: rgb(var(--background));
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* 한국어는 어절 단위로 줄이 바뀌어야 읽기 흐름이 끊기지 않는다. 긴 영문 토큰만 anywhere로 넘침을 막는다 */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 @layer utilities {
