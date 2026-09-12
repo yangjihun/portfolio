@@ -4,33 +4,15 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import FeaturedProjectCard from '@/components/FeaturedProjectCard';
 import SectionTitle from '@/components/SectionTitle';
+import { developerProfile } from '@/data/profile';
 import { featuredProjects } from '@/data/projects';
 import { activities } from '@/data/activities';
 
 export default function HomePage() {
-  const techStack = [
-    // Languages
-    'JavaScript',
-    'TypeScript',
-    'Python',
-    'Java',
-    // Frontend
-    'React',
-    'Next.js',
-    // Backend
-    'Node.js',
-    // Styling
-    'Tailwind CSS',
-    // Tools / Collaboration
-    'Git',
-    'GitHub',
-    'Jira'
-  ];
-
   return (
     <div className="container mx-auto max-w-6xl px-4 py-16">
       {/* Hero Section */}
-      <section className="mb-0 flex min-h-[70vh] flex-col items-center justify-center text-center">
+      <section className="mb-12 flex min-h-[50vh] flex-col items-center justify-center text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -47,24 +29,9 @@ export default function HomePage() {
           <p className="mb-8 text-xl text-muted-foreground md:text-2xl">
             Fullstack Developer
           </p>
-          <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            추진력과 커뮤니케이션으로 서비스를 안정적으로 완성하는 풀스택 개발자입니다.
+          <p className="mx-auto mb-10 max-w-2xl text-xl font-semibold leading-relaxed text-foreground">
+            {developerProfile.headline}
           </p>
-
-
-          <div className="mb-12 flex flex-wrap justify-center gap-3">
-            {techStack.map((tech, index) => (
-              <motion.span
-                key={tech}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5 + index * 0.05 }}
-                className="rounded-full border border-border bg-muted/60 px-4 py-2 text-sm font-medium text-foreground"
-              >
-                {tech}
-              </motion.span>
-            ))}
-          </div>
 
           <motion.div
             initial={{ opacity: 0 }}

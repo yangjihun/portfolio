@@ -23,7 +23,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
+      transition={{ delay: Math.min(index, 2) * 0.1 }}
     >
       <Link
         href={`/projects/${project.id}`}
@@ -52,7 +52,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                 />
               )}
             </h3>
-            <p className="mt-1 line-clamp-1 text-sm text-muted-foreground">
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
               {project.title}
             </p>
           </div>
@@ -63,7 +63,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           </span>
         </div>
         
-        <div className="mb-3 flex flex-wrap gap-2 text-sm text-muted-foreground">
+        <div className="mb-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
           <span>{project.period}</span>
           <span>•</span>
           <span>{project.role}</span>
@@ -75,17 +75,17 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           )}
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div aria-label="사용 기술" className="flex flex-wrap gap-1.5">
           {project.techTags.slice(0, 5).map((tag) => (
             <span
               key={tag}
-              className="rounded-full border border-primary/15 bg-primary/10 px-3 py-1 text-xs text-primary"
+              className="rounded-full border border-primary/15 bg-primary/10 px-2.5 py-0.5 text-xs text-primary"
             >
               {tag}
             </span>
           ))}
           {project.techTags.length > 5 && (
-            <span className="rounded-full border border-primary/15 bg-primary/10 px-3 py-1 text-xs text-primary/80">
+            <span className="rounded-full border border-primary/15 bg-primary/10 px-2.5 py-0.5 text-xs text-primary/80">
               +{project.techTags.length - 5}
             </span>
           )}

@@ -72,7 +72,7 @@ export default function TimelinePage() {
                 initial={{ opacity: 0, y: 8 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
+                transition={{ delay: Math.min(index, 4) * 0.05 }}
                 className="rounded-lg border border-border bg-muted/40 px-6 py-5 transition-colors hover:border-primary/30 hover:bg-muted/70"
               >
                 <div className="mb-2 flex flex-wrap items-center gap-2">
@@ -116,9 +116,9 @@ export default function TimelinePage() {
                 </p>
 
                 {item.details && item.details.length > 0 && (
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {item.details.join(' ')}
-                  </p>
+                  <ul className="mt-3 space-y-2 text-base leading-7 text-muted-foreground">
+                    {item.details.map(detail => <li key={detail} className="flex gap-2"><span aria-hidden className="text-primary">•</span><span className="min-w-0 flex-1">{detail}</span></li>)}
+                  </ul>
                 )}
 
                 {item.links && item.links.length > 0 && (
