@@ -41,7 +41,7 @@ export interface Project {
   id: string;            // slug / route key
   name: string;
   title: string;
-  image?: string;        // 커버 이미지. e.g. "/asset/my-project.png" (public 아래 배치)
+  image?: string;        // 커버 이미지. e.g. "/asset/my-project.webp" (public 아래 배치)
   images?: string[];     // 추가 스크린샷 갤러리 (상세 페이지 커버 아래 2열 그리드로 노출)
   period: string;        // e.g. "2025.07 ~ 2025.08"
   role: string;          // e.g. "Frontend Developer", "Fullstack Developer"
@@ -91,7 +91,7 @@ export const projects: Project[] = [
     },
     "name": "ZANI",
     "title": "학생 집중도를 실시간으로 분석하고 맞춤 리포트를 제공하는 AI 강의 플랫폼",
-    "image": "/asset/zani.png",
+    "image": "/asset/zani.webp",
     "period": "2026.07 ~ 2026.08",
     "award": "ZANI · SSAFY 최우수상",
     "role": "Fullstack Developer · Frontend / AI",
@@ -388,7 +388,7 @@ export const projects: Project[] = [
     },
     "name": "StudyPot",
     "title": "AI 팀장이 운영을 보조하는 스터디 그룹 관리 플랫폼",
-    "image": "/asset/studypot.png",
+    "image": "/asset/studypot.webp",
     "period": "2026.01 ~ 2026.06",
     "role": "Frontend Lead (기획 · FE 설계)",
     "teamSize": 2,
@@ -596,7 +596,7 @@ export const projects: Project[] = [
     },
     "name": "NetPlus",
     "title": "스포일러를 줄이는 타임라인 기반 OTT 시청 보조 RAG 챗봇",
-    "image": "/asset/netplus.png",
+    "image": "/asset/netplus.webp",
     "period": "2026.02",
     "role": "Backend Developer · AI Backend / Frontend",
     "teamSize": 2,
@@ -873,7 +873,7 @@ export const projects: Project[] = [
     },
     "name": "RE:MIT",
     "title": "학과 스터디룸 예약 관리 시스템",
-    "image": "/asset/remit.png",
+    "image": "/asset/remit.webp",
     "period": "2025.10 ~ 운영 중",
     "role": "PM · Fullstack Developer",
     "teamSize": 5,
@@ -1103,7 +1103,7 @@ export const projects: Project[] = [
     },
     "name": "Vibot",
     "title": "사내 문서 기반 AI 챗봇 운영 관리자 페이지",
-    "image": "/asset/vibot.png",
+    "image": "/asset/vibot.webp",
     "period": "2025.10 ~ 2025.12",
     "role": "Frontend Lead",
     "teamSize": 7,
@@ -1280,7 +1280,7 @@ export const projects: Project[] = [
     },
     "name": "Loventure",
     "title": "AI 기반 데이트 코스 추천 서비스",
-    "image": "/asset/loventure.png",
+    "image": "/asset/loventure.webp",
     "period": "2025.09 ~ 2025.10",
     "role": "Frontend Developer",
     "teamSize": 8,
@@ -1451,7 +1451,7 @@ export const projects: Project[] = [
     },
     "name": "COMMIT",
     "title": "금융수학과 IT 동아리 COMMIT 공식 홈페이지",
-    "image": "/asset/fm-commit.png",
+    "image": "/asset/fm-commit.webp",
     "period": "2025.08 ~ 진행중",
     "role": "Fullstack Developer",
     "teamSize": 1,
@@ -1602,7 +1602,7 @@ export const projects: Project[] = [
     },
     "name": "DreamMap",
     "title": "이력서 분석 및 로드맵 제안 서비스",
-    "image": "/asset/dreammap.png",
+    "image": "/asset/dreammap.webp",
     "period": "2025.07 ~ 2025.08",
     "role": "Fullstack Developer",
     "teamSize": 4,
