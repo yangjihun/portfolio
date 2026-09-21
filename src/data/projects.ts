@@ -2096,7 +2096,7 @@ export const projectsByRecency: Project[] = [...projects].sort(
 );
 
 /** 대표 프로젝트. 여기 적힌 순서대로 홈·프로젝트 페이지 상단에 노출된다 */
-const FEATURED_PROJECT_IDS = ['teacat', 'zani', 'netplus', 'studypot', 'studyroom-reservation', 'kakao-enterprise-pbl'];
+const FEATURED_PROJECT_IDS = ['teacat', 'zani', 'studyroom-reservation'];
 
 export const isFeaturedProject = (id: string) => FEATURED_PROJECT_IDS.includes(id);
 
