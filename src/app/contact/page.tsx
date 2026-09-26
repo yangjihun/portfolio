@@ -29,8 +29,8 @@ export default function ContactPage() {
     },
     {
       label: 'Blog',
-      value: 'velog.io/@yangjihun',
-      href: 'https://velog.io/@yangjihun',
+      value: 'yangjihun.github.io/study-log',
+      href: 'https://yangjihun.github.io/study-log',
       description: '기술 블로그',
       icon: BookOpen,
     },
