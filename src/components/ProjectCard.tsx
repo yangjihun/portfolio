@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { Star, Trophy } from 'lucide-react';
 import { categoryStyle, isFeaturedProject, type Project } from '@/data/projects';
 import { formatTeamSize } from '@/lib/utils';
 
@@ -62,7 +62,12 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             {category.label}
           </span>
         </div>
-        
+        {project.award && (
+          <p className="mb-3 flex items-start gap-1.5 text-sm font-medium leading-6 text-primary">
+            <Trophy className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
+            {project.award}
+          </p>
+        )}
         <div className="mb-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
           <span>{project.period}</span>
           <span>•</span>
