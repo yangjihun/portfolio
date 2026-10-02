@@ -57,6 +57,7 @@ export interface Project {
   contribution: { role: string; core: string[]; impact: string };
   outcomes: string[];
   retrospective: { limitation: string; improvement: string }[];
+  collaboration: { wentWell: string; toImprove: string }; // 협업 시 좋았던 점, 개선할 점 (직접 작성)
   links: ProjectLink[];  // GitHub, Demo, etc. can be "#" placeholder if unknown
   award?: string;         // 수상 내역
   notice?: string;        // 저장소 비공개 사유 등 안내 문구
@@ -85,6 +86,10 @@ export const categoryStyle: Record<TechCategory, { label: string; badge: string 
 export const projects: Project[] = [
   {
     "id": "teacat",
+    "collaboration": {
+      "wentWell": "",
+      "toImprove": ""
+    },
     "preview": {
       "features": "양도 제한 티켓 SBT, 포인트 토큰, 포토카드 NFT와 검증 가능한 추첨, 티켓팅 가상 대기실 및 이상거래 심사",
       "problemSolving": "EC2 자원 제약을 고려해 지표·로그·오류·알림 체계를 구축하고, 부하 측정으로 좌석 조회 캐시와 nginx 연결 재사용을 적용했습니다. 가상 대기실로 유입을 제어하고 NFT 거래에는 규칙 심사와 섀도 모델 점수를 분리해 연결했습니다."
@@ -498,6 +503,10 @@ export const projects: Project[] = [
   },
   {
     "id": "zani",
+    "collaboration": {
+      "wentWell": "",
+      "toImprove": ""
+    },
     "preview": {
       "features": "실시간 참여도 분석, 강의 전사·리포트, 다중 강의 검색·질의응답",
       "problemSolving": "현재 강의 전체 전사를 입력하던 챗봇에 LangGraph 검색 라우팅을 적용해 필요한 강의·원문을 선별하고, 다른 강의 검색과 출처 영상 이동을 지원했습니다."
@@ -837,6 +846,10 @@ export const projects: Project[] = [
   },
   {
     "id": "studypot",
+    "collaboration": {
+      "wentWell": "",
+      "toImprove": ""
+    },
     "preview": {
       "features": "그룹 생성·참여, AI 커리큘럼·회고와 스터디 운영 관리",
       "problemSolving": "API 계약과 MSW로 연동 대기를 줄이고 프론트엔드를 선행 개발해 전체 개발 기간을 약 30% 단축했습니다."
@@ -1045,6 +1058,10 @@ export const projects: Project[] = [
   },
   {
     "id": "netplus",
+    "collaboration": {
+      "wentWell": "",
+      "toImprove": ""
+    },
     "preview": {
       "features": "시청 시점 기반 질의응답·요약과 실제 자막 근거 제공",
       "problemSolving": "질문 분기와 pgvector 정렬, Redis 자막 캐싱으로 응답 시간을 약 4~5초에서 2~3초로 줄이고, SSE 스트리밍으로 첫 답변까지의 대기를 더 줄였습니다."
@@ -1322,6 +1339,10 @@ export const projects: Project[] = [
   },
   {
     "id": "studyroom-reservation",
+    "collaboration": {
+      "wentWell": "",
+      "toImprove": ""
+    },
     "preview": {
       "features": "학과생 인증, 스터디룸 예약·취소와 관리자 통계",
       "problemSolving": "유지보수가 어려운 Blade 뷰에서 이미지·SVG를 분리해 파일 크기를 82.7KB에서 8.3KB로 줄였습니다."
@@ -1552,6 +1573,10 @@ export const projects: Project[] = [
   },
   {
     "id": "kakao-enterprise-pbl",
+    "collaboration": {
+      "wentWell": "",
+      "toImprove": ""
+    },
     "preview": {
       "features": "문서·URL 등록, 카테고리 분류와 학습 상태 모니터링",
       "problemSolving": "반복되는 403을 CSRF 헤더와 RAW/XOR 토큰 처리까지 추적해 보안 보호를 유지하며 해결했습니다."
@@ -1729,6 +1754,10 @@ export const projects: Project[] = [
   },
   {
     "id": "loventure",
+    "collaboration": {
+      "wentWell": "",
+      "toImprove": ""
+    },
     "preview": {
       "features": "커플 맞춤 코스 추천, 지도 경로 확인과 다이어리 기록",
       "problemSolving": "로그인만으로 구분할 수 없는 선행 조건을 네 가지 권한 상태로 나누고 라우팅 가드에 연결했습니다."
@@ -1900,6 +1929,10 @@ export const projects: Project[] = [
   },
   {
     "id": "commit-club",
+    "collaboration": {
+      "wentWell": "",
+      "toImprove": ""
+    },
     "preview": {
       "features": "동아리 소개, 주차별 스터디 자료와 프로젝트 포트폴리오",
       "problemSolving": "정보 유형에 맞게 페이지와 데이터 구조를 나누고 React 화면에 Node.js 콘텐츠 API를 연결했습니다."
@@ -2051,6 +2084,10 @@ export const projects: Project[] = [
   },
   {
     "id": "dreammap",
+    "collaboration": {
+      "wentWell": "미국에 살던 팀원이 있어서 팀 미팅 시간을 조율하기 힘들었습니다. 그래서 팀 미팅 시간을 최소화하고, ",
+      "toImprove": ""
+    },
     "preview": {
       "features": "이력서 업로드·AI 분석, 버전 관리와 커리어 로드맵",
       "problemSolving": "여러 화면의 인증 처리를 Axios 인터셉터로 모아 토큰 첨부와 401 이후 세션 초기화·화면 이동을 통일했습니다."

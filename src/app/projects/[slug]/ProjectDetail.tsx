@@ -304,6 +304,15 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             </dl>
           ))}
         </div>
+        <h3 className="mb-5 mt-8 text-lg font-semibold">협업 시 좋았던 점, 개선할 점</h3>
+        <dl className="space-y-5 border-t border-border py-6">
+          <LabeledText label="좋았던 점">
+            <span className="block min-h-7 whitespace-pre-line">{project.collaboration.wentWell}</span>
+          </LabeledText>
+          <LabeledText label="개선할 점">
+            <span className="block min-h-7 whitespace-pre-line">{project.collaboration.toImprove}</span>
+          </LabeledText>
+        </dl>
       </Section>
 
       <div className="flex justify-center border-t border-border pt-10">

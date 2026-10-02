@@ -70,9 +70,10 @@ export default function AboutPage() {
       >
         <div>
           <h2 className="mb-4 text-2xl font-bold">양지훈 (Yang Jihun)</h2>
+          <p className="mb-4 font-semibold text-primary">{developerProfile.role}</p>
           <p className="mb-4 text-xl font-semibold leading-8">{developerProfile.headline}</p>
           <p className="text-base leading-8 text-muted-foreground">{developerProfile.value}</p>
-          <p className="mt-4 text-base leading-8 text-muted-foreground">RE:MIT에서는 학과의 인증 요구를 프로토타입으로 구체화해 실제 운영으로 연결했고, ZANI와 NetPlus에서는 전사·자막 데이터의 처리 방식과 응답 비용을 개선했습니다.</p>
+          <p className="mt-4 text-base leading-8 text-muted-foreground">{developerProfile.experience}</p>
         </div>
         <div className="mt-5"><DeveloperDirection /></div>
       </motion.section>

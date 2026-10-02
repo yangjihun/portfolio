@@ -27,7 +27,7 @@ export default function HomePage() {
             입니다
           </h1>
           <p className="mb-8 text-xl text-muted-foreground md:text-2xl">
-            Fullstack Developer
+            {developerProfile.role}
           </p>
           <p className="mx-auto mb-10 max-w-2xl text-xl font-semibold leading-relaxed text-foreground">
             {developerProfile.headline}
