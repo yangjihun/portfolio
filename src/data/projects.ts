@@ -98,7 +98,7 @@ export const projects: Project[] = [
     "title": "블록체인 티켓과 포토카드 거래를 제공하는 공연 예매 플랫폼",
     "image": "/asset/teacat.webp",
     "period": "2026.08 ~ 2026.10",
-    "award": "SSAFY 우수상",
+    "award": "SSAFY 우수상(1등)",
     "role": "Blockchain Developer · Backend 성능 개선 · Monitoring",
     "teamSize": 6,
     "category": "backend",
