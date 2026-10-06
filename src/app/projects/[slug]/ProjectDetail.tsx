@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -8,6 +8,9 @@ import Image from 'next/image';
 import { ArrowRight, ChevronDown, Lock, Trophy, Wrench } from 'lucide-react';
 import { categoryStyle, type Project } from '@/data/projects';
 import { formatTeamSize } from '@/lib/utils';
+import TeacatDiagrams from '@/components/TeacatDiagrams';
+import ZaniDiagrams from '@/components/ZaniDiagrams';
+import ArchitectureComparison from '@/components/diagrams/ArchitectureComparison';
 
 interface ProjectDetailProps {
   project: Project;
@@ -19,7 +22,7 @@ const SUMMARY_CLASS =
 
 function Section({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   return (
-    <section id={id} aria-labelledby={`${id}-heading`} className="mb-14 scroll-mt-52 md:scroll-mt-40">
+    <section id={id} aria-labelledby={`${id}-heading`} className="mb-14 scroll-mt-36">
       <h2 id={`${id}-heading`} className="mb-6 text-2xl font-bold">{title}</h2>
       {children}
     </section>
@@ -53,21 +56,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   const category = categoryStyle[project.category];
   const teamSize = formatTeamSize(project.teamSize);
   const activeLinks = project.links.filter((link) => link.href !== '#');
-  // 본인 행을 빼면 2인 팀은 한 줄만 남아 팀 구조가 안 보인다. 전부 두고 본인 행만 색으로 구분한다 (데이터에서 '본인'으로 표시)
-  const isSelf = (role: string) => role.includes('본인');
-  const [navStuck, setNavStuck] = useState(false);
-  const navSentinelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const sentinel = navSentinelRef.current;
-    if (!sentinel) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setNavStuck(!entry.isIntersecting),
-      { rootMargin: '-65px 0px 0px 0px', threshold: 0 }
-    );
-    observer.observe(sentinel);
-    return () => observer.disconnect();
-  }, []);
+  const ProjectDiagrams = project.id === 'teacat' ? TeacatDiagrams : project.id === 'zani' ? ZaniDiagrams : null;
+  const hasDiagrams = !!ProjectDiagrams;
 
   const handleBack = () => {
     const cameFromSite = document.referrer.startsWith(`${window.location.origin}/`) && window.history.length > 1;
@@ -76,16 +66,18 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   };
 
   const sections = [
+    ...(project.keyResults ? [{ id: 'key-results', label: '핵심 성과' }] : []),
+    ...(hasDiagrams ? [{ id: 'architecture', label: '아키텍처' }] : []),
     { id: 'overview', label: '프로젝트 개요' },
-    { id: 'responsibilities', label: '역할·팀 구성' },
+    { id: 'responsibilities', label: '담당 역할' },
     { id: 'tech-stack', label: '기술·구현' },
     ...(project.troubleshooting?.length ? [{ id: 'troubleshooting', label: '문제 해결' }] : []),
-    { id: 'outcomes', label: '성과' },
+    ...(!project.keyResults ? [{ id: 'outcomes', label: '성과' }] : []),
     { id: 'retrospective', label: '회고' },
   ];
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-12 md:py-16">
+    <div className={`container mx-auto px-4 py-12 md:py-16 ${hasDiagrams ? 'max-w-5xl' : 'max-w-4xl'}`}>
       <button type="button" onClick={handleBack} className="mb-8 flex items-center gap-2 text-muted-foreground transition-colors hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">
         <span className="text-xl" aria-hidden>←</span>뒤로 가기
       </button>
@@ -99,7 +91,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         <div>
           <div className="mb-4 flex flex-wrap items-center gap-3">
             <h1 className="text-4xl font-bold md:text-5xl">{project.name}</h1>
-            <span className={`rounded border px-3 py-1 text-sm font-medium ${category.badge}`}>{category.label}</span>
+            <span className="text-sm font-medium text-muted-foreground">{category.label}</span>
           </div>
           <p className="mb-4 text-xl font-semibold leading-relaxed">{project.title}</p>
           <div className="mb-5 flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
@@ -108,43 +100,71 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             {teamSize && <span>{teamSize}</span>}
           </div>
           {project.award && (
-            <p className="mb-6 inline-flex items-start gap-2 rounded-lg border border-primary/25 bg-primary/5 px-4 py-2.5 text-sm font-semibold leading-relaxed text-primary">
+            <p className="mb-5 inline-flex items-start gap-2 text-sm font-semibold leading-relaxed text-primary">
               <Trophy className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />{project.award}
             </p>
           )}
-          <p className="text-base leading-8 text-muted-foreground md:text-lg">{project.summary}</p>
+          {project.impact ? (
+            <p className="text-base leading-7 text-muted-foreground">{project.impact.headline}</p>
+          ) : (
+            <p className="text-base leading-8 text-muted-foreground md:text-lg">{project.summary}</p>
+          )}
 
           {activeLinks.length > 0 && (
             <div className="mt-6 flex flex-wrap gap-3">
               {activeLinks.map((link) => (
-                <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-border bg-background px-5 py-3 font-medium transition-colors hover:border-primary/40 hover:bg-primary/5">
+                <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="border-b border-primary/30 pb-1 text-sm font-medium text-primary transition-colors hover:border-primary">
                   {link.label}<span className="sr-only"> (새 탭에서 열기)</span>
                 </a>
               ))}
             </div>
           )}
           {project.notice && (
-            <p className="mt-6 flex items-start gap-2 rounded-lg border border-border bg-muted/40 px-4 py-3 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-5 flex items-start gap-2 text-xs leading-6 text-muted-foreground">
               <Lock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />{project.notice}
             </p>
           )}
         </div>
 
         {project.image && (
-          <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-border bg-muted/30 md:mt-2">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-sm bg-muted/30 md:mt-2">
             <Image src={project.image} alt={`${project.name} 서비스 화면`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 352px" priority />
           </div>
         )}
+
       </motion.header>
 
-      <div ref={navSentinelRef} />
-      <nav aria-label="프로젝트 상세 목차" className={`sticky top-16 z-40 mb-10 flex flex-wrap gap-1.5 rounded-b-lg border border-border bg-background/95 p-3 backdrop-blur-sm ${navStuck ? '' : 'rounded-t-lg'}`}>
+      <nav aria-label="프로젝트 상세 목차" className="sticky top-16 z-40 mb-10 flex gap-6 overflow-x-auto border-b border-border bg-background py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {sections.map((section) => (
-          <a key={section.id} href={`#${section.id}`} className="rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
+          <a key={section.id} href={`#${section.id}`} className="shrink-0 whitespace-nowrap text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
             {section.label}
           </a>
         ))}
       </nav>
+
+      {project.keyResults && (
+        <Section id="key-results" title="핵심 성과">
+          <dl className="grid grid-cols-3 gap-4 sm:gap-10">
+            {project.keyResults.metrics.map((metric) => (
+              <div key={metric.label} className="flex min-w-0 flex-col">
+                <dt className="order-last mt-3 text-sm font-medium leading-6">
+                  {metric.label}
+                  <span className="mt-1 block text-xs font-normal leading-5 text-muted-foreground sm:text-sm sm:leading-6">{metric.description}</span>
+                </dt>
+                <dd className="whitespace-nowrap text-[32px] font-semibold leading-none tracking-tight tabular-nums sm:text-5xl">
+                  {metric.value}<span className="ml-1 text-sm font-normal tracking-normal sm:text-2xl">{metric.unit}</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Section>
+      )}
+
+      {ProjectDiagrams && (
+        <Section id="architecture" title="시스템 아키텍처">
+          <ProjectDiagrams />
+        </Section>
+      )}
 
       {!!project.images?.length && (
         <div className="mb-12 grid gap-4 sm:grid-cols-2">
@@ -157,29 +177,21 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       )}
 
       <Section id="overview" title="프로젝트 개요">
-        <dl className="space-y-5">
-          <LabeledText label="목표">{project.overview.goal}</LabeledText>
-          <LabeledText label="배경">{project.overview.background}</LabeledText>
-          <LabeledText label="주요 기능"><TextList items={project.highlights} /></LabeledText>
-        </dl>
+        <div className="space-y-7">
+          {[
+            { title: '목표', items: project.overview.goal },
+            { title: '배경', items: project.overview.background },
+            { title: '주요 기능', items: project.highlights },
+          ].map((item) => (
+            <div key={item.title}>
+              <h3 className="mb-3 text-base font-semibold">{item.title}</h3>
+              <div className="text-muted-foreground"><TextList items={item.items} /></div>
+            </div>
+          ))}
+        </div>
       </Section>
 
-      <Section id="responsibilities" title="역할·팀 구성">
-        {project.teamRoles.length > 0 && (
-          <>
-            <h3 className="mb-4 text-lg font-semibold">팀 내 역할 분담{teamSize ? ` · ${teamSize}` : ''}</h3>
-            <dl className="mb-10 divide-y divide-border border-y border-border">
-              {project.teamRoles.map((member) => (
-                <div key={member.role} className="grid gap-2 py-4 sm:grid-cols-[12rem_minmax(0,1fr)] sm:gap-5">
-                  <dt className={`font-semibold leading-7 ${isSelf(member.role) ? 'text-primary' : ''}`}>{member.role}</dt>
-                  <dd className="text-base leading-7 text-muted-foreground">{member.detail}</dd>
-                </div>
-              ))}
-            </dl>
-          </>
-        )}
-
-        <h3 className="mb-2 text-lg font-semibold">담당 역할</h3>
+      <Section id="responsibilities" title="담당 역할">
         <p className="mb-2 font-semibold text-primary">{project.role}</p>
         <p className="mb-5 text-base leading-7 text-muted-foreground">{project.contribution.role}</p>
         <div className="divide-y divide-border border-y border-border">
@@ -200,7 +212,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         </div>
       </Section>
 
-      <Section id="tech-stack" title="사용 기술 & 이유 & 구현">
+      <Section id="tech-stack" title="기술 선택과 구현">
         {/* 기술 태그는 카드에서 이미 보여주므로 여기서는 이유·구현이 있는 기술만 나열한다.
             전부 펼치면 목록이 길어져서, 기술명만 보이고 눌러서 연다 */}
         <div className="divide-y divide-border border-y border-border">
@@ -220,10 +232,10 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
       {!!project.troubleshooting?.length && (
         <Section id="troubleshooting" title="문제 해결 사례">
-          <div className="space-y-4">
+          <div className="divide-y divide-border border-y border-border">
             {project.troubleshooting.map((item, index) => (
-              <details key={item.title} className="group overflow-hidden rounded-xl border border-border">
-                <summary className={`${SUMMARY_CLASS} bg-muted/40 p-5 group-open:border-b group-open:border-border sm:p-6`}>
+              <details key={item.title} className="group">
+                <summary className={`${SUMMARY_CLASS} py-5`}>
                   <h3 className="flex min-w-0 flex-col gap-2 text-lg font-semibold leading-7">
                     <span className="text-sm font-semibold text-primary">사례 {index + 1}{item.kind === 'design' ? ' · 설계 과제' : ''}</span>
                     <span className="flex items-start gap-2">
@@ -232,13 +244,14 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                   </h3>
                   <ChevronDown className="h-5 w-5 shrink-0 text-primary transition-transform group-open:rotate-180" aria-hidden />
                 </summary>
-                <div className="space-y-7 p-5 sm:p-6">
+                <div className="space-y-7 pb-6 pt-2">
                   <div>
                     <h4 className="mb-4 font-semibold">1. {item.kind === 'design' ? '문제 분석' : '오류 분석'}</h4>
                     <dl className="space-y-4">
                       <LabeledText label={item.kind === 'design' ? '설계 요구' : '문제 현상'}>{item.problem}</LabeledText>
                       <LabeledText label="원인">{item.cause}</LabeledText>
                       <LabeledText label="추가 확인 사항"><TextList items={item.checks} /></LabeledText>
+                      {item.measurementNote && <LabeledText label="측정 기준">{item.measurementNote}</LabeledText>}
                     </dl>
                   </div>
                   <div>
@@ -246,16 +259,21 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     <ol className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-3" aria-label="개선 단계">
                       {item.steps.map((step, stepIndex) => (
                         <li key={step} className="flex max-w-full items-center gap-2">
-                          <span className="rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-sm leading-6 text-primary"><span className="mr-1.5 font-semibold">{stepIndex + 1}.</span>{step}</span>
+                          <span className="text-sm leading-6 text-primary"><span className="mr-1.5 font-semibold">{stepIndex + 1}.</span>{step}</span>
                           {stepIndex < item.steps.length - 1 && <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />}
                         </li>
                       ))}
                     </ol>
                     <p className="text-base leading-8 text-muted-foreground">{item.solution}</p>
+                    {item.architectureChange && (
+                      <div className="mt-8">
+                        <ArchitectureComparison id={`${project.id}-case-${index + 1}-change`} title={item.title} change={item.architectureChange} />
+                      </div>
+                    )}
                   </div>
                   <div>
                     <h4 className="mb-4 font-semibold">3. {item.kind === 'design' ? '설계 요구와 구현 결과' : 'Before & After 비교'}</h4>
-                    <div className="overflow-hidden rounded-lg border border-border">
+                    <div className="border-y border-border">
                       <table className="w-full table-fixed border-collapse text-left text-sm leading-6 sm:text-base sm:leading-7">
                         <caption className="sr-only">{project.name} · {item.title} 비교</caption>
                         <colgroup><col className="w-1/4" /><col /><col /></colgroup>
@@ -277,7 +295,6 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                         </tbody>
                       </table>
                     </div>
-                    {item.measurementNote && <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.measurementNote}</p>}
                   </div>
                   <div className="border-t border-border pt-5"><h4 className="mb-2 font-semibold text-primary">해결 결과</h4><p className="text-base leading-8">{item.result}</p></div>
                 </div>
@@ -287,12 +304,12 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         </Section>
       )}
 
-      <Section id="outcomes" title="프로젝트 성과 및 결과">
-        <div className="rounded-xl border border-primary/25 bg-primary/5 p-5 sm:p-6">
+      {!project.keyResults && <Section id="outcomes" title="프로젝트 성과 및 결과">
+        <div>
           <TextList items={project.outcomes} />
           {project.award && <p className="mt-5 flex items-start gap-2 border-t border-primary/20 pt-5 font-semibold leading-7 text-primary"><Trophy className="mt-1 h-5 w-5 shrink-0" aria-hidden />{project.award}</p>}
         </div>
-      </Section>
+      </Section>}
 
       <Section id="retrospective" title="프로젝트 회고">
         <h3 className="mb-5 text-lg font-semibold">기술적 한계와 개선 방안</h3>
@@ -304,15 +321,19 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             </dl>
           ))}
         </div>
-        <h3 className="mb-5 mt-8 text-lg font-semibold">협업 시 좋았던 점, 개선할 점</h3>
-        <dl className="space-y-5 border-t border-border py-6">
-          <LabeledText label="좋았던 점">
-            <span className="block min-h-7 whitespace-pre-line">{project.collaboration.wentWell}</span>
-          </LabeledText>
-          <LabeledText label="개선할 점">
-            <span className="block min-h-7 whitespace-pre-line">{project.collaboration.toImprove}</span>
-          </LabeledText>
-        </dl>
+        {(project.collaboration.wentWell || project.collaboration.toImprove) && (
+          <>
+            <h3 className="mb-5 mt-8 text-lg font-semibold">협업 시 좋았던 점, 개선할 점</h3>
+            <dl className="space-y-5 border-t border-border py-6">
+              <LabeledText label="좋았던 점">
+                <span className="block min-h-7 whitespace-pre-line">{project.collaboration.wentWell}</span>
+              </LabeledText>
+              <LabeledText label="개선할 점">
+                <span className="block min-h-7 whitespace-pre-line">{project.collaboration.toImprove}</span>
+              </LabeledText>
+            </dl>
+          </>
+        )}
       </Section>
 
       <div className="flex justify-center border-t border-border pt-10">
