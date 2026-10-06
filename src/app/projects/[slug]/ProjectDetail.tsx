@@ -11,6 +11,7 @@ import { formatTeamSize } from '@/lib/utils';
 import TeacatDiagrams from '@/components/TeacatDiagrams';
 import ZaniDiagrams from '@/components/ZaniDiagrams';
 import ArchitectureComparison from '@/components/diagrams/ArchitectureComparison';
+import OperatingMonthCount from '@/components/OperatingMonthCount';
 
 interface ProjectDetailProps {
   project: Project;
@@ -152,7 +153,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                   <span className="mt-1 block text-xs font-normal leading-5 text-muted-foreground sm:text-sm sm:leading-6">{metric.description}</span>
                 </dt>
                 <dd className="whitespace-nowrap text-[32px] font-semibold leading-none tracking-tight tabular-nums sm:text-5xl">
-                  {metric.value}<span className="ml-1 text-sm font-normal tracking-normal sm:text-2xl">{metric.unit}</span>
+                  {metric.kind === 'operating-months' ? (
+                    <OperatingMonthCount startMonth={metric.startMonth} unit={metric.unit} />
+                  ) : (
+                    <>{metric.value}<span className="ml-1 text-sm font-normal tracking-normal sm:text-2xl">{metric.unit}</span></>
+                  )}
                 </dd>
               </div>
             ))}

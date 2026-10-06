@@ -54,8 +54,19 @@ export interface ProjectImpact {
   headline: string;
 }
 
+interface ProjectKeyMetricBase {
+  unit?: string;
+  label: string;
+  description: string;
+}
+
+export type ProjectKeyMetric = ProjectKeyMetricBase & (
+  | { kind?: 'static'; value: string }
+  | { kind: 'operating-months'; startMonth: string }
+);
+
 export interface ProjectKeyResults {
-  metrics: { value: string; unit?: string; label: string; description: string }[];
+  metrics: ProjectKeyMetric[];
   measurementNote: string;
 }
 
@@ -1541,11 +1552,19 @@ export const projects: Project[] = [
     "name": "RE:MIT",
     "title": "학과 스터디룸 예약 관리 시스템",
     "image": "/asset/remit.webp",
-    "period": "2025.10 ~ 운영 중",
+    "period": "2025.10 ~ 현재",
     "role": "PM · Fullstack Developer",
     "teamSize": 5,
     "category": "fullstack",
-    "summary": "학과 사무실에서 수동으로 관리하던 스터디룸 예약을 웹 서비스로 전환한 예약 시스템입니다. 배포 이후 사용자 문의와 개선 요청을 반영하며 실제 학과에서 운영 중입니다.",
+    "summary": "학과 사무실의 수동 스터디룸 예약을 웹 서비스로 전환했습니다. 2026년 4월부터 실운영하며 전체 학과생의 25% 이상을 실사용자로 확보했고, 사용자 문의와 개선 요청을 반영하고 있습니다.",
+    "keyResults": {
+      "metrics": [
+        { "value": "25", "unit": "% 이상", "label": "실사용자 확보율", "description": "전체 학과생 기준" },
+        { "kind": "operating-months", "startMonth": "2026-04", "unit": "개월째", "label": "실운영 기간", "description": "2026.04부터 운영 중" },
+        { "value": "90", "unit": "%", "label": "뷰 파일 크기 감소", "description": "82.7KB → 8.3KB" }
+      ],
+      "measurementNote": "실사용자 비율은 제공된 운영 실적 기준입니다. 운영 개월 수는 2026년 4월을 1개월째로 세며 한국 날짜로 계산합니다. 뷰 파일 크기 감소율은 반올림한 근사치입니다."
+    },
     "techTags": [
       "PHP",
       "Laravel",
@@ -1752,7 +1771,7 @@ export const projects: Project[] = [
       "impact": "인증 기준을 확정해 실제 학과 운영으로 연결했습니다. 가장 큰 Blade 파일을 82.7KB에서 8.3KB로 줄이고 사용자 문의와 예약 지표를 바탕으로 개선하는 기반을 마련했습니다."
     },
     "outcomes": [
-      "가천대학교 금융수학과에서 실제 스터디룸 예약·관리 서비스 운영",
+      "2026년 4월부터 가천대학교 금융수학과에서 실운영·전체 학과생의 25% 이상을 실사용자로 확보",
       "학과생 여부와 이메일 소유 여부를 함께 확인하는 가입 기준 구현",
       "Blade 파일 82.7KB → 8.3KB, 약 90% 감소",
       "자체 예약 통계와 Clarity를 활용한 운영 모니터링 및 사용자 피드백 반영"
