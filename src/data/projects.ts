@@ -145,9 +145,9 @@ export const projects: Project[] = [
       "metrics": [
         { "value": "105", "unit": "명", "label": "실사용자 확보", "description": "진입 장벽 개선 · 3주 운영" },
         { "value": "93.1", "unit": "%", "label": "FDS 재현율", "description": "합성 평가 · 기존 규칙 37.2%" },
-        { "value": "5,000", "unit": "명", "label": "대기실 정원", "description": "Redis + Lua · 기본 설정" }
+        { "value": "20", "unit": "ms", "label": "좌석 조회 서버 p95", "description": "3,600 VU · 서버 직접 호출" }
       ],
-      "measurementNote": "실사용자는 3주 운영 기간 기준입니다. FDS 재현율은 합성 검증 547건 기준이며 정밀도는 95.0%입니다. 대기실 정원은 설정값입니다."
+      "measurementNote": "실사용자는 3주 운영 기간 기준입니다. FDS 재현율은 합성 검증 547건 기준이며 정밀도는 95.0%입니다. 좌석 조회 p95 20ms는 3,600 VU의 서버 직접 호출 기준입니다."
     },
     "techTags": [
       "Solidity",
