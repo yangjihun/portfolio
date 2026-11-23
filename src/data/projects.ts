@@ -110,12 +110,12 @@ const parseStartMonth = (period: string) => {
 /** 카드·목록·상세에서 공통으로 쓰는 카테고리 표기.
  *  딥 틸 테마에 맞춰 틸 인접색(sky·emerald)과 보색 포인트(amber·rose)로 구분한다. timeline.ts 배지와 같은 시스템 */
 export const categoryStyle: Record<TechCategory, { label: string; badge: string }> = {
-  frontend:  { label: 'Frontend',  badge: 'bg-sky-100 text-sky-800 border-sky-300' },
-  backend:   { label: 'Backend',   badge: 'bg-emerald-100 text-emerald-800 border-emerald-300' },
+  frontend: { label: 'Frontend', badge: 'bg-sky-100 text-sky-800 border-sky-300' },
+  backend: { label: 'Backend', badge: 'bg-emerald-100 text-emerald-800 border-emerald-300' },
   fullstack: { label: 'Fullstack', badge: 'bg-amber-100 text-amber-800 border-amber-300' },
-  infra:     { label: 'Infra',     badge: 'bg-orange-100 text-orange-800 border-orange-300' },
-  ai:        { label: 'AI',        badge: 'bg-rose-100 text-rose-800 border-rose-300' },
-  other:     { label: 'Other',     badge: 'bg-slate-100 text-slate-600 border-slate-300' },
+  infra: { label: 'Infra', badge: 'bg-orange-100 text-orange-800 border-orange-300' },
+  ai: { label: 'AI', badge: 'bg-rose-100 text-rose-800 border-rose-300' },
+  other: { label: 'Other', badge: 'bg-slate-100 text-slate-600 border-slate-300' },
 };
 
 export const projects: Project[] = [
@@ -364,16 +364,20 @@ export const projects: Project[] = [
       {
         "title": "커스터디 지갑으로 진입 장벽을 낮추고 실사용자 105명 확보",
         "architectureChange": {
-          "before": { "label": "외부 지갑 전제", "nodes": [
-            { "id": "wallet", "title": "외부 지갑 준비", "detail": "설치·연결·시드 관리" },
-            { "id": "sign", "title": "사용자 직접 서명", "detail": "블록체인 작업마다 지갑 사용" },
-            { "id": "use", "title": "티켓·NFT 이용", "detail": "자산 발행·소유 확인" }
-          ] },
-          "after": { "nodes": [
-            { "id": "signup", "title": "일반 회원가입", "detail": "외부 지갑 준비 과정 제거", "changed": true },
-            { "id": "custody", "title": "서버 HD 지갑·서명", "detail": "회원별 자동 발급·서비스에서 서명", "changed": true },
-            { "id": "use", "title": "티켓·NFT 이용", "detail": "자산 발행·소유 확인" }
-          ] },
+          "before": {
+            "label": "외부 지갑 전제", "nodes": [
+              { "id": "wallet", "title": "외부 지갑 준비", "detail": "설치·연결·시드 관리" },
+              { "id": "sign", "title": "사용자 직접 서명", "detail": "블록체인 작업마다 지갑 사용" },
+              { "id": "use", "title": "티켓·NFT 이용", "detail": "자산 발행·소유 확인" }
+            ]
+          },
+          "after": {
+            "nodes": [
+              { "id": "signup", "title": "일반 회원가입", "detail": "외부 지갑 준비 과정 제거", "changed": true },
+              { "id": "custody", "title": "서버 HD 지갑·서명", "detail": "회원별 자동 발급·서비스에서 서명", "changed": true },
+              { "id": "use", "title": "티켓·NFT 이용", "detail": "자산 발행·소유 확인" }
+            ]
+          },
           "caption": "외부 지갑을 준비하고 직접 서명하는 과정을 서비스의 자동 지갑 발급·서명으로 바꿨습니다."
         },
         "problem": "실제 사용자를 유입해야 하는 3주간의 운영에서, NFT 기능을 위해 사용자가 MetaMask 같은 외부 지갑을 미리 준비하고 연결해야 한다면 가입 장벽이 높아질 수 있었습니다.",
@@ -409,16 +413,20 @@ export const projects: Project[] = [
       {
         "title": "좌석 조회 캐시·연결 개선으로 p95 1.34초 → 13ms 단축",
         "architectureChange": {
-          "before": { "nodes": [
-            { "id": "request", "title": "반복 좌석 조회", "detail": "좌석 화면에서 3초마다 요청" },
-            { "id": "api", "title": "nginx → Spring", "detail": "연결 생성·요청마다 DB 조회" },
-            { "id": "db", "title": "PostgreSQL", "detail": "같은 좌석맵 반복 조회·커넥션 대기" }
-          ] },
-          "after": { "nodes": [
-            { "id": "admission", "title": "대기실·연결 재사용", "detail": "Redis + Lua 입장 제어·nginx keepalive", "changed": true },
-            { "id": "cache", "title": "Spring + 1초 캐시", "detail": "Caffeine으로 동일 좌석맵 조회 공유", "changed": true },
-            { "id": "db", "title": "PostgreSQL", "detail": "캐시 미스에만 좌석맵 조회" }
-          ] },
+          "before": {
+            "nodes": [
+              { "id": "request", "title": "반복 좌석 조회", "detail": "좌석 화면에서 3초마다 요청" },
+              { "id": "api", "title": "nginx → Spring", "detail": "연결 생성·요청마다 DB 조회" },
+              { "id": "db", "title": "PostgreSQL", "detail": "같은 좌석맵 반복 조회·커넥션 대기" }
+            ]
+          },
+          "after": {
+            "nodes": [
+              { "id": "admission", "title": "대기실·연결 재사용", "detail": "Redis + Lua 입장 제어·nginx keepalive", "changed": true },
+              { "id": "cache", "title": "Spring + 1초 캐시", "detail": "Caffeine으로 동일 좌석맵 조회 공유", "changed": true },
+              { "id": "db", "title": "PostgreSQL", "detail": "캐시 미스에만 좌석맵 조회" }
+            ]
+          },
           "caption": "DB 앞에 캐시를 두고, 입장 제어와 연결 재사용으로 예매 시점에 몰리는 요청을 줄였습니다."
         },
         "problem": "2,400 VU 부하에서 DB 커넥션과 요청 처리 스레드가 포화되면서 좌석 조회 p95가 약 7.08초까지 늘고, 요청의 약 4.0%가 타임아웃으로 실패했습니다.",
@@ -452,16 +460,20 @@ export const projects: Project[] = [
       {
         "title": "메타데이터·이미지 경로 분리로 NFT 이미지 407건 이관",
         "architectureChange": {
-          "before": { "nodes": [
-            { "id": "lookup", "title": "이미지·메타데이터 조회", "detail": "두 경로 모두 Pinata / IPFS에 의존", "row": 0 },
-            { "id": "metadata", "title": "NFT 메타데이터", "detail": "공연별 새 JSON·CID", "row": 1 },
-            { "id": "image", "title": "화면용 이미지", "detail": "Pinata 게이트웨이", "row": 1 }
-          ], "edges": [["lookup", "metadata"], ["lookup", "image"]] },
-          "after": { "nodes": [
-            { "id": "lookup", "title": "이미지·메타데이터 조회", "detail": "용도에 맞는 저장소·URI로 연결", "row": 0 },
-            { "id": "metadata", "title": "NFT 메타데이터", "detail": "IPFS·템플릿 CID 재사용", "row": 1, "changed": true },
-            { "id": "image", "title": "화면용 이미지", "detail": "객체 저장소·고정 URL", "row": 1, "changed": true }
-          ], "edges": [["lookup", "metadata"], ["lookup", "image"]] },
+          "before": {
+            "nodes": [
+              { "id": "lookup", "title": "이미지·메타데이터 조회", "detail": "두 경로 모두 Pinata / IPFS에 의존", "row": 0 },
+              { "id": "metadata", "title": "NFT 메타데이터", "detail": "공연별 새 JSON·CID", "row": 1 },
+              { "id": "image", "title": "화면용 이미지", "detail": "Pinata 게이트웨이", "row": 1 }
+            ], "edges": [["lookup", "metadata"], ["lookup", "image"]]
+          },
+          "after": {
+            "nodes": [
+              { "id": "lookup", "title": "이미지·메타데이터 조회", "detail": "용도에 맞는 저장소·URI로 연결", "row": 0 },
+              { "id": "metadata", "title": "NFT 메타데이터", "detail": "IPFS·템플릿 CID 재사용", "row": 1, "changed": true },
+              { "id": "image", "title": "화면용 이미지", "detail": "객체 저장소·고정 URL", "row": 1, "changed": true }
+            ], "edges": [["lookup", "metadata"], ["lookup", "image"]]
+          },
           "caption": "NFT 메타데이터는 IPFS에서 템플릿별 CID를 재사용하고, 화면용 이미지는 객체 저장소의 고정 URL로 제공합니다. 기존 NFT의 온체인 URI와 메타데이터 내 IPFS 이미지 참조는 유지했습니다."
         },
         "problem": "Pinata 무료 플랜의 파일 수 한도 500개를 넘어 핀이 507개가 되자 운영 전용 게이트웨이가 403을 반환했습니다. 경매 상세, 마켓 목록, 포카덱스의 이미지가 실제 그림 대신 대체 이미지로 표시됐습니다.",
@@ -497,17 +509,21 @@ export const projects: Project[] = [
       {
         "title": "FDS 합성 평가 재현율 37.2% → 93.1%로 개선",
         "architectureChange": {
-          "before": { "nodes": [
-            { "id": "features", "title": "거래 정보·행동 피처", "detail": "가격·계정 관계·거래 이력" },
-            { "id": "rules", "title": "8개 탐지 규칙", "detail": "개별 조건·임계값으로 판정" },
-            { "id": "decision", "title": "관리자 심사·정산", "detail": "규칙 판정에 따라 FLAG / HOLD" }
-          ] },
-          "after": { "nodes": [
-            { "id": "features", "title": "거래 정보·행동 피처", "detail": "가격·계정 관계·거래 이력", "row": 0 },
-            { "id": "rules", "title": "8개 탐지 규칙", "detail": "기존 판정 경로 유지", "row": 1 },
-            { "id": "shadow", "title": "ML 섀도 모델", "detail": "위험 점수만 저장", "row": 1, "changed": true },
-            { "id": "decision", "title": "관리자 심사·정산", "detail": "규칙 판정에 따라 FLAG / HOLD", "row": 2 }
-          ], "edges": [["features", "rules"], ["features", "shadow"], ["rules", "decision"]] },
+          "before": {
+            "nodes": [
+              { "id": "features", "title": "거래 정보·행동 피처", "detail": "가격·계정 관계·거래 이력" },
+              { "id": "rules", "title": "8개 탐지 규칙", "detail": "개별 조건·임계값으로 판정" },
+              { "id": "decision", "title": "관리자 심사·정산", "detail": "규칙 판정에 따라 FLAG / HOLD" }
+            ]
+          },
+          "after": {
+            "nodes": [
+              { "id": "features", "title": "거래 정보·행동 피처", "detail": "가격·계정 관계·거래 이력", "row": 0 },
+              { "id": "rules", "title": "8개 탐지 규칙", "detail": "기존 판정 경로 유지", "row": 1 },
+              { "id": "shadow", "title": "ML 섀도 모델", "detail": "위험 점수만 저장", "row": 1, "changed": true },
+              { "id": "decision", "title": "관리자 심사·정산", "detail": "규칙 판정에 따라 FLAG / HOLD", "row": 2 }
+            ], "edges": [["features", "rules"], ["features", "shadow"], ["rules", "decision"]]
+          },
           "caption": "ML은 기존 규칙 옆에서 점수만 기록합니다. 모델 점수가 관리자 심사나 정산 보류를 결정하지 않습니다."
         },
         "problem": "8개 규칙 중 반복 거래쌍 규칙은 두 계정 사이만 확인해 A→B→C→A 형태의 3자 순환거래를 놓쳤습니다. 꾸민 카드에 적용한 가격 규칙 예외로 꾸밈 후 고가 거래도 탐지하지 못했습니다.",
@@ -605,7 +621,7 @@ export const projects: Project[] = [
     },
     "preview": {
       "features": "실시간 참여도 분석, 강의 전사·리포트, 다중 강의 검색·질의응답",
-      "problemSolving": "현재 강의 전체 전사를 입력하던 챗봇에 LangGraph 검색 라우팅을 적용해 필요한 강의·원문을 선별하고, 다른 강의 검색과 출처 영상 이동을 지원했습니다."
+      "problemSolving": "강의 범위를 정하는 LangGraph 챗봇과 읽기 전용 MCP 검색 서버를 구성했습니다. LLM이 학생의 질문에 맞는 도구를 고르고, 답변에 인용된 강의 원문에서 해당 영상 구간으로 이동할 수 있습니다."
     },
     "name": "ZANI",
     "title": "학생 집중도를 실시간으로 분석하고 맞춤 리포트를 제공하는 AI 강의 플랫폼",
@@ -615,17 +631,17 @@ export const projects: Project[] = [
     "role": "Fullstack Developer · Frontend / AI",
     "teamSize": 5,
     "category": "fullstack",
-    "summary": "학생의 수업 집중도를 브라우저 안의 AI로 판정해 강사에게 실시간 코칭 팁을 제공하고, 녹화·전사·참여도를 같은 시간축에 정리한 리포트와 복습 클립을 만드는 강의 플랫폼입니다. LangGraph 기반 챗봇에서 여러 강의를 검색·비교하고 답변 출처의 영상 구간으로 이동할 수 있습니다.",
+    "summary": "학생의 수업 집중도를 브라우저 안의 AI로 판정해 강사에게 실시간 코칭 팁을 제공하고, 녹화 영상과 전사, 참여도를 같은 시간축에 정리한 리포트와 복습 클립을 만드는 강의 플랫폼입니다. 리포트 챗봇은 여러 강의의 내용을 검색하고 비교합니다. 후속 개발에서는 LLM이 질문에 맞춰 MCP 검색 도구를 선택하고 강의 원문을 인용하도록 구성했습니다.",
     "impact": {
-      "headline": "실시간 음성 전사와 다중 강의 RAG를 설계하고, 리포트 API·플레이어와 프론트엔드를 구현했습니다."
+      "headline": "실시간 음성 전사와 다중 강의 RAG, 리포트 API와 플레이어를 구현했습니다. 후속 개발에서는 강의 검색을 MCP 서버로 분리하고 도구 선택 기준을 스킬로 작성했습니다."
     },
     "keyResults": {
       "metrics": [
-        { "value": "93.7", "unit": "%", "label": "근거 Recall", "description": "합성 평가 · 기존 85.2%" },
+        { "value": "96.1", "unit": "%", "label": "MCP 원문 검색 Recall@50", "description": "합성 강의 19문항 평균. 기존 94.7%" },
         { "value": "1.4", "unit": "초", "label": "목록 페이지 LCP", "description": "썸네일 최적화 · 기존 3.5초" },
         { "value": "99.62", "unit": "%", "label": "커밋 규칙 준수율", "description": "1,300개 중 규칙 위반 5건" }
       ],
-      "measurementNote": "Recall은 BM25 보완 전후 합성 48문항 기준입니다. LCP는 기존 Lighthouse 측정 기록입니다."
+      "measurementNote": "합성 강의 한 편의 답변 가능 19문항에서 두 방식의 원문 검색 후보를 같은 BM25 기준으로 정렬했습니다. 각 문항의 정답 발화 중 상위 50개 안에 든 비율을 구해 평균했습니다. 후보가 50개보다 적으면 전부 포함했습니다. 문항별 후보 수까지 맞춘 결과는 기존 94.7%, MCP 74.1%였습니다. LCP는 목록 페이지의 Lighthouse 측정값입니다."
     },
     "techTags": [
       "Next.js",
@@ -641,14 +657,16 @@ export const projects: Project[] = [
       "Whisper · LLM",
       "Python",
       "LangGraph",
+      "MCP",
       "BM25",
+      "SKILL.md",
       "RAG"
     ],
     "notice": "대외비 정책에 따라 저장소와 상세 코드는 공개하지 않습니다.",
     "highlights": [
       "브라우저 참여도 분석과 학생 응답을 집계해 강사에게 실시간 코칭 제공",
       "녹화·전사·참여도를 연결한 리포트와 복습 클립·퀴즈 제공",
-      "다중 강의 검색·비교와 실제 전사 인용, 근거 영상 구간 이동 지원"
+      "챗봇이 강의별 질문에 맞는 MCP 도구로 근거를 찾고, 강의 원문 인용과 출처 영상 시각 제공"
     ],
     "responsibilities": [
       {
@@ -678,19 +696,23 @@ export const projects: Project[] = [
         ]
       },
       {
-        "title": "다중 강의 검색 라우팅 챗봇 구현",
+        "title": "다중 강의 RAG 챗봇과 MCP 검색 서버 구현",
         "items": [
           {
-            "title": "강의 범위 판단·원문 검색",
-            "detail": "질문·이력·강의 제목·목차로 필요한 강의와 강의별 검색 질문을 결정하는 LangGraph 구성. 강의별 목차 최대 3구간의 원문과 원래 질문의 BM25 상위 최대 3발화를 병합해 답변 근거 선별"
+            "title": "강의 범위 판단과 질문별 검색 도구 선택",
+            "detail": "LangGraph가 질문과 대화 이력, 강의 제목과 목차로 검색할 강의를 정하고 강의별 검색 질문을 구성. 캐시된 원문으로 답하기 어려우면 LLM이 스킬의 선택 기준에 따라 도구 하나와 검색어를 반환"
           },
           {
-            "title": "LLM Wiki·지식 그래프 보완",
-            "detail": "원문 참조를 가진 개념 페이지와 선수·대조·관련 관계를 사전 생성하는 파일 기반 인덱스 구현. 원문이 부족하거나 재검색할 때 활용하고, 원문 해시 대조·강의별 개념 ID 분리·최대 2홉 탐색 적용"
+            "title": "읽기 전용 강의 검색 MCP 서버",
+            "detail": "챗봇과 별도 프로세스에서 강의 원문, LLM Wiki, 지식 그래프 검색을 제공. 챗봇이 tools/list로 도구 목록을 조회하고, 모델이 선택한 검색어에 Spring이 접근을 허용한 강의 자료를 결합해 tools/call로 호출"
+          },
+          {
+            "title": "개념과 관계에서 원문 근거 찾기",
+            "detail": "정의나 별칭은 LLM Wiki, 선수 개념이나 명시적 관계는 지식 그래프, 강사의 표현이나 실습 예시는 강의 원문을 우선하도록 SKILL.md에 명시. Wiki와 그래프는 원문 해시를 확인한 인덱스에서 발화 ID를 반환하고, 결과가 비면 같은 검색어로 원문을 조회"
           },
           {
             "title": "답변 검증·재시도",
-            "detail": "질문의 필수 항목과 답변 문장을 원문 ID로 대조하고, 근거 부족은 재검색·내용 누락은 답변 수정으로 분기. 검증된 주장과 인용을 보존하며 최대 2회 재시도하고 최종 인용은 서버 원문에서 구성"
+            "detail": "답변에 포함된 주장과 인용을 원문에 대조. 근거 부족은 재검색, 이미 확보한 근거로 해결할 수 있는 내용 누락은 답변 수정으로 분기. 검증 재시도는 기본 최대 2회이며 최종 인용문과 영상 시각은 서버가 원문에서 구성"
           },
           {
             "title": "다중 강의 API·영상 이동 UI",
@@ -698,7 +720,7 @@ export const projects: Project[] = [
           },
           {
             "title": "품질 평가·코드 책임 분리",
-            "detail": "합성 3강의 48문항·추가 24문항으로 검색 근거, 초안·최종 답변, 검증 피드백, 토큰·시간을 기록하고 gpt-4o로 익명 비교 채점. 그래프 연결·검색·검증·통신을 분리해 graph.py를 기존 저장 버전 478줄에서 현재 108줄로 정리하고 Python 관련 테스트 75개 통과"
+            "detail": "초기 LangGraph 개발에서 합성 3강의 48문항과 추가 24문항으로 검색, 답변, 지연, 토큰을 기록하고 익명 비교 채점. 당시 graph.py를 478줄에서 108줄로 정리하고 관련 Python 테스트 75개 통과. MCP 도입 후에는 동일 강의 구간과 질문을 고정해 두 버전의 원문 검색 후보를 별도로 비교"
           }
         ]
       },
@@ -748,98 +770,159 @@ export const projects: Project[] = [
       {
         "tech": "Python · LangGraph",
         "reason": "현재 강의 전체 전사를 입력하던 방식에서 필요한 강의를 먼저 고르고, 검색·생성·검증 결과에 따라 다음 동작을 달리해야 했습니다.",
-        "implementation": "강의 범위 판단 → 강의별 검색 → 답변 생성 → 검증을 노드로 구성했습니다. 근거 부족은 재검색, 답변 누락은 재생성으로 분기하고 캐시·원문 출처를 확인했습니다."
+        "implementation": "강의 범위 결정, 캐시 근거 확인, MCP 검색, 답변 생성과 검증을 노드로 구성했습니다. 검증에서 추가 근거가 필요하면 다시 검색하고, 확보한 근거로 답변을 고칠 수 있으면 초안을 수정합니다."
+      },
+      {
+        "tech": "MCP와 서버 측 스킬",
+        "reason": "강의마다 필요한 검색 방식이 달라, 챗봇이 사용할 수 있는 도구와 도구 선택 기준을 각각 관리할 필요가 있었습니다.",
+        "implementation": "별도 MCP 서버가 /mcp에서 읽기 전용 검색 도구 3개를 제공합니다. 챗봇은 도구 목록과 설명을 읽고, 서버 패키지의 SKILL.md에서 검색 단계에는 Search 지침을, 답변 생성과 수정에는 Answer 지침을 불러옵니다. LLM이 선택한 도구와 검색어를 검증한 뒤 챗봇 서버가 원문 자료를 붙여 실행합니다."
       },
       {
         "tech": "RAG · BM25",
         "reason": "질문과 무관한 전사를 줄이면서, 목차 요약이나 재작성한 검색 질문에서 빠진 코드·실습 조건도 찾아야 했습니다.",
-        "implementation": "목차·요약으로 고른 구간 원문에 원래 질문의 BM25 검색 결과를 보완했습니다. 후보 강의 안에서 검색하고 중복 제거·강의별 배분 후 근거를 최대 24,000바이트·80발화로 제한했습니다."
+        "implementation": "원문 검색 도구에서 목차로 고른 구간, 원래 질문과 LLM이 작성한 검색어의 BM25 결과, 주변 발화를 합쳤습니다. 중복을 제거하고 강의별로 배분해 답변에 전달할 근거를 최대 24,000바이트와 80발화로 제한했습니다."
       },
       {
         "tech": "LLM Wiki · 지식 그래프",
-        "reason": "원문 검색이 부족할 때 개념별 설명과 선수 관계를 통해 추가 근거를 찾기 위한 보완 수단으로 연결했습니다.",
-        "implementation": "개념 페이지와 prerequisite_of·contrasts_with·related_to 관계를 원문 참조와 함께 사전 생성했습니다. 실제 선수 간선이 있을 때만 선수 관계를 탐색하고, Wiki·그래프에서 연결한 원문으로 답변을 뒷받침하도록 했습니다."
+        "reason": "학생이 개념의 정의나 선수 관계를 묻는 경우, 개념별로 정리한 강의 내용과 원문 참조를 먼저 살펴볼 수 있도록 했습니다.",
+        "implementation": "개념 페이지와 prerequisite_of, contrasts_with, related_to 관계를 원문 참조와 함께 사전 생성했습니다. Wiki와 그래프를 각각 독립된 MCP 도구로 제공하고, 실제 선수 관계가 기록된 경우 해당 관계의 강의 발화를 근거로 반환합니다."
       }
     ],
     "troubleshooting": [
       {
-        "title": "다중 강의 RAG 검색 개선으로 합성 평가 정답률 81.25% 확보",
+        "title": "질문에 맞춰 강의 원문, LLM Wiki, 지식 그래프를 선택하는 MCP 검색 구현",
         "architectureChange": {
-          "before": { "nodes": [
-            { "id": "question", "title": "사용자 질문", "detail": "강의 내용에 대한 질의" },
-            { "id": "transcript", "title": "현재 강의 전체 전사", "detail": "질문과 무관한 내용까지 모델 입력" },
-            { "id": "answer", "title": "LLM 답변", "detail": "현재 강의 자료에 한정" }
-          ] },
-          "after": { "nodes": [
-            { "id": "question", "title": "사용자 질문", "detail": "강의 내용에 대한 질의" },
-            { "id": "retrieval", "title": "LangGraph 검색 라우팅", "detail": "원문 검색: 목차 선택 + BM25\nLLM Wiki·지식 그래프: 원문 부족 / 재검색", "changed": true },
-            { "id": "verification", "title": "LLM 답변 생성·검증", "detail": "근거 부족은 재검색·답변 누락은 재생성", "changed": true },
-            { "id": "citation", "title": "인용·출처 영상 이동", "detail": "현재 강의 + 최대 4개 강의 지원", "changed": true }
-          ] },
-          "caption": "목차 선택·BM25로 강의 원문을 검색하고, 원문이 없거나 재검색할 때 사전 구축된 LLM Wiki·지식 그래프로 보완합니다. 선별한 근거로 LLM 답변을 생성·검증하고 인용과 영상 시각을 연결합니다."
+          "before": {
+            "label": "초기 다중 강의 검색",
+            "nodes": [
+              {
+                "id": "scope",
+                "title": "강의 범위 선택",
+                "detail": "질문에 필요한 강의 결정"
+              },
+              {
+                "id": "transcript",
+                "title": "강의 원문 검색",
+                "detail": "목차로 고른 구간과 BM25 발화"
+              },
+              {
+                "id": "supplement",
+                "title": "Wiki와 그래프 보완",
+                "detail": "근거 부족 또는 재검색 때 조회"
+              }
+            ]
+          },
+          "after": {
+            "label": "MCP 도구와 서버 측 스킬",
+            "nodes": [
+              {
+                "id": "scope",
+                "title": "Spring 권한 확인",
+                "detail": "선택한 강의의 자료를 챗봇에 전달",
+                "row": 0
+              },
+              {
+                "id": "agent",
+                "title": "LangGraph 챗봇",
+                "detail": "강의 범위와 기존 근거 확인",
+                "row": 1,
+                "changed": true
+              },
+              {
+                "id": "choice",
+                "title": "LLM 도구 선택",
+                "detail": "도구 목록과 SKILL.md 참고\n도구와 검색어 선택",
+                "row": 1,
+                "changed": true
+              },
+              {
+                "id": "tools",
+                "title": "별도 MCP 검색 서버",
+                "detail": "선택한 강의 자료 검색\n근거 발화 ID 반환",
+                "row": 2,
+                "changed": true
+              },
+              {
+                "id": "verify",
+                "title": "답변과 원문 대조",
+                "detail": "인용문과 영상 시각 확인\n근거가 부족하면 재검색",
+                "row": 2,
+                "changed": true
+              }
+            ],
+            "edges": [
+              [
+                "scope",
+                "agent"
+              ],
+              [
+                "agent",
+                "choice"
+              ],
+              [
+                "choice",
+                "tools"
+              ],
+              [
+                "tools",
+                "verify"
+              ]
+            ]
+          },
+          "caption": "LLM은 도구 목록과 SKILL.md를 참고해 강의 원문, LLM Wiki, 지식 그래프 중 어디를 검색할지 정합니다. MCP 서버는 Spring이 접근을 허용한 자료에서 근거 발화 ID를 반환합니다. 챗봇은 해당 발화를 바탕으로 답변을 작성하고 인용을 확인합니다."
         },
-        "problem": "기존 챗봇은 현재 강의의 전체 전사를 LLM에 전달해 답변을 생성했습니다. 질문과 무관한 설명·실습 안내까지 함께 입력됐고, 다른 강의의 내용을 묻거나 여러 강의를 비교하는 질문에는 필요한 자료를 가져올 수 없었습니다.",
-        "cause": "입력 자료가 현재 강의에 한정되어 있었고, 질문에 필요한 강의·구간을 먼저 고르는 과정이 부족했습니다. 여러 강의를 지원하려면 자료 접근 범위를 확장하는 동시에, 모든 전사를 답변 모델에 넣지 않도록 근거를 선별해야 했습니다.",
+        "problem": "초기 다중 강의 챗봇은 LangGraph로 강의와 구간을 고르고 BM25로 관련 발화를 찾았습니다. 강사의 실습 예시를 묻는 질문과 개념의 정의나 선수 관계를 묻는 질문이 모두 같은 원문 검색에서 시작했습니다.",
+        "cause": "정의와 별칭은 LLM Wiki에, 개념 사이의 관계는 지식 그래프에 정리돼 있었습니다. 기존 챗봇은 원문 근거가 부족하거나 재검색할 때에만 이 자료들을 조회했습니다.",
         "checks": [
-          "현재 강의·다른 강의·강의 간 비교 질문을 구분하고, 필요한 각 강의의 원문을 확보할 수 있는지 확인했습니다.",
-          "선택한 강의의 접근 권한, 서로 다른 강의의 동일 구간 번호, 캐시의 원문 버전과 인용 출처를 함께 검사했습니다.",
-          "합성 Java·Spring 3강의 48문항과 추가 24문항에서 원문·질문·정답 근거를 고정하고, 검색 결과·답변·검증 피드백·토큰·시간을 기록했습니다.",
-          "Python 평가 실행기로 실제 LangGraph와 gpt-4o-mini 생성·검증을 실행하고 gpt-4o로 후보 순서를 섞어 채점했습니다. 저장 응답으로 결과를 재현하고 pytest 75개와 Ruff·strict mypy 검사도 통과했습니다."
+          "Spring이 접근을 허용한 강의 자료만 검색하도록 하고, LLM이 지정하는 도구 인자는 검색어로 제한했습니다. 반환된 발화의 강의 ID와 시각으로 출처 영상을 확인할 수 있습니다.",
+          "Wiki나 그래프에서 근거를 확보하지 못하면 같은 검색어로 원문을 조회하고, 도구가 반환한 ID를 서버가 보유한 원문과 대조하도록 구성했습니다.",
+          "합성 강의 1편의 24문항 중 정답 발화가 있는 19문항을 평가했습니다. 원래 질문과 처음 선택한 강의 구간을 고정하고, 두 방식이 첫 답변 초안에 전달한 원문 발화를 같은 BM25 기준으로 정렬했습니다."
         ],
         "steps": [
-          "전체 전사 입력의 한계 확인",
-          "다중 강의 선택·권한 검사",
-          "질문에 필요한 강의 결정",
-          "목차·BM25 원문 검색",
-          "LLM Wiki·지식 그래프 조건부 보완",
-          "답변 검증·재시도 분기",
-          "강의별 인용·영상 이동 연결",
-          "합성 질문으로 검색·답변 평가"
+          "권한이 있는 강의와 검색 질문 결정",
+          "MCP에서 이용 가능한 도구 목록 조회",
+          "스킬을 참고해 LLM이 도구와 검색어 선택",
+          "별도 MCP 서버에 검색 요청",
+          "근거 발화로 초안 작성 및 인용 검증"
         ],
-        "solution": "LangGraph 검색 라우팅을 도입해 질문·이력·제목·목차로 필요한 강의를 먼저 고르고 강의별 검색 질문을 만들도록 구성했습니다. 각 강의에서 목차 최대 3구간의 실제 전사 원문을 읽고, 원래 질문의 BM25 검색으로 최대 3발화를 보완해 중복·용량을 정리했습니다. 원문이 없거나 재검색할 때는 사전 구축된 LLM Wiki의 개념 페이지와 지식 그래프의 관계·연결 원문으로 근거를 보완합니다. 질문의 필수 내용·주장·인용을 검증해 근거 부족은 재검색, 답변 누락은 수정으로 분기했습니다. 사용자는 현재 강의 외 최대 4개 강의를 선택하고 답변 인용에서 해당 영상 시각으로 이동할 수 있습니다.",
+        "solution": "읽기 전용 강의 검색 도구를 별도 MCP 서버에 등록했습니다. 챗봇은 tools/list로 확인한 도구 설명과 SKILL.md의 Search 지침을 LLM에 전달합니다. 개념 정의와 별칭은 search_concept_wiki, 선수 개념과 명시적 관계는 find_concept_relations, 강사의 표현이나 예시는 search_transcript를 우선합니다. 도구와 검색어가 결정되면 챗봇이 허용된 강의 자료를 결합해 tools/call로 호출합니다. 재검색 시에는 기존 근거와 검증 피드백을 함께 전달해 부족한 사실에 맞춰 다시 고르게 했습니다.",
         "comparison": [
           {
-            "label": "답변 모델 입력",
-            "before": "현재 강의 전체 전사",
-            "after": "질문에 필요한 강의·구간·발화를 선별한 근거"
+            "label": "원문 검색 Recall@50 (문항별 평균)",
+            "before": "94.7%",
+            "after": "96.1%"
           },
           {
-            "label": "검색 범위",
-            "before": "현재 강의에 한정",
-            "after": "현재 강의 + 선택한 다른 강의 최대 4개"
+            "label": "Recall@50 계산에 포함한 발화 수 (19문항 합계)",
+            "before": "524개",
+            "after": "939개"
           },
           {
-            "label": "정답률 · BM25 보완 전후",
-            "before": "72.92% · 35/48문항",
-            "after": "81.25% · 39/48문항 · +8.33%p"
-          },
-          {
-            "label": "근거 Recall · BM25 보완 전후",
-            "before": "85.2%",
-            "after": "93.7% · +8.5%p"
-          },
-          {
-            "label": "인용 탐색",
-            "before": "현재 강의 안에서 확인",
-            "after": "강의 ID·원문 시각을 보존해 다른 강의 영상으로 이동"
+            "label": "문항별 후보 수를 같게 맞춘 근거 Recall (최대 50개)",
+            "before": "94.7%",
+            "after": "74.1%"
           }
         ],
-        "result": "다중 강의 라우팅 도입 후 BM25 검색 보완의 합성 48문항 비교에서 정답률을 72.92%(35/48)에서 81.25%(39/48)로 8.33%p 높였습니다. 근거 Recall도 85.2%에서 93.7%로 8.5%p 개선했습니다. 현재 강의 외 최대 4개 강의의 검색·비교와 출처 영상 이동을 지원하며, 추가 24문항은 Recall 100%·정답 19/24로 생성·검증의 개선 과제도 확인했습니다.",
-        "measurementNote": "수치는 라우팅 도입 후 BM25 보완 전후의 합성 자료·LLM 채점 결과로, 최초 전체 전사 입력 방식과의 직접 비교나 실서비스 정답률은 아닙니다. 48문항의 평균 처리 시간은 8.86초에서 9.84초, 토큰은 556,552에서 620,040으로 늘었고 기존 답변 4건의 채점 변동도 있었습니다. Spring → LangGraph에는 전체 원문을 전달하며 답변 생성·검증 모델에 제공할 근거를 선별합니다."
+        "result": "Testcontainers 실습 전에 무엇을 이해하면 좋은지 묻는 문항에서 기존 검색이 놓친 정답 발화 2개가 MCP 검색 상위 50개에 모두 포함됐습니다. 반면 MockMvc와 Testcontainers의 역할을 함께 묻는 문항에서는 정답 발화 6개 중 기존 검색이 6개, MCP 검색이 3개를 찾았습니다. 문항 평균 Recall@50은 기존 94.7%, MCP 96.1%였고, 문항별 후보 수를 같게 맞추면 MCP는 74.1%였습니다.",
+        "measurementNote": "dev 브랜치의 원문 검색과 MCP 브랜치의 search_transcript를 비교했습니다. 문항별 정답 발화 중 상위 50개 안에 포함된 비율을 계산하고 19문항에 같은 가중치를 주었습니다. 후보 수를 맞춘 비교에서는 문항마다 두 방식의 후보 수와 50 중 가장 작은 값을 양쪽에 적용해 각각 총 524개 발화를 평가했습니다. 평가 범위는 원문 검색이며 LLM의 도구 선택, 최종 답변, 인용 품질은 별도 평가 대상입니다."
       },
       {
         "title": "썸네일 용량 약 94% 감소로 목록 페이지 LCP 60% 단축",
         "architectureChange": {
-          "before": { "nodes": [
-            { "id": "list", "title": "강의 목록", "detail": "555×312 카드 표시" },
-            { "id": "request", "title": "모든 썸네일 즉시 요청", "detail": "첫 화면 밖 이미지도 함께 로딩" },
-            { "id": "image", "title": "원본 PNG", "detail": "1280×720·0.5~1MB 전송" }
-          ] },
-          "after": { "nodes": [
-            { "id": "list", "title": "강의 목록", "detail": "555×312 카드 표시" },
-            { "id": "lazy", "title": "화면 밖 이미지는 지연 로딩", "detail": "먼저 보여줄 썸네일부터 요청", "changed": true },
-            { "id": "webp", "title": "리사이즈·WebP·캐시", "detail": "카드 크기 이미지·수십 KB 전송", "changed": true }
-          ] },
+          "before": {
+            "nodes": [
+              { "id": "list", "title": "강의 목록", "detail": "555×312 카드 표시" },
+              { "id": "request", "title": "모든 썸네일 즉시 요청", "detail": "첫 화면 밖 이미지도 함께 로딩" },
+              { "id": "image", "title": "원본 PNG", "detail": "1280×720·0.5~1MB 전송" }
+            ]
+          },
+          "after": {
+            "nodes": [
+              { "id": "list", "title": "강의 목록", "detail": "555×312 카드 표시" },
+              { "id": "lazy", "title": "화면 밖 이미지는 지연 로딩", "detail": "먼저 보여줄 썸네일부터 요청", "changed": true },
+              { "id": "webp", "title": "리사이즈·WebP·캐시", "detail": "카드 크기 이미지·수십 KB 전송", "changed": true }
+            ]
+          },
           "caption": "서버에서 이미지 크기·포맷·캐시를 최적화하고, 화면 밖 이미지는 지연 로딩했습니다."
         },
         "problem": "내 강의실 페이지의 LCP가 3.5초, Performance 점수가 81점에 머물렀습니다. 555×312 카드에 녹화 영상에서 추출한 1280×720 PNG 썸네일을 그대로 넣고 있어 이미지 전송량이 컸습니다.",
@@ -885,22 +968,26 @@ export const projects: Project[] = [
             "before": "JPEG SSIM 0.9171",
             "after": "WebP SSIM 0.9300"
           }
-        ],
+        ]
       },
       {
         "title": "오디오 버퍼 개선으로 락 점유 약 800ms → 3ms 단축",
         "architectureChange": {
-          "before": { "nodes": [
-            { "id": "audio", "title": "LiveKit PCM 수집", "detail": "실시간 강사 음성" },
-            { "id": "buffer", "title": "수신 프레임만 버퍼 저장", "detail": "음소거 중 시간 공백 누락" },
-            { "id": "encoding", "title": "버퍼 락 안에서 MP3 변환", "detail": "변환 중 새 음성 수집 대기" }
-          ] },
-          "after": { "nodes": [
-            { "id": "audio", "title": "LiveKit PCM 수집", "detail": "실시간 강사 음성" },
-            { "id": "silence", "title": "시간 기준 버퍼·무음 보충", "detail": "음소거 구간도 최근 300초에 포함", "changed": true },
-            { "id": "snapshot", "title": "오디오 복사 후 락 해제", "detail": "필요한 음성만 빠르게 복사", "changed": true },
-            { "id": "encoding", "title": "락 밖에서 MP3 변환·STT", "detail": "변환 중에도 새 음성 수집", "changed": true }
-          ] },
+          "before": {
+            "nodes": [
+              { "id": "audio", "title": "LiveKit PCM 수집", "detail": "실시간 강사 음성" },
+              { "id": "buffer", "title": "수신 프레임만 버퍼 저장", "detail": "음소거 중 시간 공백 누락" },
+              { "id": "encoding", "title": "버퍼 락 안에서 MP3 변환", "detail": "변환 중 새 음성 수집 대기" }
+            ]
+          },
+          "after": {
+            "nodes": [
+              { "id": "audio", "title": "LiveKit PCM 수집", "detail": "실시간 강사 음성" },
+              { "id": "silence", "title": "시간 기준 버퍼·무음 보충", "detail": "음소거 구간도 최근 300초에 포함", "changed": true },
+              { "id": "snapshot", "title": "오디오 복사 후 락 해제", "detail": "필요한 음성만 빠르게 복사", "changed": true },
+              { "id": "encoding", "title": "락 밖에서 MP3 변환·STT", "detail": "변환 중에도 새 음성 수집", "changed": true }
+            ]
+          },
           "caption": "음소거 공백을 무음으로 보정하고, 무거운 오디오 변환을 버퍼 락 밖으로 분리했습니다."
         },
         "problem": "실시간 코칭을 위해 강사의 최근 5분 음성을 링버퍼에 저장했습니다. 하지만 LiveKit에서는 음소거 중 오디오 프레임이 오지 않아, 실제 최근 5분이 아니라 음성이 들어온 시간만 따진 최근 5분이 조회됐습니다.",
@@ -934,16 +1021,20 @@ export const projects: Project[] = [
       {
         "title": "커밋 규칙 준수율 99.62%를 만든 팀 협업 자동화",
         "architectureChange": {
-          "before": { "label": "이전 프로젝트", "nodes": [
-            { "id": "work", "title": "개발·작업 관리", "detail": "진행 상황을 팀에 공유", "row": 0 },
-            { "id": "git", "title": "커밋 수동 관리", "detail": "이슈 키·형식 직접 확인", "row": 1 },
-            { "id": "jira", "title": "Jira 수동 관리", "detail": "상태 갱신·진행 재확인", "row": 1 }
-          ], "edges": [["work", "git"], ["work", "jira"]] },
-          "after": { "label": "ZANI", "nodes": [
-            { "id": "work", "title": "개발·작업 관리", "detail": "티켓·담당자·스크럼 규칙 합의", "row": 0 },
-            { "id": "hooks", "title": "Husky 커밋 훅", "detail": "이슈 키 자동 입력·검사", "row": 1, "changed": true },
-            { "id": "bot", "title": "Jira 자동화 봇", "detail": "상태 변경·아침 공지", "row": 1, "changed": true }
-          ], "edges": [["work", "hooks"], ["work", "bot"]] },
+          "before": {
+            "label": "이전 프로젝트", "nodes": [
+              { "id": "work", "title": "개발·작업 관리", "detail": "진행 상황을 팀에 공유", "row": 0 },
+              { "id": "git", "title": "커밋 수동 관리", "detail": "이슈 키·형식 직접 확인", "row": 1 },
+              { "id": "jira", "title": "Jira 수동 관리", "detail": "상태 갱신·진행 재확인", "row": 1 }
+            ], "edges": [["work", "git"], ["work", "jira"]]
+          },
+          "after": {
+            "label": "ZANI", "nodes": [
+              { "id": "work", "title": "개발·작업 관리", "detail": "티켓·담당자·스크럼 규칙 합의", "row": 0 },
+              { "id": "hooks", "title": "Husky 커밋 훅", "detail": "이슈 키 자동 입력·검사", "row": 1, "changed": true },
+              { "id": "bot", "title": "Jira 자동화 봇", "detail": "상태 변경·아침 공지", "row": 1, "changed": true }
+            ], "edges": [["work", "hooks"], ["work", "bot"]]
+          },
           "caption": "커밋 훅과 Jira 봇이 각각 반복 관리 작업을 자동화해, 스크럼 전에 같은 작업 정보를 확인하도록 했습니다."
         },
         "problem": "이전 팀 프로젝트에서 Jira 티켓 누락, 서로 다른 커밋 형식, 작업 상태 갱신 지연으로 진행 상황을 파악하기 어려웠습니다. 기록만으로 확인할 수 없어 팀원들에게 진행 상황을 다시 물어야 했습니다.",
@@ -1008,24 +1099,24 @@ export const projects: Project[] = [
       },
       {
         "role": "본인 · Fullstack",
-        "detail": "프론트엔드 화면 구조, 리포트 API·플레이어, 오디오 파이프라인, LangGraph 다중 강의 검색·질의응답과 품질 평가"
+        "detail": "프론트엔드 화면 구조, 리포트 API와 플레이어, 오디오 파이프라인, LangGraph 다중 강의 질의응답과 후속 MCP 검색 서버 및 검색 평가"
       }
     ],
     "contribution": {
       "role": "강의 화면부터 리포트 API와 AI 입력 데이터 처리까지 연결해 전사·복습·질의응답을 하나의 학습 흐름으로 구현했습니다.",
       "core": [
         "Next.js에 DDD 4계층 구조를 구성하고 12개 화면과 공통 UI를 구현했습니다. TanStack Query·Zustand와 OpenAPI 타입 자동 생성으로 서버 데이터와 화면 상태를 분리했습니다.",
-        "LangGraph에서 필요한 강의를 먼저 정하고 강의별 2단계 원문 검색·BM25 보완·선택적 Wiki·그래프 검색을 연결했습니다.",
+        "LangGraph에서 강의 범위를 결정하고, 별도 MCP 서버에 LLM Wiki, 지식 그래프, 강의 원문 검색을 등록했습니다. 챗봇 서버의 스킬에 질문별 도구 선택 기준과 원문 인용 기준을 작성했습니다.",
         "다중 강의 선택·권한 검사와 출처 영상 이동을 구현하고, 질문의 필수 항목·답변 주장·원문 인용을 대조해 재검색과 답변 수정을 분리했습니다.",
-        "합성 48·24문항의 검색·답변·지연·토큰을 평가하고 코드·원시 응답·요청 해시를 보존했습니다. 챗봇 모듈을 역할별로 분리하고 Python 관련 테스트 75개를 통과했습니다.",
+        "초기 합성 평가에서 검색과 답변, 처리 시간과 토큰을 기록하고 관련 Python 테스트 75개를 통과했습니다. 후속 평가에서는 두 방식의 원문 검색 결과를 문항별 정답 발화와 대조해 Recall@50을 계산하고, 문항별 후보 수를 맞췄을 때 결과가 어떻게 달라지는지 확인했습니다.",
         "LiveKit 음소거 구간을 무음 데이터로 보정하고, 썸네일을 카드 크기 WebP로 변환·캐시하면서 네이티브 의존성이 실패해도 기능이 죽지 않도록 단계적 대체를 설계했습니다."
       ],
-      "impact": "현재 강의 전체 전사를 입력하던 챗봇에 다중 강의 검색·비교·출처 영상 이동을 추가했습니다. 라우팅 도입 후 원문 검색 보완의 합성 48문항 비교에서 전체 근거 Recall 85.2% → 93.7%, 최종 정답 판정 35/48 → 39/48을 확인했습니다."
+      "impact": "현재 강의와 선택한 다른 강의를 비교하고 답변의 인용에서 해당 영상 시각으로 이동하는 기능을 구현했습니다. 검색을 별도 MCP 서버로 분리한 뒤, 상위 50개 발화를 비교해 기존 검색에서 놓친 근거를 찾은 문항과 여러 근거 중 일부가 누락된 문항을 확인했습니다."
     },
     "outcomes": [
-      "현재 강의 외 최대 4개 강의를 선택하는 LangGraph 검색 라우팅·질의응답 구현",
+      "현재 강의 외 최대 4개 강의를 선택하는 LangGraph 챗봇과 읽기 전용 강의 검색 도구 3개를 제공하는 별도 MCP 서버 구현",
       "협업 자동화로 커밋 메시지 규칙 준수율 99.62% 달성 · 총 1,300개 중 규칙 위반 5건",
-      "라우팅 도입 후 BM25 보완의 합성 48문항 비교: 정답률 72.92% → 81.25%, 근거 Recall 85.2% → 93.7%",
+      "합성 강의 1편의 답변 가능 19문항에서 원문 검색 Recall@50은 기존 94.7%, MCP 96.1%였습니다. 실제 평가 후보 수는 총 524개와 939개였고, 문항별 후보 수를 맞췄을 때는 기존 94.7%, MCP 74.1%였습니다.",
       "LCP 3.5초 → 1.4초 · 2.1초(60%) 단축, Lighthouse Performance 81점 → 96점",
       "썸네일 WebP 전환으로 동일 원본에서 JPEG 대비 약 28% 추가 감소",
       "오디오 버퍼 시간 오차 최대 0.5초, 락 점유 약 800ms → 3ms · 약 99.6% 단축",
@@ -1033,11 +1124,11 @@ export const projects: Project[] = [
     ],
     "retrospective": [
       {
-        "limitation": "추가 합성 24문항에서 근거 Recall은 100%, 정답 판정은 19/24로 답변 생성·검증의 개선 과제를 확인했습니다.",
-        "improvement": "실제 강의 STT와 새 질문으로 평가 범위를 넓히고, 질문의 필수 조건·답변 누락·인용 정확성을 각각 검증하겠습니다."
+        "limitation": "문항당 최대 50개 발화를 비교했을 때 MCP 원문 검색의 Recall은 96.1%였지만, 기존 검색과 문항별 후보 수를 맞추면 74.1%였습니다. 합성 강의 한 편에서 측정했고, 일부 문항은 필수 근거와 보충 설명을 함께 정답으로 표시했습니다.",
+        "improvement": "개발에 사용하지 않은 여러 강의와 질문으로 평가하고, 필수 사실과 대체 가능한 근거를 먼저 구분하겠습니다. 같은 검색 예산에서 도구 선택, 검색 근거, 답변 내용, 인용 정확도와 올바른 답변 보류를 각각 검증하겠습니다."
       },
       {
-        "limitation": "검색 보완 후 합성 48문항의 평균 처리 시간이 8.86초에서 9.84초로 늘었고, Spring → LangGraph에는 여전히 선택한 강의의 전체 전사를 전달합니다.",
+        "limitation": "Spring이 LangGraph에 선택한 강의의 전체 전사를 전달해 강의 수가 늘면 전송량도 늘어납니다. Recall@50을 계산하기 전, 첫 초안에 전달한 전체 후보 발화는 문항당 평균 기존 28.5개, MCP 60.9개였습니다.",
         "improvement": "단계별 호출·입력량·재시도를 계측하고, 원문 버전 기반 캐시와 필요한 구간만 조회하는 방식으로 지연·전송량을 줄이겠습니다."
       }
     ]
